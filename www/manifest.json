@@ -1,0 +1,28 @@
+{
+  "name": "Aapla Swad",
+  "short_name": "Aapla Swad",
+  "description": "Order fresh Dal Bati Churma — delivered to your doorstep for just ₹80",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0e0e0e",
+  "theme_color": "#ea580c",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food"],
+  "lang": "en",
+  "dir": "ltr"
+}

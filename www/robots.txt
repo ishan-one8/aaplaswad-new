@@ -1,0 +1,19 @@
+# Aapla Swad — aaplaswad.store
+# Allow all search engine crawlers
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://aaplaswad.store/sitemap.xml
+
+# Block internal/staff pages
+Disallow: /staff/
+Disallow: /admin.html
+Disallow: /delivery.html
+Disallow: /staff-download.html
+Disallow: /pay.html
+Disallow: /keys/
+
+# Block APK files from indexing (large binary files)
+Disallow: /*.apk$

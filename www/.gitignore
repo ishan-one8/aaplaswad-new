@@ -1,0 +1,25 @@
+.vercel
+node_modules/
+
+# Signing keys and payment credentials — must never be committed
+keys/
+*.keystore
+keystore.properties
+razorpay_live_api.csv
+
+# Android build output
+android/build/
+android/app/build/
+android/.gradle/
+android-staff/build/
+android-staff/app/build/
+android-staff/.gradle/
+local.properties
+
+# Firebase credentials
+imp_colection/
+*firebase-adminsdk*.json
+
+# APKs must never be copied into www/ — Capacitor bundles that folder into the
+# app, so an APK there ends up inside itself and triples the download size
+www/*.apk

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>My Profile — Aapla Swad</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#ea580c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Your Aapla Swad profile — view order history, manage your account and saved addresses.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://aaplaswad.store/profile.html">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange:#ea580c; --gold:#f59e0b; --dark:#111111; --card:#1a1a1a; --border:rgba(255,255,255,0.06); --green:#22c55e; --blue:#3b82f6; --purple:#8b5cf6; --red:#ef4444; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Manrope',sans-serif; background:var(--dark); color:#fafafa; min-height:100dvh; }
+        .app { max-width:480px; margin:0 auto; min-height:100dvh; }
+
+        /* Topbar */
+        .topbar { display:flex; align-items:center; gap:0.5rem; padding:0.7rem 1rem; border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(12,12,12,0.95); backdrop-filter:blur(10px); z-index:10; }
+        .topbar img { width:28px; height:28px; border-radius:50%; }
+        .topbar h1 { font-size:0.95rem; font-weight:700; flex:1; }
+        .topbar a { color:var(--gold); text-decoration:none; font-size:0.72rem; font-weight:500; }
+
+        /* Profile Header */
+        .profile-header { text-align:center; padding:2rem 1rem 1.5rem; background:linear-gradient(180deg, rgba(232,89,12,0.08) 0%, transparent 100%); }
+        .ph-avatar { width:80px; height:80px; border-radius:50%; border:3px solid var(--gold); margin:0 auto 0.75rem; display:block; box-shadow:0 4px 20px rgba(245,158,11,0.2); }
+        .ph-name { font-size:1.25rem; font-weight:800; margin-bottom:0.15rem; }
+        .ph-email { font-size:0.72rem; color:#888; margin-bottom:0.75rem; }
+        .ph-badge { display:inline-flex; align-items:center; gap:0.3rem; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); color:var(--green); padding:0.25rem 0.7rem; border-radius:20px; font-size:0.65rem; font-weight:600; }
+
+        /* Stats */
+        .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem; padding:0 1rem; margin-bottom:1.25rem; }
+        .stat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.75rem; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+        .stat-val { font-size:1.3rem; font-weight:800; }
+        .stat-val.gold { color:var(--gold); }
+        .stat-val.green { color:var(--green); }
+        .stat-val.blue { color:var(--blue); }
+        .stat-label { font-size:0.58rem; color:#666; text-transform:uppercase; letter-spacing:0.5px; margin-top:0.15rem; }
+
+        /* Section */
+        .section { padding:0 1rem; margin-bottom:1rem; }
+        .section-title { font-size:0.82rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+
+        /* Order cards */
+        .order-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.75rem; margin-bottom:0.5rem; cursor:pointer; transition:border-color 0.15s, box-shadow 0.15s; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+        .order-card:active { border-color:var(--orange); }
+        .oc-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem; }
+        .oc-id { font-size:0.72rem; font-weight:700; color:var(--gold); }
+        .oc-status { font-size:0.56rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:6px; }
+        .oc-status.pending { background:rgba(245,158,11,0.15); color:var(--gold); }
+        .oc-status.accepted { background:rgba(59,130,246,0.15); color:var(--blue); }
+        .oc-status.picked_up { background:rgba(139,92,246,0.15); color:var(--purple); }
+        .oc-status.delivered { background:rgba(34,197,94,0.15); color:var(--green); }
+        .oc-row { display:flex; justify-content:space-between; align-items:center; }
+        .oc-items { font-size:0.75rem; }
+        .oc-amount { font-size:0.85rem; font-weight:700; color:var(--green); }
+        .oc-time { font-size:0.62rem; color:#666; margin-top:0.15rem; }
+
+        /* Quick Actions */
+        .actions { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; padding:0 1rem; margin-bottom:1.5rem; }
+        .action-btn { display:flex; align-items:center; gap:0.5rem; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.75rem; text-decoration:none; color:#fafafa; transition:border-color 0.15s, box-shadow 0.15s; box-shadow:0 2px 8px rgba(0,0,0,0.15); }
+        .action-btn:active { border-color:var(--orange); }
+        .action-icon { font-size:1.2rem; }
+        .action-text { font-size:0.72rem; font-weight:600; }
+        .action-sub { font-size:0.58rem; color:#666; }
+
+        /* Logout */
+        .logout-section { padding:1rem; margin-top:1rem; margin-bottom:2rem; }
+        .logout-btn { width:100%; padding:0.75rem; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); border-radius:10px; color:var(--red); font-size:0.82rem; font-weight:600; cursor:pointer; font-family:inherit; }
+
+        /* Not logged in */
+        .not-logged { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; padding:2rem; text-align:center; }
+        .not-logged .nl-icon { font-size:3rem; margin-bottom:1rem; }
+        .not-logged h2 { font-size:1.1rem; margin-bottom:0.3rem; }
+        .not-logged p { font-size:0.72rem; color:#666; margin-bottom:1.5rem; }
+        .nl-btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.5rem; background:white; border:none; border-radius:12px; font-size:0.9rem; font-weight:600; color:#333; cursor:pointer; font-family:inherit; }
+        .nl-btn img { width:20px; }
+
+        .empty-msg { text-align:center; padding:1.5rem; color:#555; font-size:0.75rem; }
+        .loading-msg { text-align:center; padding:1.5rem; color:#666; font-size:0.75rem; }
+
+        /* Bottom Nav */
+        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:rgba(17,17,17,0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid rgba(255,255,255,0.06); display:flex; z-index:100; padding:0.4rem 0 env(safe-area-inset-bottom, 0.3rem); }
+        .bnav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.15rem; padding:0.4rem 0; text-decoration:none; color:#6b7280; font-size:0.58rem; font-weight:600; transition:color 0.15s; }
+        .bnav-item.active { color:#f59e0b; }
+        .bnav-item svg { width:20px; height:20px; }
+        .bnav-item.active svg { stroke:#f59e0b; }
+        .logout-section { margin-bottom:4rem; }
+
+        /* Loyalty Stamps */
+        .loyalty-section { padding:0 1rem; margin-bottom:1rem; }
+        .loyalty-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.85rem; }
+        .loyalty-title { font-size:0.82rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.3rem; }
+        .stamps-row { display:flex; gap:0.35rem; justify-content:center; }
+        .stamp { width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.05); border:2px dashed rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:0.9rem; }
+        .stamp.filled { background:rgba(245,158,11,0.15); border:2px solid #f59e0b; }
+        .loyalty-sub { text-align:center; margin-top:0.4rem; font-size:0.6rem; color:#888; }
+
+        /* Referral */
+        .referral-card { background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.12); border-radius:12px; padding:0.85rem; text-align:center; margin:0 1rem 1rem; }
+        .ref-title { font-size:0.78rem; font-weight:700; color:#a78bfa; margin-bottom:0.2rem; }
+        .ref-sub { font-size:0.6rem; color:#888; margin-bottom:0.5rem; }
+        .ref-code-box { display:flex; align-items:center; justify-content:center; gap:0.5rem; }
+        .ref-code { background:rgba(139,92,246,0.12); border:1px dashed rgba(139,92,246,0.3); padding:0.35rem 0.75rem; border-radius:8px; font-size:0.82rem; font-weight:700; color:#c4b5fd; letter-spacing:1px; font-family:monospace; }
+        .ref-copy { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.2); color:#a78bfa; padding:0.35rem 0.6rem; border-radius:8px; font-size:0.65rem; font-weight:600; cursor:pointer; font-family:inherit; }
+
+        /* Reorder button */
+        .reorder-btn { display:inline-flex; align-items:center; gap:0.3rem; padding:0.3rem 0.6rem; background:rgba(234,88,12,0.1); border:1px solid rgba(234,88,12,0.2); color:var(--orange); border-radius:8px; font-size:0.62rem; font-weight:600; cursor:pointer; text-decoration:none; margin-top:0.3rem; }
+
+        /* Share button */
+        .share-app-btn { display:flex; align-items:center; justify-content:center; gap:0.5rem; width:calc(100% - 2rem); margin:0 1rem 1rem; padding:0.7rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#d1d5db; border-radius:10px; font-size:0.78rem; font-weight:600; cursor:pointer; font-family:inherit; }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="topbar">
+            <img src="logo.png" alt="">
+            <h1 data-i18n="my_profile">My Profile</h1>
+            <a href="order.html" data-i18n="order_now_arrow">Order Now →</a>
+        </div>
+
+        <!-- NOT LOGGED IN -->
+        <div class="not-logged" id="notLogged">
+            <div class="nl-icon">👤</div>
+            <h2 data-i18n="sign_in_profile">Sign in to view your profile</h2>
+            <p data-i18n="sign_in_desc">Sign in with Google to see your orders and account</p>
+            <div id="g-signin-btn"></div>
+        </div>
+
+        <!-- LOGGED IN -->
+        <div id="loggedIn" style="display:none;">
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <img class="ph-avatar" id="ph-avatar" src="" alt="">
+                <div class="ph-name" id="ph-name"></div>
+                <div class="ph-email" id="ph-email"></div>
+                <div class="ph-badge" data-i18n="verified_google">✅ Verified with Google</div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-card"><div class="stat-val gold" id="st-orders">0</div><div class="stat-label" data-i18n="orders_stat">Orders</div></div>
+                <div class="stat-card"><div class="stat-val green" id="st-spent">₹0</div><div class="stat-label" data-i18n="total_spent">Total Spent</div></div>
+                <div class="stat-card"><div class="stat-val blue" id="st-active">0</div><div class="stat-label" data-i18n="active_stat">Active</div></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="actions">
+                <a href="order.html" class="action-btn">
+                    <span class="action-icon">🍛</span>
+                    <div><div class="action-text" data-i18n="order_now">Order Now</div><div class="action-sub" data-i18n="dal_bati_churma">Dal Bati Churma</div></div>
+                </a>
+                <a href="track.html" class="action-btn">
+                    <span class="action-icon">📍</span>
+                    <div><div class="action-text" data-i18n="track_order">Track Order</div><div class="action-sub" data-i18n="live_status">Live status</div></div>
+                </a>
+            </div>
+
+
+
+            <!-- Share App -->
+            <button class="share-app-btn" onclick="shareApp()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <span data-i18n="share_friends">Share Aapla Swad with Friends</span>
+            </button>
+
+            <!-- Recent Orders -->
+            <div class="section">
+                <div class="section-title" data-i18n="my_orders">📦 My Orders</div>
+                <div class="loading-msg" id="ordersLoading" data-i18n="loading_orders">Loading your orders...</div>
+                <div id="ordersList"></div>
+            </div>
+
+            <!-- Logout -->
+            <div class="logout-section">
+                <button class="logout-btn" onclick="logout()" data-i18n="sign_out_btn">🚪 Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="customer-auth.js"></script>
+    <script>
+        const API_URL = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
+        const GOOGLE_CLIENT_ID = '861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com';
+
+        let user = JSON.parse(localStorage.getItem('sp_google_user') || 'null');
+
+        window.addEventListener('load', () => {
+            if (user) {
+                showProfile(user);
+                return;
+            }
+
+            // Render Google Sign-In button directly
+            const waitForGoogle = setInterval(() => {
+                if (typeof google !== 'undefined' && google.accounts) {
+                    clearInterval(waitForGoogle);
+                    google.accounts.id.initialize({
+                        client_id: GOOGLE_CLIENT_ID,
+                        callback: handleCredential
+                    });
+                    google.accounts.id.renderButton(
+                        document.getElementById('g-signin-btn'),
+                        { theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', width: 280 }
+                    );
+                }
+            }, 100);
+        });
+
+        function handleCredential(response) {
+            if (typeof spExchangeGoogleCredential === 'function') {
+                spExchangeGoogleCredential(response.credential);
+            }
+            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            user = { name: payload.name, email: payload.email, picture: payload.picture };
+            localStorage.setItem('sp_google_user', JSON.stringify(user));
+            showProfile(user);
+        }
+
+        function showProfile(u) {
+            document.getElementById('notLogged').style.display = 'none';
+            document.getElementById('loggedIn').style.display = 'block';
+
+            document.getElementById('ph-avatar').src = u.picture;
+            document.getElementById('ph-name').textContent = u.name;
+            document.getElementById('ph-email').textContent = u.email;
+
+            // Show loyalty stamps
+            const stamps = parseInt(localStorage.getItem('sp_loyalty_stamps') || '0');
+            const stampsRow = document.getElementById('stampsRow');
+            let stampsHTML = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= stamps) {
+                    stampsHTML += '<div class="stamp filled">🌟</div>';
+                } else {
+                    stampsHTML += '<div class="stamp">' + i + '</div>';
+                }
+            }
+            stampsRow.innerHTML = stampsHTML;
+            if (stamps >= 5) {
+                document.getElementById('loyaltySub').textContent = '🎉 You earned a FREE thali! Contact us to claim.';
+                document.getElementById('loyaltySub').style.color = '#22c55e';
+            } else {
+                document.getElementById('loyaltySub').textContent = stamps + '/5 stamps — ' + (5 - stamps) + ' more for a FREE thali!';
+            }
+
+            // Show referral code
+            if (u.name && u.name !== 'Guest') {
+                document.getElementById('profRefCode').textContent = 'SAI' + u.name.replace(/\s/g,'').substring(0,4).toUpperCase();
+            }
+
+            fetchOrders(u.email);
+        }
+
+        function copyRefCode() {
+            const code = document.getElementById('profRefCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.ref-copy');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+
+        function shareApp() {
+            const data = {
+                title: 'Aapla Swad — Dal Bati ₹80',
+                text: '🔥 Best Dal Bati Churma in town! Order now for just ₹80.',
+                url: 'https://aaplaswad.store'
+            };
+            if (navigator.share) { navigator.share(data); }
+            else { window.open('https://wa.me/?text=' + encodeURIComponent(data.text + ' ' + data.url), '_blank'); }
+        }
+
+        // Orders saved on this device when they were placed
+        function renderLocalOrders(needsSignIn) {
+            const loading = document.getElementById('ordersLoading');
+            if (loading) loading.style.display = 'none';
+
+            const local = (typeof spLocalOrders === 'function' ? spLocalOrders() : []).reverse();
+            if (!local.length) {
+                // "No orders yet" is a lie when we simply cannot identify them
+                document.getElementById('ordersList').innerHTML = needsSignIn
+                    ? '<div class="empty-msg">To see your orders, sign in again.<br>' +
+                      '<button onclick="reSignIn()" style="margin-top:0.6rem;padding:0.6rem 1.1rem;border:none;border-radius:10px;background:linear-gradient(135deg,#ea580c,#f59e0b);color:#fff;font-weight:700;font-family:inherit;cursor:pointer;">Sign in with Google</button></div>'
+                    : '<div class="empty-msg">No orders yet. <a href="order.html" style="color:var(--gold);">Place your first order →</a></div>';
+                return;
+            }
+
+            document.getElementById('st-orders').textContent = local.length;
+            document.getElementById('st-spent').textContent = '₹' + local.reduce((s, o) => s + (o.total || 0), 0);
+            document.getElementById('st-active').textContent = '—';
+
+            document.getElementById('ordersList').innerHTML =
+                '<div class="empty-msg" style="font-size:0.68rem;margin-bottom:0.5rem;">Showing orders from this device. Sign in with Google to see all your orders.</div>' +
+                local.map(o => `
+                    <div class="order-card">
+                        <div class="oc-top" onclick="window.location.href='track.html?id=${encodeURIComponent(o.orderId)}'">
+                            <span class="oc-id">${o.orderId}</span>
+                            <span class="oc-status pending">Track →</span>
+                        </div>
+                        <div class="oc-items">${o.items || ''}</div>
+                        <div class="oc-bottom"><span class="oc-total">₹${o.total}</span>
+                            <span class="oc-date">${new Date(o.date).toLocaleString('en-IN', { day: '2-digit', month: 'short' })}</span>
+                        </div>
+                    </div>`).join('');
+        }
+
+        async function fetchOrders(email, retried) {
+            try {
+                // Get auth token with a timeout so we don't hang forever
+                if (email && !spCustomerToken()) {
+                    await Promise.race([
+                        spEnsureCustomerToken(),
+                        new Promise(r => setTimeout(r, 4000))
+                    ]);
+                }
+                if (!email || !spCustomerToken()) {
+                    // No token — show local orders
+                    renderLocalOrders(!spCustomerToken() && !!email);
+                    return;
+                }
+
+                const res = await fetch(API_URL + '/orders?email=' + encodeURIComponent(email), { headers: spAuthHeaders() });
+                const data = await res.json();
+                document.getElementById('ordersLoading').style.display = 'none';
+
+                if (res.status === 401 && !retried) {
+                    spClearCustomerToken();
+                    await Promise.race([
+                        spEnsureCustomerToken(),
+                        new Promise(r => setTimeout(r, 4000))
+                    ]);
+                    if (spCustomerToken()) return fetchOrders(email, true);
+                    renderLocalOrders(true);
+                    return;
+                } else if (res.status === 401) {
+                    renderLocalOrders(true);
+                    return;
+                }
+
+                // Merge server orders with local orders for completeness
+                const localOrders = (typeof spLocalOrders === 'function' ? spLocalOrders() : []);
+                let allOrders = [];
+                const seenIds = new Set();
+
+                if (data.success && data.orders && data.orders.length) {
+                    data.orders.forEach(o => { seenIds.add(o.orderId); allOrders.push(o); });
+                }
+                // Add local orders not in server list
+                localOrders.forEach(o => {
+                    if (o.orderId && !seenIds.has(o.orderId)) {
+                        seenIds.add(o.orderId);
+                        allOrders.push({
+                            orderId: o.orderId, status: o.status || 'pending',
+                            items: o.cart ? Object.values(o.cart) : [],
+                            total: o.total, paymentMethod: o.payment && o.payment.includes('COD') ? 'cod' : 'online',
+                            createdAt: o.date || new Date().toISOString(), qty: o.qty || 1
+                        });
+                    }
+                });
+
+                allOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                if (!allOrders.length) {
+                    document.getElementById('ordersList').innerHTML = '<div class="empty-msg">No orders yet. <a href="order.html" style="color:var(--gold);">Place your first order →</a></div>';
+                    document.getElementById('st-orders').textContent = '0';
+                    document.getElementById('st-spent').textContent = '₹0';
+                    document.getElementById('st-active').textContent = '0';
+                    return;
+                }
+
+                const totalSpent = allOrders.reduce((s, o) => s + (o.total || 0), 0);
+                const active = allOrders.filter(o => o.status !== 'delivered').length;
+
+                document.getElementById('st-orders').textContent = allOrders.length;
+                document.getElementById('st-spent').textContent = '₹' + totalSpent;
+                document.getElementById('st-active').textContent = active;
+
+                const statusLabels = { pending:'Pending', accepted:'Preparing', confirmed:'Confirmed', preparing:'Preparing', ready:'Ready', picked_up:'On the Way', delivered:'Delivered', cancelled:'Cancelled' };
+
+                document.getElementById('ordersList').innerHTML = allOrders.map(o => {
+                    const time = new Date(o.createdAt).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+                    return `
+                        <div class="order-card">
+                            <div class="oc-top" onclick="window.location.href='track.html?id=${encodeURIComponent(o.orderId)}'">
+                                <span class="oc-id">${o.orderId}</span>
+                                <span class="oc-status ${o.status}">${statusLabels[o.status] || o.status}</span>
+                            </div>
+                            <div class="oc-row" onclick="window.location.href='track.html?id=${encodeURIComponent(o.orderId)}'">
+                                <span class="oc-items">${(o.items || []).map(i => i.name + ' x' + i.qty).join(', ') || ('x' + o.qty)}</span>
+                                <span class="oc-amount">₹${o.total}</span>
+                            </div>
+                            <div class="oc-time">${time} • ${o.paymentMethod === 'cod' ? 'COD' : 'Paid Online'}</div>
+                            <a href="order.html" class="reorder-btn">🔄 Reorder</a>
+                        </div>`;
+                }).join('');
+            } catch (err) {
+                console.warn('fetchOrders error:', err);
+                document.getElementById('ordersLoading').style.display = 'none';
+                renderLocalOrders(true);
+            }
+        }
+
+        // Clears the stale session so the Google button reappears
+        function reSignIn() {
+            localStorage.removeItem('sp_google_user');
+            if (typeof spClearCustomerToken === 'function') spClearCustomerToken();
+            window.location.reload();
+        }
+
+        function logout() {
+            localStorage.removeItem('sp_google_user');
+            if (typeof spClearCustomerToken === 'function') spClearCustomerToken();
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.disableAutoSelect();
+            }
+            window.location.reload();
+        }
+    </script>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+        <a href="order.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Order</a>
+        <a href="track.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Track</a>
+        <a href="profile.html" class="bnav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
+    </nav>
+</body>
+</html>

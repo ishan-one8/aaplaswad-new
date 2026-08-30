@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Track Order — Aapla Swad</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#ea580c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Track your Aapla Swad order in real-time. See order status, delivery progress and estimated arrival time.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aaplaswad.store/track.html">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange:#ea580c; --gold:#f59e0b; --dark:#111111; --card:#1a1a1a; --border:rgba(255,255,255,0.06); --green:#22c55e; --blue:#3b82f6; --purple:#8b5cf6; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Manrope',sans-serif; background:var(--dark); color:#fafafa; min-height:100dvh; }
+        .app { max-width:480px; margin:0 auto; min-height:100dvh; display:flex; flex-direction:column; }
+
+        .topbar { display:flex; align-items:center; gap:0.5rem; padding:0.7rem 1rem; border-bottom:1px solid var(--border); flex-shrink:0; }
+        .topbar img { width:30px; height:30px; border-radius:50%; }
+        .topbar h1 { font-size:1rem; font-weight:700; flex:1; }
+        .topbar a { color:var(--gold); text-decoration:none; font-size:0.72rem; }
+        .content { flex:1; padding:1rem; }
+
+        /* User bar */
+        .user-bar { display:flex; align-items:center; gap:0.5rem; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.6rem 0.85rem; margin-bottom:1rem; }
+        .user-bar img { width:32px; height:32px; border-radius:50%; border:2px solid var(--green); }
+        .user-bar .ub-info { flex:1; }
+        .user-bar .ub-name { font-size:0.78rem; font-weight:600; }
+        .user-bar .ub-email { font-size:0.6rem; color:#888; }
+        .ub-signout { font-size:0.6rem; color:#666; cursor:pointer; background:none; border:1px solid var(--border); padding:0.2rem 0.5rem; border-radius:6px; font-family:inherit; }
+
+        /* Tabs */
+        .track-tabs { display:flex; gap:0.3rem; margin-bottom:0.75rem; }
+        .track-tab { flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:10px; background:transparent; color:#888; font-size:0.72rem; font-weight:600; cursor:pointer; font-family:inherit; text-align:center; }
+        .track-tab.active { background:var(--orange); color:white; border-color:var(--orange); }
+
+        /* Search */
+        .search-section { padding:1rem 0 0.5rem; }
+        .search-section h2 { font-size:1rem; margin-bottom:0.25rem; text-align:center; }
+        .search-section p { font-size:0.72rem; color:#666; margin-bottom:0.75rem; text-align:center; }
+        .search-row { display:flex; gap:0.5rem; }
+        .search-row input { flex:1; padding:0.65rem; background:var(--card); border:1px solid var(--border); border-radius:10px; color:#fafafa; font-size:0.82rem; font-family:inherit; }
+        .search-row input:focus { outline:none; border-color:var(--orange); }
+        .search-row button { padding:0.65rem 0.85rem; background:var(--orange); color:white; border:none; border-radius:10px; font-weight:600; font-size:0.78rem; cursor:pointer; font-family:inherit; }
+
+        /* Track card */
+        .track-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.25rem; margin-top:1rem; display:none; }
+        .track-card.show { display:block; animation:fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        .tc-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border); }
+        .tc-id { font-size:1rem; font-weight:800; color:var(--gold); }
+        .tc-amount { font-size:1.1rem; font-weight:800; color:var(--green); }
+
+        /* Timeline */
+        .timeline { margin:1.25rem 0; }
+        .tl-item { display:flex; gap:0.75rem; position:relative; padding-bottom:1.25rem; }
+        .tl-item:last-child { padding-bottom:0; }
+        .tl-line { position:absolute; left:13px; top:28px; bottom:0; width:2px; background:var(--border); }
+        .tl-item:last-child .tl-line { display:none; }
+        .tl-item.done .tl-line { background:var(--green); }
+        .tl-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; flex-shrink:0; z-index:1; }
+        .tl-item.done .tl-dot { background:rgba(34,197,94,0.2); }
+        .tl-item.active .tl-dot { background:rgba(232,89,12,0.2); animation:pulse 1.5s infinite; }
+        .tl-item.waiting .tl-dot { background:rgba(255,255,255,0.05); }
+        @keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(232,89,12,0.3); } 50% { box-shadow:0 0 0 8px rgba(232,89,12,0); } }
+        .tl-text h4 { font-size:0.8rem; font-weight:600; }
+        .tl-item.waiting .tl-text h4 { color:#555; }
+        .tl-text p { font-size:0.65rem; color:#666; margin-top:0.1rem; }
+
+        .info-section { border-top:1px solid var(--border); padding-top:0.75rem; margin-top:0.5rem; }
+        .info-row { display:flex; justify-content:space-between; padding:0.4rem 0; font-size:0.75rem; }
+        .info-row .lbl { color:#888; }
+        .info-row .val { font-weight:600; text-align:right; }
+
+        .not-found { text-align:center; padding:2rem; color:#666; display:none; }
+        .not-found.show { display:block; }
+        .not-found .nf-icon { font-size:2rem; margin-bottom:0.5rem; }
+        .loading-msg { text-align:center; padding:1.5rem; color:#666; font-size:0.78rem; }
+
+        /* My Orders list */
+        .my-orders { display:none; }
+        .my-orders.show { display:block; }
+        .mo-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; margin-bottom:0.5rem; cursor:pointer; transition:border-color 0.15s; }
+        .mo-card:active { border-color:var(--orange); }
+        .mo-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem; }
+        .mo-id { font-size:0.72rem; font-weight:700; color:var(--gold); }
+        .mo-status { font-size:0.56rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:6px; }
+        .mo-status.pending { background:rgba(245,158,11,0.15); color:var(--gold); }
+        .mo-status.confirmed { background:rgba(59,130,246,0.15); color:var(--blue); }
+        .mo-status.preparing { background:rgba(139,92,246,0.15); color:var(--purple); }
+        .mo-status.on_the_way { background:rgba(59,130,246,0.15); color:#60a5fa; }
+        .mo-status.ready { background:rgba(34,197,94,0.15); color:var(--green); }
+        .mo-status.accepted { background:rgba(59,130,246,0.15); color:var(--blue); }
+        .mo-status.picked_up { background:rgba(139,92,246,0.15); color:var(--purple); }
+        .mo-status.delivered { background:rgba(34,197,94,0.15); color:var(--green); }
+        .mo-status.cancelled { background:rgba(239,68,68,0.15); color:#ef4444; }
+        .mo-row { display:flex; justify-content:space-between; align-items:center; }
+        .mo-items { font-size:0.75rem; }
+        .mo-amount { font-size:0.85rem; font-weight:700; color:var(--green); }
+        .mo-time { font-size:0.62rem; color:#666; margin-top:0.15rem; }
+
+        .empty-msg { text-align:center; padding:2rem; color:#555; font-size:0.78rem; }
+
+        /* Bottom Nav */
+        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:rgba(17,17,17,0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid rgba(255,255,255,0.06); display:flex; z-index:100; padding:0.4rem 0 env(safe-area-inset-bottom, 0.3rem); }
+        .bnav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.15rem; padding:0.4rem 0; text-decoration:none; color:#6b7280; font-size:0.58rem; font-weight:600; transition:color 0.15s; }
+        .bnav-item.active { color:#f59e0b; }
+        .bnav-item svg { width:20px; height:20px; }
+        .bnav-item.active svg { stroke:#f59e0b; }
+        .wa-fab { position:fixed; bottom:70px; right:max(1rem, calc((100vw - 480px) / 2 + 1rem)); width:48px; height:48px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:99; transition:transform 0.15s; text-decoration:none; }
+        .wa-fab:hover { transform:scale(1.08); }
+        .wa-fab:active { transform:scale(0.95); }
+        .wa-fab svg { width:24px; height:24px; fill:white; }
+        .content { padding-bottom:4rem; }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="app">
+        <div class="topbar">
+            <img src="logo.png" alt="">
+            <h1 data-i18n="my_orders">My Orders</h1>
+            <a href="order.html" data-i18n="new_order">+ New Order</a>
+        </div>
+
+        <div class="content">
+
+            <!-- User Bar (when signed in) -->
+            <div class="user-bar" id="userBar" style="display:none;">
+                <img id="ub-pic" src="" alt="">
+                <div class="ub-info">
+                    <div class="ub-name" id="ub-name"></div>
+                    <div class="ub-email" id="ub-email"></div>
+                </div>
+                <button class="ub-signout" onclick="signOut()" data-i18n="sign_out_track">Sign out</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="track-tabs" id="trackTabs" style="display:none;">
+                <button class="track-tab active" onclick="switchTab('orders', this)" data-i18n="my_orders_tab">📦 My Orders</button>
+                <button class="track-tab" onclick="switchTab('track', this)" data-i18n="track_by_id">🔍 Track by ID</button>
+            </div>
+
+            <!-- My Orders View -->
+            <div class="my-orders" id="myOrdersView">
+                <div class="loading-msg" id="ordersLoading" data-i18n="loading_orders">Loading your orders...</div>
+                <div id="myOrdersList"></div>
+            </div>
+
+            <!-- Track by ID View -->
+            <div id="trackView">
+                <div class="search-section">
+                    <h2 data-i18n="track_your_order">📍 Track Your Order</h2>
+                    <p data-i18n="enter_order_id">Enter your order ID to check status</p>
+                    <div class="search-row">
+                        <input type="text" id="trackInput" placeholder="#SP2026XXXX">
+                        <button onclick="trackOrder()" data-i18n="track_btn">Track</button>
+                    </div>
+                </div>
+
+                <div class="not-found" id="notFound"><div class="nf-icon">🔍</div><p data-i18n="order_not_found">Order not found. Check your ID.</p></div>
+
+                <div class="track-card" id="trackCard">
+                    <div class="tc-header">
+                        <span class="tc-id" id="t-id"></span>
+                        <span class="tc-amount" id="t-amount"></span>
+                    </div>
+                    <div id="etaBox" style="display:none;background:linear-gradient(135deg,rgba(234,88,12,0.15),rgba(245,158,11,0.1));border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:0.75rem;margin-bottom:0.85rem;text-align:center;">
+                        <div style="font-size:0.65rem;color:#9ca3af;letter-spacing:0.05em;" data-i18n="arriving_in">ARRIVING IN</div>
+                        <div id="etaValue" style="font-size:1.6rem;font-weight:800;color:#f59e0b;line-height:1.2;"></div>
+                        <div id="etaWho" style="font-size:0.68rem;color:#9ca3af;"></div>
+                        <a id="etaCall" href="#" style="display:none;margin-top:0.5rem;font-size:0.72rem;color:#3b82f6;text-decoration:none;font-weight:600;" data-i18n="call_delivery">📞 Call the delivery partner</a>
+                    </div>
+                    <div id="codeBox" style="display:none;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.06));border:1px solid rgba(34,197,94,0.35);border-radius:12px;padding:0.8rem;margin-bottom:0.85rem;text-align:center;">
+                        <div style="font-size:0.62rem;color:#9ca3af;letter-spacing:0.08em;font-weight:600;" data-i18n="delivery_code">DELIVERY CODE</div>
+                        <div id="codeValue" style="font-size:1.9rem;font-weight:800;color:#22c55e;letter-spacing:0.25em;line-height:1.2;"></div>
+                        <div style="font-size:0.66rem;color:#9ca3af;" data-i18n="tell_delivery">Tell this to the delivery partner</div>
+                    </div>
+                    <div id="mapBox" style="display:none;height:200px;border-radius:12px;overflow:hidden;margin-bottom:0.85rem;"></div>
+                    <div class="timeline" id="timeline"></div>
+                    <div class="info-section">
+                        <div class="info-row"><span class="lbl" data-i18n="quantity_label">Quantity</span><span class="val" id="t-qty"></span></div>
+                        <div class="info-row"><span class="lbl" data-i18n="payment_label">Payment</span><span class="val" id="t-pay"></span></div>
+                        <div class="info-row"><span class="lbl" data-i18n="ordered_at">Ordered at</span><span class="val" id="t-time"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="customer-auth.js"></script>
+    <script>
+        const API_URL = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
+        const googleUser = JSON.parse(localStorage.getItem('sp_google_user') || 'null');
+
+        // === INIT ===
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+
+            if (googleUser) {
+                // Show user bar
+                document.getElementById('userBar').style.display = 'flex';
+                document.getElementById('ub-pic').src = googleUser.picture;
+                document.getElementById('ub-name').textContent = googleUser.name;
+                document.getElementById('ub-email').textContent = googleUser.email;
+
+                // Show tabs
+                document.getElementById('trackTabs').style.display = 'flex';
+
+                // Show My Orders by default
+                document.getElementById('myOrdersView').classList.add('show');
+                document.getElementById('trackView').style.display = 'none';
+                fetchMyOrders(googleUser.email);
+            } else {
+                // Even without Google login, show local orders if any
+                document.getElementById('trackTabs').style.display = 'flex';
+                document.getElementById('myOrdersView').classList.add('show');
+                document.getElementById('trackView').style.display = 'none';
+                fetchMyOrders(null);
+            }
+
+            // If ?id= param, track that specific order
+            if (params.get('id')) {
+                document.getElementById('trackInput').value = params.get('id');
+                if (googleUser) {
+                    switchTab('track', document.querySelectorAll('.track-tab')[1]);
+                }
+                setTimeout(trackOrder, 300);
+            }
+        });
+
+        // === TABS ===
+        function switchTab(tab, el) {
+            document.querySelectorAll('.track-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+
+            if (tab === 'orders') {
+                document.getElementById('myOrdersView').classList.add('show');
+                document.getElementById('trackView').style.display = 'none';
+            } else {
+                document.getElementById('myOrdersView').classList.remove('show');
+                document.getElementById('trackView').style.display = '';
+            }
+        }
+
+        // === FETCH MY ORDERS ===
+        async function fetchMyOrders(email, retried) {
+            let serverOrders = [];
+            let serverOk = false;
+
+            try {
+                // Try to acquire auth token if missing (with a timeout)
+                if (email && !spCustomerToken()) {
+                    await Promise.race([
+                        spEnsureCustomerToken(),
+                        new Promise(r => setTimeout(r, 4000))
+                    ]);
+                }
+
+                // Only call server if we have both email and a token
+                if (email && spCustomerToken()) {
+                    const res = await fetch(API_URL + '/orders?email=' + encodeURIComponent(email), { headers: spAuthHeaders() });
+                    const data = await res.json();
+
+                    if (res.status === 401 && !retried) {
+                        spClearCustomerToken();
+                        await spEnsureCustomerToken();
+                        return fetchMyOrders(email, true);
+                    }
+
+                    if (data.success && data.orders && data.orders.length) {
+                        serverOrders = data.orders;
+                        serverOk = true;
+                    }
+                }
+            } catch (err) {
+                console.warn('Server orders fetch failed:', err);
+            }
+
+            // Always merge with locally saved orders (from this device)
+            let localOrders = [];
+            try {
+                localOrders = JSON.parse(localStorage.getItem('sp_orders') || '[]');
+            } catch (e) {}
+
+            // Build a combined list — server orders take priority for duplicates
+            const seenIds = new Set();
+            const combined = [];
+
+            // Server orders first (they have the real status)
+            serverOrders.forEach(o => {
+                seenIds.add(o.orderId);
+                combined.push({
+                    orderId: o.orderId,
+                    status: o.status || 'pending',
+                    qty: (o.items && o.items.length) ? o.items.reduce((s, i) => s + (i.qty || 1), 0) : (o.qty || 1),
+                    items: o.items || [],
+                    extras: o.extras || [],
+                    total: o.total,
+                    paymentMethod: o.paymentMethod,
+                    createdAt: o.createdAt,
+                    source: 'server'
+                });
+            });
+
+            // Add local orders not already in server list
+            localOrders.forEach(o => {
+                if (!seenIds.has(o.orderId)) {
+                    seenIds.add(o.orderId);
+                    combined.push({
+                        orderId: o.orderId,
+                        status: o.status || 'pending',
+                        qty: o.qty || 1,
+                        items: o.cart ? Object.values(o.cart) : [],
+                        extras: o.extras || [],
+                        total: o.total,
+                        paymentMethod: o.payment && o.payment.includes('COD') ? 'cod' : 'online',
+                        createdAt: o.date || new Date().toISOString(),
+                        source: 'local'
+                    });
+                }
+            });
+
+            // Sort newest first
+            combined.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            document.getElementById('ordersLoading').style.display = 'none';
+
+            if (!combined.length) {
+                document.getElementById('myOrdersList').innerHTML =
+                    '<div class="empty-msg">No orders yet. <a href="order.html" style="color:var(--gold);">Place your first order →</a></div>';
+                return;
+            }
+
+            const statusLabels = {
+                pending: 'Pending', confirmed: 'Confirmed', preparing: 'Preparing',
+                ready: 'Ready', on_the_way: 'On the Way', picked_up: 'On the Way', delivered: 'Delivered',
+                cancelled: 'Cancelled'
+            };
+
+            document.getElementById('myOrdersList').innerHTML = combined.map(o => {
+                const time = new Date(o.createdAt).toLocaleString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+                const statusClass = o.status || 'pending';
+                return `
+                    <div class="mo-card" onclick="viewOrder('${o.orderId}')">
+                        <div class="mo-top">
+                            <span class="mo-id">${o.orderId}</span>
+                            <span class="mo-status ${statusClass}">${statusLabels[o.status] || o.status}</span>
+                        </div>
+                        <div class="mo-row">
+                            <span class="mo-items">x${o.qty} ${o.extras && o.extras.length ? '+ extras' : ''}</span>
+                            <span class="mo-amount">₹${o.total}</span>
+                        </div>
+                        <div class="mo-time">${time} • ${o.paymentMethod === 'cod' ? 'COD' : 'Paid Online'}</div>
+                    </div>`;
+            }).join('');
+        }
+
+        function viewOrder(orderId) {
+            switchTab('track', document.querySelectorAll('.track-tab')[1]);
+            document.getElementById('trackInput').value = orderId;
+            trackOrder();
+        }
+
+        // === TRACK SINGLE ORDER ===
+        async function trackOrder() {
+            const id = document.getElementById('trackInput').value.trim();
+            if (!id) return;
+
+            document.getElementById('notFound').classList.remove('show');
+            document.getElementById('trackCard').classList.remove('show');
+
+            try {
+                const res = await fetch(API_URL + '/orders/' + encodeURIComponent(id), { headers: spAuthHeaders() });
+                const data = await res.json();
+
+                if (!data.success || !data.order) {
+                    document.getElementById('notFound').classList.add('show');
+                    return;
+                }
+
+                const order = data.order;
+                document.getElementById('t-id').textContent = order.orderId;
+                document.getElementById('t-amount').textContent = '₹' + order.total;
+                document.getElementById('t-qty').textContent = (order.items && order.items.length)
+                    ? order.items.map(i => i.name + ' x' + i.qty).join(', ')
+                    : 'x' + order.qty;
+                document.getElementById('t-pay').textContent = order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '📱 Paid Online';
+                document.getElementById('t-time').textContent = new Date(order.createdAt).toLocaleString('en-IN');
+
+                renderEta(order);
+                renderMap(order);
+                renderCode(order);
+
+                const steps = [
+                    { icon:'📋', title:'Order Placed', desc:'Your order has been received' },
+                    { icon:'👨‍🍳', title:'Preparing', desc:'Your food is being cooked fresh' },
+                    { icon:'🛵', title:'On the Way', desc:order.partnerName ? order.partnerName + ' is bringing your order' : 'Your order has been picked up' },
+                    { icon:'✅', title:'Delivered', desc:'Enjoy your meal!' }
+                ];
+                // The kitchen has more states than the customer needs to see
+                const stageOf = {
+                    pending: 0, confirmed: 1, preparing: 1, ready: 1,
+                    on_the_way: 2, picked_up: 2, delivered: 3
+                };
+                const currentIdx = order.status === 'cancelled' ? -1 : (stageOf[order.status] ?? 0);
+
+                if (order.status === 'cancelled') {
+                    document.getElementById('etaBox').style.display = 'block';
+                    document.getElementById('etaValue').textContent = 'Cancelled';
+                    document.getElementById('etaWho').textContent = 'Please contact us on WhatsApp for help';
+                }
+
+                document.getElementById('timeline').innerHTML = steps.map((step, i) => {
+                    let cls = i < currentIdx ? 'done' : i === currentIdx ? 'active' : 'waiting';
+                    return `<div class="tl-item ${cls}"><div class="tl-dot">${step.icon}</div><div class="tl-line"></div><div class="tl-text"><h4>${step.title}</h4><p>${step.desc}</p></div></div>`;
+                }).join('');
+
+                document.getElementById('trackCard').classList.add('show');
+
+                // Auto-refresh
+                if (window._trackInterval) clearInterval(window._trackInterval);
+                window._trackInterval = setInterval(trackOrder, 10000);
+
+            } catch (err) {
+                document.getElementById('notFound').classList.add('show');
+            }
+        }
+
+        // The API withholds the code from anyone who is not the customer, so we
+        // read it from the copy this device saved when the order was placed.
+        function renderCode(order) {
+            const box = document.getElementById('codeBox');
+            if (['delivered', 'cancelled'].includes(order.status)) {
+                box.style.display = 'none';
+                return;
+            }
+
+            let code = order.deliveryCode || null;
+            if (!code) {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('sp_orders') || '[]')
+                        .find(o => o.orderId === order.orderId);
+                    if (saved) code = saved.deliveryCode;
+                } catch (e) { /* nothing saved on this device */ }
+            }
+
+            if (!code) { box.style.display = 'none'; return; }
+            box.style.display = 'block';
+            document.getElementById('codeValue').textContent = code;
+        }
+
+        function renderEta(order) {
+            const box = document.getElementById('etaBox');
+            const call = document.getElementById('etaCall');
+
+            if (order.status === 'delivered' || order.status === 'cancelled' || !order.etaMinutes) {
+                box.style.display = 'none';
+                return;
+            }
+
+            box.style.display = 'block';
+            const mins = order.etaMinutes;
+            document.getElementById('etaValue').textContent =
+                mins < 60 ? mins + ' min' : Math.round(mins / 60) + ' hr ' + (mins % 60) + ' min';
+
+            document.getElementById('etaWho').textContent =
+                ['picked_up', 'on_the_way'].includes(order.status)
+                    ? (order.partnerName ? order.partnerName + ' is on the way' : 'On the way to you')
+                    : 'Being prepared in the kitchen';
+
+            if (order.partnerPhone) {
+                call.style.display = 'inline-block';
+                call.href = 'tel:' + order.partnerPhone;
+            } else {
+                call.style.display = 'none';
+            }
+        }
+
+        let trackMap = null, partnerMarker = null, homeMarker = null;
+
+        function renderMap(order) {
+            const box = document.getElementById('mapBox');
+
+            // The rider's position is only published once they are carrying it
+            if (!order.partnerLat || !order.partnerLng) {
+                box.style.display = 'none';
+                return;
+            }
+            box.style.display = 'block';
+
+            // Our own device knows the delivery address; the API never sends it back
+            let home = null;
+            try {
+                const saved = JSON.parse(localStorage.getItem('sp_orders') || '[]')
+                    .find(o => o.orderId === order.orderId);
+                if (saved && saved.lat && saved.lng) home = [saved.lat, saved.lng];
+            } catch (e) { /* no saved copy on this device */ }
+
+            const rider = [order.partnerLat, order.partnerLng];
+
+            if (!trackMap) {
+                trackMap = L.map('mapBox', { zoomControl: false, attributionControl: false }).setView(rider, 14);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(trackMap);
+            }
+
+            const riderIcon = L.divIcon({
+                html: '<div style="font-size:26px;line-height:1">🛵</div>',
+                className: '', iconSize: [26, 26], iconAnchor: [13, 13]
+            });
+
+            if (partnerMarker) partnerMarker.setLatLng(rider);
+            else partnerMarker = L.marker(rider, { icon: riderIcon }).addTo(trackMap);
+
+            if (home) {
+                const homeIcon = L.divIcon({
+                    html: '<div style="font-size:22px;line-height:1">🏠</div>',
+                    className: '', iconSize: [22, 22], iconAnchor: [11, 11]
+                });
+                if (homeMarker) homeMarker.setLatLng(home);
+                else homeMarker = L.marker(home, { icon: homeIcon }).addTo(trackMap);
+                trackMap.fitBounds(L.latLngBounds([rider, home]).pad(0.35));
+            } else {
+                trackMap.setView(rider, 15);
+            }
+
+            // Leaflet needs a nudge when its container was hidden at creation
+            setTimeout(() => trackMap.invalidateSize(), 100);
+        }
+
+        function reSignIn() {
+            localStorage.removeItem('sp_google_user');
+            if (typeof spClearCustomerToken === 'function') spClearCustomerToken();
+            window.location.reload();
+        }
+
+        function signOut() {
+            localStorage.removeItem('sp_google_user');
+            if (typeof spClearCustomerToken === 'function') spClearCustomerToken();
+            window.location.reload();
+        }
+    </script>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+        <a href="order.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Order</a>
+        <a href="track.html" class="bnav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Track</a>
+        <a href="profile.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
+    </nav>
+
+    <!-- WhatsApp Support -->
+    <a href="https://wa.me/918805211717?text=Hi%20Aapla%20Swad!%20I%20need%20help" target="_blank" class="wa-fab" title="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+</body>
+</html>

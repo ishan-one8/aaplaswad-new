@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "861754401920",
+    "project_id": "sai-prasad-7f021",
+    "storage_bucket": "sai-prasad-7f021.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861754401920:android:0000000000000000",
+        "android_client_info": {
+          "package_name": "com.saiprasad.dalbati"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saiprasad.dalbati",
+            "certificate_hash": "d35403c6f50eb303c34e6ac6a6847e029fc9133b"
+          }
+        },
+        {
+          "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh8ByqpB0gONix3j-Swrfigie3s31gHOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

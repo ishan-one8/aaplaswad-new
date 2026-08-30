@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Aapla Swad</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a; color: #fafafa;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 1rem;
+        }
+        .container { text-align: center; max-width: 400px; width: 100%; }
+        .logo { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; }
+        h1 { font-size: 1.3rem; color: #f59e0b; margin-bottom: 0.3rem; }
+        .amount { font-size: 2rem; font-weight: 700; margin: 1rem 0; }
+        .status { font-size: 0.9rem; color: #9ca3af; margin-bottom: 1.5rem; }
+        .btn {
+            display: inline-block; padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #ea580c, #d97706);
+            color: #fff; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            text-decoration: none; font-family: inherit;
+        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        .back-link { display: block; margin-top: 1.5rem; color: #f59e0b; font-size: 0.85rem; }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Aapla Swad" class="logo">
+        <h1>Aapla Swad</h1>
+        <div class="amount" id="pay-amount">Loading...</div>
+        <div class="status" id="pay-status">Preparing payment...</div>
+        <button class="btn" id="pay-btn" disabled onclick="openRazorpay()">Pay Now</button>
+        <a href="javascript:window.close()" class="back-link" id="back-link" style="display:none;">← Return to App</a>
+    </div>
+
+    <script>
+        // Read payment params from URL
+        const params = new URLSearchParams(window.location.search);
+        const key = params.get('key');
+        const orderId = params.get('order_id');
+        const amount = parseInt(params.get('amount') || '0');
+        const name = params.get('name') || '';
+        const contact = params.get('contact') || '';
+        const email = params.get('email') || '';
+        const description = params.get('desc') || 'Food Order';
+        const apiUrl = params.get('api') || '';
+
+        const amountEl = document.getElementById('pay-amount');
+        const statusEl = document.getElementById('pay-status');
+        const payBtn = document.getElementById('pay-btn');
+        const backLink = document.getElementById('back-link');
+
+        if (!key || !orderId || !amount) {
+            amountEl.textContent = '⚠️';
+            statusEl.textContent = 'Invalid payment link. Please go back and try again.';
+            statusEl.className = 'status error';
+        } else {
+            amountEl.textContent = '₹' + (amount / 100);
+            statusEl.textContent = 'Tap Pay Now to complete';
+            payBtn.disabled = false;
+
+            // Auto-open Razorpay after a short delay
+            setTimeout(() => openRazorpay(), 500);
+        }
+
+        function openRazorpay() {
+            payBtn.disabled = true;
+            statusEl.textContent = 'Opening payment...';
+
+            const options = {
+                key: key,
+                order_id: orderId,
+                amount: amount,
+                currency: 'INR',
+                name: 'Aapla Swad',
+                description: description,
+                image: 'logo.png',
+                handler: function(response) {
+                    // Tell the server to complete the order immediately.
+                    // The backend's claimPayment() conditional write prevents
+                    // double order creation even if the webhook also fires.
+                    if (apiUrl) {
+                        fetch(apiUrl + '/payment/complete', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ razorpayOrderId: response.razorpay_order_id })
+                        }).catch(function() {});
+                    }
+
+                    // Store payment info
+                    try {
+                        localStorage.setItem('sp_payment_done', JSON.stringify({
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            at: Date.now()
+                        }));
+                    } catch(e) {}
+
+                    // Show success UI — tell user to go back to app
+                    document.querySelector('.container').innerHTML = 
+                        '<div style="text-align:center;padding:2rem 1rem;">' +
+                            '<div style="font-size:4rem;margin-bottom:1rem;">✅</div>' +
+                            '<h1 style="font-size:1.5rem;color:#22c55e;margin-bottom:0.5rem;">Payment Successful!</h1>' +
+                            '<p style="color:#9ca3af;font-size:0.9rem;margin-bottom:1.5rem;">Your payment of <strong style="color:#f59e0b;">₹' + (amount/100) + '</strong> has been received.</p>' +
+                            '<div style="padding:1.2rem;background:rgba(34,197,94,0.1);border:1.5px solid rgba(34,197,94,0.3);border-radius:14px;margin-bottom:1rem;">' +
+                                '<p style="color:#22c55e;font-size:1rem;font-weight:700;margin:0;">👈 Go back to the Aapla Swad app</p>' +
+                                '<p style="color:#9ca3af;font-size:0.8rem;margin:0.5rem 0 0;">Your order will be confirmed automatically.</p>' +
+                            '</div>' +
+                            '<p style="color:#555;font-size:0.75rem;">You can close this tab now.</p>' +
+                        '</div>';
+                },
+                prefill: { name: name, contact: contact, email: email },
+                config: {
+                    display: {
+                        blocks: {
+                            upi: {
+                                name: 'Pay using UPI',
+                                instruments: [
+                                    { method: 'upi', flows: ['intent'], apps: ['google_pay'] },
+                                    { method: 'upi', flows: ['intent'], apps: ['phonepe'] },
+                                    { method: 'upi', flows: ['collect'] },
+                                    { method: 'upi', flows: ['qr'] },
+                                ]
+                            }
+                        },
+                        sequence: ['block.upi'],
+                        preferences: { show_default_blocks: true }
+                    }
+                },
+                theme: { color: '#e8590c' },
+                modal: {
+                    ondismiss: function() {
+                        payBtn.disabled = false;
+                        statusEl.textContent = 'Payment cancelled. Tap to retry.';
+                    }
+                }
+            };
+
+            try {
+                const rzp = new Razorpay(options);
+                rzp.on('payment.failed', function(response) {
+                    payBtn.disabled = false;
+                    statusEl.innerHTML = '<span class="error">Payment failed: ' + response.error.description + '</span>';
+                });
+                rzp.open();
+            } catch(e) {
+                statusEl.innerHTML = '<span class="error">Could not open payment: ' + e.message + '</span>';
+                payBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

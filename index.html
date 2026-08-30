@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0a0a0a">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="google-site-verification" content="iuG6JsWyAe4gsZaOJR4DsPx3tJxWWcm88GoAay9NgmA" />
+    <title>Aapla Swad — Dal Bati ₹80</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#ea580c">
+    <!-- Preload critical images for faster loading -->
+    <link rel="preload" as="image" href="splash-logo.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="logo.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="hero.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="special-dal-batti.jpg">
+    <link rel="preload" as="image" href="zunka.jpg">
+    <link rel="preload" as="image" href="bharit.jpg">
+    <link rel="preload" as="image" href="bombil.jpg">
+    <link rel="preload" as="image" href="chicken.jpg">
+    <link rel="preload" as="image" href="rice-plate.jpg">
+    <link rel="preload" as="image" href="assets/chinese/veg-manchurian-dry.jpg">
+    <link rel="preload" as="image" href="assets/chinese/paneer-kentucky.jpg">
+    <link rel="preload" as="image" href="assets/rolls/paneer-roll.jpg">
+    <link rel="preload" as="font" href="https://fonts.gstatic.com/s/outfit/v11/QGYyz_MVcBeNP4NjuGObqx1XmO1I4W61.woff2" crossorigin type="font/woff2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Aapla Swad">
+    <meta name="description" content="Order fresh Dal Bati Churma — delivered for just ₹80. Authentic Rajasthani thali, Zunka Bhakar, Chinese & Rolls. Aapla Swad — home-style cooking delivered hot.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aaplaswad.store/">
+    <meta name="keywords" content="Aapla Swad, dal bati, dal batti, churma, food delivery, thali, zunka bhakar, bharit bhakar, home cooked food, aaplaswad">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="restaurant">
+    <meta property="og:site_name" content="Aapla Swad">
+    <meta property="og:title" content="Aapla Swad — Dal Bati ₹80 | Home-Style Food Delivery">
+    <meta property="og:description" content="Order fresh Dal Bati Churma, Zunka Bhakar, Chinese & Rolls. Authentic home-style cooking delivered hot for just ₹80.">
+    <meta property="og:url" content="https://aaplaswad.store/">
+    <meta property="og:image" content="https://aaplaswad.store/hero.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aapla Swad — Dal Bati ₹80 | Home-Style Food Delivery">
+    <meta name="twitter:description" content="Order fresh Dal Bati Churma, Zunka Bhakar, Chinese & Rolls. Delivered hot for just ₹80.">
+    <meta name="twitter:image" content="https://aaplaswad.store/hero.png">
+
+    <!-- Structured Data: Restaurant -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Aapla Swad",
+      "url": "https://aaplaswad.store",
+      "logo": "https://aaplaswad.store/logo.png",
+      "image": "https://aaplaswad.store/hero.png",
+      "description": "Authentic home-style Dal Bati Churma, Zunka Bhakar, Chinese food and Rolls — delivered fresh and hot.",
+      "telephone": "+918805211717",
+      "servesCuisine": ["Indian", "Rajasthani", "Indo-Chinese"],
+      "priceRange": "₹80 - ₹160",
+      "openingHours": "Mo-Su 10:00-22:00",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "2300",
+        "bestRating": "5"
+      },
+      "hasMenu": {
+        "@type": "Menu",
+        "url": "https://aaplaswad.store/order.html"
+      },
+      "sameAs": [
+        "https://wa.me/918805211717"
+      ]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #ea580c;
+            --gold: #f59e0b;
+            --amber: #d97706;
+            --dark: #0e0e0e;
+            --card: rgba(255,255,255,0.04);
+            --card-solid: #161616;
+            --border: rgba(255,255,255,0.06);
+            --white: #f3f4f6;
+            --gray: #9ca3af;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            font-family: 'Manrope', sans-serif; 
+            background: var(--dark); 
+            color: var(--white); 
+            height: 100%; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === FULL PAGE LAYOUT === */
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, #0e0e0e 0%, #141210 50%, #0e0e0e 100%);
+        }
+
+        /* === NAVBAR === */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.65rem 1rem;
+            background: rgba(14,14,14,0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            animation: fadeDown 0.4s ease both;
+        }
+
+        .navbar img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(245,158,11,0.3);
+            box-shadow: 0 0 12px rgba(245,158,11,0.15);
+        }
+
+        .navbar h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: -0.02em;
+        }
+
+        .navbar .nav-tag {
+            font-size: 0.55rem;
+            color: #6b7280;
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .nav-actions { margin-left: auto; display: flex; align-items: center; gap: 0.4rem; }
+        .nav-call {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.15);
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; transition: transform 0.1s;
+        }
+        .nav-call:active { transform: scale(0.9); }
+        .nav-call svg { width: 16px; height: 16px; stroke: #34d399; fill: none; }
+        .nav-right {
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+        }
+        .nav-right.open { color: #34d399; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.12); }
+        .nav-right.closed { color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.12); }
+
+        /* === HERO IMAGE === */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 40dvh;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .hero img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .hero img.active {
+            opacity: 1;
+        }
+
+        /* Top + Bottom gradient */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(14,14,14,0.6), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 50%;
+            background: linear-gradient(to top, #0e0e0e, transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Floating badges */
+        .float-badge {
+            position: absolute;
+            z-index: 2;
+            padding: 0.3rem 0.65rem;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(12px) saturate(150%);
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .badge-veg {
+            top: 0.75rem;
+            left: 0.75rem;
+            color: #34d399;
+            animation: fadeDown 0.5s ease 0.3s both;
+        }
+
+        .badge-rating {
+            top: 0.75rem;
+            right: 0.75rem;
+            color: var(--gold);
+            animation: fadeDown 0.5s ease 0.4s both;
+        }
+
+        .badge-time {
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            background: rgba(234,88,12,0.25);
+            border: 1px solid rgba(234,88,12,0.2);
+            animation: floatUp 0.5s ease 0.5s both, bobble 3s ease-in-out 1.5s infinite;
+        }
+
+        /* === CONTENT SECTION === */
+        .content {
+            flex: 1;
+            padding: 0 1.25rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: -1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Dish info */
+        .dish-info {
+            animation: fadeUp 0.5s ease 0.3s both;
+        }
+
+        .dish-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        .dish-sub {
+            font-size: 0.74rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* Price row */
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeUp 0.5s ease 0.4s both;
+        }
+
+        .price-old {
+            font-size: 0.85rem;
+            color: #4b5563;
+            text-decoration: line-through;
+        }
+
+        .price-now {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: -0.02em;
+        }
+
+        .price-off {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: #34d399;
+            background: rgba(52,211,153,0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid rgba(52,211,153,0.1);
+            letter-spacing: 0.02em;
+        }
+
+        /* Scrolling cards */
+        .scroll-cards {
+            display: flex;
+            gap: 0.4rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 0.15rem;
+            animation: fadeUp 0.5s ease 0.5s both;
+        }
+
+        .scroll-cards::-webkit-scrollbar { display: none; }
+
+        .mini-card {
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            font-size: 0.68rem;
+            color: #6b7280;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: border-color 0.2s;
+        }
+
+        .mini-card:active { border-color: rgba(245,158,11,0.2); }
+
+        .mini-card .emoji {
+            font-size: 0.9rem;
+        }
+
+        .mini-card strong {
+            color: #d1d5db;
+            font-weight: 600;
+        }
+
+        /* Order button */
+        .order-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.95rem;
+            background: linear-gradient(135deg, #ea580c, #d97706);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 12px;
+            text-decoration: none;
+            animation: fadeUp 0.5s ease 0.6s both;
+            transition: transform 0.1s ease, opacity 0.2s ease;
+            margin-top: auto;
+            box-shadow: 0 8px 24px rgba(234,88,12,0.2);
+            letter-spacing: 0.02em;
+        }
+
+        .order-btn:hover { opacity: 0.92; }
+        .order-btn:active { transform: scale(0.98); }
+
+        /* Footer */
+        .foot {
+            text-align: center;
+            font-size: 0.58rem;
+            color: #374151;
+            padding-top: 0.3rem;
+            animation: fadeUp 0.5s ease 0.7s both;
+            letter-spacing: 0.02em;
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes bobble {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* === BOTTOM NAV === */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: rgba(17,17,17,0.96);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            z-index: 100;
+            padding: 0.4rem 0 env(safe-area-inset-bottom, 0.3rem);
+        }
+        .bnav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+            padding: 0.4rem 0;
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 0.58rem;
+            font-weight: 600;
+            transition: color 0.15s;
+        }
+        .bnav-item.active { color: #f59e0b; }
+        .bnav-item svg { width: 20px; height: 20px; }
+        .bnav-item.active svg { stroke: #f59e0b; }
+
+        /* WhatsApp FAB */
+        .wa-fab {
+            position: fixed;
+            bottom: 70px;
+            right: max(1rem, calc((100vw - 480px) / 2 + 1rem));
+            width: 48px;
+            height: 48px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 99;
+            transition: transform 0.15s;
+        }
+        .wa-fab:hover { transform: scale(1.08); }
+        .wa-fab:active { transform: scale(0.95); }
+        .wa-fab svg { width: 24px; height: 24px; fill: white; }
+
+        .content { padding-bottom: 4rem; }
+
+        /* Closed overlay */
+        .closed-overlay { display:none; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.15); border-radius:12px; padding:0.7rem 1rem; text-align:center; }
+        .closed-overlay.show { display:block; }
+        .closed-overlay p { font-size:0.78rem; color:#ef4444; font-weight:600; margin-bottom:0.15rem; }
+        .closed-overlay span { font-size:0.62rem; color:#888; }
+        .order-btn.disabled { opacity:0.4; pointer-events:none; }
+
+        /* First Order Banner */
+        .promo-banner { display:none; background:linear-gradient(135deg, rgba(234,88,12,0.12), rgba(245,158,11,0.08)); border:1px solid rgba(245,158,11,0.15); border-radius:12px; padding:0.7rem 1rem; text-align:center; animation:fadeUp 0.5s ease 0.3s both; }
+        .promo-banner.show { display:block; }
+        .promo-banner .pb-title { font-size:0.82rem; font-weight:700; color:#f59e0b; }
+        .promo-banner .pb-sub { font-size:0.62rem; color:#9ca3af; margin-top:0.1rem; }
+
+        /* Today's Orders Counter */
+        .orders-today { display:flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.45rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:10px; font-size:0.68rem; color:#9ca3af; animation:fadeUp 0.5s ease 0.4s both; }
+        .orders-today strong { color:#f59e0b; }
+
+        /* Menu Grid Cards */
+        .hotel-section-header { display:flex; align-items:center; gap:0.4rem; margin:0.8rem 0 0.35rem; padding:0.5rem 0.6rem; background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.12); border-radius:10px; }
+        .hotel-emoji { font-size:1.2rem; }
+        .hotel-section-header .hotel-name { font-size:0.78rem; font-weight:700; color:#f59e0b; }
+        .hotel-section-header .hotel-sub { font-size:0.52rem; color:#888; }
+        .menu-sub-header { font-size:0.6rem; font-weight:700; margin:0.25rem 0 0.3rem; display:flex; align-items:center; gap:0.25rem; }
+        .menu-sub-header.veg { color:#22c55e; }
+        .menu-sub-header.nonveg { color:#ef4444; }
+        .menu-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:0.75rem; margin-bottom:1rem; padding:0 0.1rem; }
+        .grid-card { text-decoration:none; display:block; background:linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.08); border-radius:16px; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .grid-card:active { transform:scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .grid-img-wrap { position:relative; width:100%; aspect-ratio:5/4; overflow:hidden; background:#1a1a1a; }
+        .grid-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+        .grid-badge { position:absolute; bottom:6px; left:6px; font-size:0.55rem; font-weight:800; color:#fff; background:rgba(34,197,94,0.9); padding:0.15rem 0.4rem; border-radius:6px; backdrop-filter:blur(4px); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .grid-badge.new { background:rgba(234,88,12,0.9); }
+        
+        .card-share-btn { width:28px; height:28px; border-radius:50%; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); color:#f59e0b; display:flex; align-items:center; justify-content:center; transition:all 0.2s; cursor:pointer; flex-shrink:0; margin-left:auto; }
+        .card-share-btn:active { transform:scale(0.9); background:rgba(245,158,11,0.35); }
+
+        .grid-info { padding:0.4rem 0.5rem 0.5rem; }
+        .grid-name { font-size:0.68rem; font-weight:800; color:#fafafa; line-height:1.25; margin-bottom:0.1rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; letter-spacing:-0.01em; }
+        .grid-desc { font-size:0.5rem; color:#888; margin-bottom:0.15rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:500; }
+        .grid-qty { font-size:0.45rem; color:#f59e0b; font-weight:600; margin-bottom:0.08rem; }
+        .grid-price { display:flex; align-items:center; gap:0.25rem; margin-top:0.2rem; }
+        .grid-old { font-size:0.5rem; color:#666; text-decoration:line-through; font-weight:500; }
+        .grid-now { font-size:0.75rem; font-weight:800; color:#f59e0b; }
+
+
+        /* Reviews Section - Continuous Marquee */
+        .reviews-section { animation:fadeUp 0.5s ease 0.5s both; overflow:hidden; }
+        .reviews-title { font-size:0.82rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.3rem; }
+        .review-cards { display:flex; gap:0.6rem; overflow:hidden; position:relative; }
+        .review-track { display:flex; gap:0.6rem; animation: marqueeScroll 40s linear infinite; }
+        .review-track:hover { animation-play-state: paused; }
+        @keyframes marqueeScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .review-card { flex-shrink:0; width:220px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:0.65rem; }
+        .rc-top { display:flex; align-items:center; gap:0.4rem; margin-bottom:0.35rem; }
+        .rc-avatar { width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#ea580c,#f59e0b); display:flex; align-items:center; justify-content:center; font-size:0.6rem; color:white; font-weight:700; flex-shrink:0; }
+        .rc-name { font-size:0.68rem; font-weight:600; color:#d1d5db; flex:1; }
+        .rc-stars { font-size:0.55rem; color:#f59e0b; }
+        .rc-text { font-size:0.62rem; color:#9ca3af; line-height:1.4; }
+
+        /* Download + Share Buttons */
+        .action-row { display:flex; gap:0.4rem; animation:fadeUp 0.5s ease 0.7s both; }
+        .action-btn {
+            flex:1; display:flex; align-items:center; justify-content:center; gap:0.4rem;
+            padding:0.7rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+            color:#d1d5db; font-size:0.78rem; font-weight:600; font-family:'Outfit',sans-serif;
+            border-radius:12px; text-decoration:none; transition:background 0.15s; cursor:pointer;
+        }
+        .action-btn:active { background:rgba(255,255,255,0.08); }
+        .action-btn svg { width:18px; height:18px; }
+        .action-btn.share-btn { border:none; background:none; }
+
+        /* Referral Section */
+        .referral-section { background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.12); border-radius:12px; padding:0.75rem; text-align:center; animation:fadeUp 0.5s ease 0.8s both; }
+        .referral-section .rf-title { font-size:0.78rem; font-weight:700; color:#a78bfa; margin-bottom:0.2rem; }
+        .referral-section .rf-sub { font-size:0.6rem; color:#888; margin-bottom:0.5rem; }
+        .referral-code-box { display:flex; align-items:center; justify-content:center; gap:0.5rem; }
+        .referral-code { background:rgba(139,92,246,0.12); border:1px dashed rgba(139,92,246,0.3); padding:0.35rem 0.75rem; border-radius:8px; font-size:0.82rem; font-weight:700; color:#c4b5fd; letter-spacing:1px; font-family:monospace; }
+        .copy-ref-btn { background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.2); color:#a78bfa; padding:0.35rem 0.6rem; border-radius:8px; font-size:0.65rem; font-weight:600; cursor:pointer; font-family:inherit; }
+
+        /* Install App Banner */
+        .install-banner {
+            display: none;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 0.8rem;
+            background: linear-gradient(135deg, rgba(234,88,12,0.12), rgba(217,119,6,0.08));
+            border-bottom: 1px solid rgba(234,88,12,0.15);
+            animation: fadeDown 0.3s ease;
+        }
+        .install-banner.show { display: flex; }
+        .install-banner .ib-icon {
+            width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+            object-fit: cover;
+        }
+        .install-banner .ib-text { flex: 1; }
+        .install-banner .ib-title {
+            font-size: 0.78rem; font-weight: 700; color: var(--white);
+        }
+        .install-banner .ib-sub {
+            font-size: 0.6rem; color: #9ca3af;
+        }
+        .install-banner .ib-btn {
+            padding: 0.4rem 0.9rem;
+            background: linear-gradient(135deg, #ea580c, #d97706);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.15s;
+        }
+        .install-banner .ib-btn:active { opacity: 0.8; }
+        .install-banner .ib-close {
+            width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center;
+            background: none; border: none;
+            color: #6b7280; font-size: 1rem;
+            cursor: pointer; flex-shrink: 0;
+        }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+<script src="splash.js"></script>
+    <div class="app">
+
+        <!-- Navbar with hotel name -->
+        <nav class="navbar">
+            <div>
+                <h1>Aapla Swad</h1>
+                <span class="nav-tag" data-i18n="tagline">Authentic Dal Bati</span>
+            </div>
+            <div class="nav-actions">
+                <a href="tel:+918805211717" class="nav-call" title="Call us">
+                    <svg viewBox="0 0 24 24" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </a>
+                <span class="nav-right" id="statusBadge">⏳ Checking...</span>
+            </div>
+        </nav>
+
+        <!-- Top Download App Banner -->
+        <style>
+            .dl-btn { background: #ea580c; color: white; text-decoration: none; font-size: 0.65rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3); white-space: nowrap; }
+            .dl-btn:active { opacity: 0.6; }
+        </style>
+        <div id="topDownloadBanner" style="background: linear-gradient(135deg, rgba(234, 88, 12, 0.15), rgba(245, 158, 11, 0.05)); border-bottom: 1px solid rgba(234, 88, 12, 0.2); padding: 0.6rem 0.8rem; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <div style="background: rgba(234, 88, 12, 0.2); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2z"></path><path d="m8 10 4 4 4-4"></path><path d="M12 14V6"></path></svg>
+                </div>
+                <div>
+                    <div style="font-size: 0.75rem; font-weight: 700; color: #fafafa;">Aapla Swad App</div>
+                    <div style="font-size: 0.55rem; color: #a1a1aa;">Faster ordering & tracking</div>
+                </div>
+            </div>
+            <a href="/sai-prasad.apk" class="dl-btn" target="_blank" rel="noopener">Download APK</a>
+        </div>
+        <script>
+            // Hide download banners if user is already inside the native Android app
+            window.addEventListener('load', function() {
+                if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+                    var b = document.getElementById('topDownloadBanner');
+                    if (b) b.style.display = 'none';
+                }
+            });
+        </script>
+
+        <!-- Infinite scrolling images -->
+        <div class="hero">
+            <img loading="eager" src="hero.jpg" alt="Dal Bati Thali" class="active">
+            <img loading="eager" src="special-dal-batti.jpg" alt="Special Dal Batti Thali">
+            <img loading="eager" src="zunka.jpg" alt="Zunka Bhakar Thali">
+            <img loading="eager" src="bharit.jpg" alt="Bharit Bhakar Thali">
+            <img loading="eager" src="bombil.jpg" alt="Bombil Thali">
+            <img loading="eager" src="chicken.jpg" alt="Chicken Thali">
+            <img loading="eager" src="rice-plate.jpg" alt="Rice Plate">
+            <!-- Shriyan Chinese -->
+            <img loading="eager" src="assets/chinese/veg-manchurian-dry.jpg" alt="Veg Manchurian Dry">
+            <img loading="eager" src="assets/chinese/paneer-chilli.jpg" alt="Paneer Chilli">
+            <img loading="eager" src="assets/chinese/veg-fried-rice.jpg" alt="Veg Fried Rice">
+            <img loading="eager" src="assets/chinese/veg-schezwan-noodles.jpg" alt="Schezwan Noodles">
+            <img loading="eager" src="assets/chinese/veg-hakka-noodles.jpg" alt="Hakka Noodles">
+            <img loading="eager" src="assets/chinese/paneer-kentucky.jpg" alt="Paneer Kentucky">
+            <!-- Mauli Veg Rol -->
+            <img loading="eager" src="assets/rolls/paneer-roll.jpg" alt="Paneer Roll">
+            <img loading="eager" src="assets/rolls/manchurian-roll.jpg" alt="Manchurian Roll">
+            <img loading="eager" src="assets/rolls/cheese-roll.jpg" alt="Cheese Roll">
+            <img loading="eager" src="assets/rolls/noodles-roll.jpg" alt="Noodles Roll">
+            <img loading="eager" src="assets/rolls/mix-veg-roll.jpg" alt="Mix Veg Roll">
+            <span class="float-badge badge-veg" data-i18n="pure_veg_badge">🟢 Pure Veg</span>
+            <span class="float-badge badge-rating">⭐ 4.9 (2.3k)</span>
+            <span class="float-badge badge-time" data-i18n="delivery_30min">🛵 30 min delivery</span>
+        </div>
+
+        <!-- Bottom content -->
+        <div class="content">
+
+
+
+            <!-- Menu Section Title -->
+            <div style="font-size:0.82rem;font-weight:700;margin-bottom:0.4rem;display:flex;align-items:center;gap:0.3rem;" data-i18n="our_menu">🍽️ Our Menu</div>
+
+            <!-- ===== Aapla Swad Hotel ===== -->
+            <div class="hotel-section-header">
+                <span class="hotel-emoji">🏠</span>
+                <div><div class="hotel-name">Aapla Swad Hotel</div><div class="hotel-sub">8 items • Home-style Cooking</div></div>
+            </div>
+            <div class="menu-sub-header veg">● Veg Thalis</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=dal-bati" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="hero.jpg" alt="Dal Bati"><span class="grid-badge">47% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Normal Dal Batti</div><div class="grid-desc">8 batti • onion • dal • thecha</div><div class="grid-price"><span class="grid-old">₹150</span><span class="grid-now">₹80</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=zunka-bhakar" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="zunka.jpg" alt="Zunka Bhakar"><span class="grid-badge">53% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Zunka Bhakar Thali</div><div class="grid-desc">3 bhakri • zunka • onion • chili</div><div class="grid-price"><span class="grid-old">₹250</span><span class="grid-now">₹117</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=bharit-bhakar" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="bharit.jpg" alt="Bharit Bhakar"><span class="grid-badge">40% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Bharit Bhakar Thali</div><div class="grid-desc">bharit • 2 bhakar • onion • lemon</div><div class="grid-price"><span class="grid-old">₹200</span><span class="grid-now">₹121</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=special-dal-batti" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="special-dal-batti.jpg" alt="Special Dal Batti"><span class="grid-badge">45% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Special Dal Batti Thali</div><div class="grid-desc">8 batti • dal • sweet • onion</div><div class="grid-price"><span class="grid-old">₹220</span><span class="grid-now">₹120</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=rice-plate" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="rice-plate.jpg" alt="Rice Plate"><span class="grid-badge">41% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Rice Plate</div><div class="grid-desc">2 bhaji • rice • dal • 3 chapati</div><div class="grid-price"><span class="grid-old">₹220</span><span class="grid-now">₹130</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+
+            <div class="menu-sub-header nonveg">● Non-Veg Thalis</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=bombil-thali" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="bombil.jpg" alt="Bombil Thali"><span class="grid-badge">63% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Bombil Thali</div><div class="grid-desc">6 pcs bombil • rassa • rice</div><div class="grid-price"><span class="grid-old">₹350</span><span class="grid-now">₹130</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=zinga-thali" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="zinga.jpg" alt="Zinga Thali"><span class="grid-badge">43% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Zinga Thali</div><div class="grid-desc">zinga chatni • 2 bhakar • onion</div><div class="grid-price"><span class="grid-old">₹220</span><span class="grid-now">₹125</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=chicken-thali" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="chicken.jpg" alt="Chicken Thali"><span class="grid-badge">57% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Chicken Thali</div><div class="grid-desc">4 pcs chicken • rassa • rice</div><div class="grid-price"><span class="grid-old">₹350</span><span class="grid-now">₹151</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+
+            <!-- ===== Shriyan Chinese ===== -->
+            <div class="hotel-section-header">
+                <span class="hotel-emoji">🥡</span>
+                <div><div class="hotel-name">Shriyan Chinese</div><div class="hotel-sub">13 items • Indo-Chinese • ⏰ 3 PM – 10 PM</div></div>
+            </div>
+            <div class="menu-sub-header veg">● Starters</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=veg-manchurian-dry" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-manchurian-dry.jpg" alt="Manchurian Dry"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Veg Manchurian Dry</div><div class="grid-desc">crispy veg balls • Chinese sauce</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹119</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=paneer-kentucky" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/paneer-kentucky.jpg" alt="Paneer Kentucky"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Kentucky</div><div class="grid-desc">crispy paneer fingers • dip</div><div class="grid-price"><span class="grid-old">₹225</span><span class="grid-now">₹154</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=paneer-chilli" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/paneer-chilli.jpg" alt="Paneer Chilli"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Chilli</div><div class="grid-desc">paneer • bell peppers • chili sauce</div><div class="grid-price"><span class="grid-old">₹225</span><span class="grid-now">₹155</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+            <div class="menu-sub-header veg">● Rice</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=veg-fried-rice" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-fried-rice.jpg" alt="Fried Rice"><span class="grid-badge">35% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Veg Fried Rice</div><div class="grid-desc">soy sauce rice • veggies</div><div class="grid-price"><span class="grid-old">₹175</span><span class="grid-now">₹113</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-manchurian-rice" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-manchurian-rice.jpg" alt="Manchurian Rice"><span class="grid-badge">33% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Manchurian Rice</div><div class="grid-desc">fried rice • manchurian gravy</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹121</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-schezwan-rice" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-schezwan-rice.jpg" alt="Schezwan Rice"><span class="grid-badge">32% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Schezwan Rice</div><div class="grid-desc">spicy schezwan sauce rice</div><div class="grid-price"><span class="grid-old">₹190</span><span class="grid-now">₹129</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-paneer-rice" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-paneer-rice.jpg" alt="Paneer Rice"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Rice</div><div class="grid-desc">fried rice • soft paneer cubes</div><div class="grid-price"><span class="grid-old">₹230</span><span class="grid-now">₹159</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-schezwan-paneer-rice" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-schezwan-paneer-rice.jpg" alt="Schezwan Paneer Rice"><span class="grid-badge">32% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Schezwan Paneer Rice</div><div class="grid-desc">spicy rice • paneer • schezwan</div><div class="grid-price"><span class="grid-old">₹220</span><span class="grid-now">₹149</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+            <div class="menu-sub-header veg">● Noodles</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=veg-noodles" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-noodles.jpg" alt="Veg Noodles"><span class="grid-badge">36% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Veg Noodles</div><div class="grid-desc">stir-fried noodles • veggies</div><div class="grid-price"><span class="grid-old">₹170</span><span class="grid-now">₹109</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-manchurian-noodles" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-manchurian-noodles.jpg" alt="Manchurian Noodles"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Manchurian Noodles</div><div class="grid-desc">noodles • manchurian balls</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹119</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-hakka-noodles" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-hakka-noodles.jpg" alt="Hakka Noodles"><span class="grid-badge">32% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Hakka Noodles</div><div class="grid-desc">Indo-Chinese hakka style</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹122</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-schezwan-noodles" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-schezwan-noodles.jpg" alt="Schezwan Noodles"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Schezwan Noodles</div><div class="grid-desc">spicy schezwan sauce noodles</div><div class="grid-price"><span class="grid-old">₹200</span><span class="grid-now">₹139</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=veg-paneer-noodles" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/chinese/veg-paneer-noodles.jpg" alt="Paneer Noodles"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Noodles</div><div class="grid-desc">noodles • soft paneer pieces</div><div class="grid-price"><span class="grid-old">₹230</span><span class="grid-now">₹158</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+
+            <!-- ===== Mauli Veg Rol ===== -->
+            <div class="hotel-section-header">
+                <span class="hotel-emoji">🌯</span>
+                <div><div class="hotel-name">Mauli Veg Rol</div><div class="hotel-sub">12 items • All rolls 2 pcs • ⏰ 5 PM – 10 PM</div></div>
+            </div>
+            <div class="menu-sub-header veg">● Veg Rolls (2 pcs each)</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=aloo-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/aloo-roll.jpg" alt="Aloo Roll"><span class="grid-badge">37% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Aloo Roll</div><div class="grid-desc">spiced potato masala • 2 pcs</div><div class="grid-price"><span class="grid-old">₹140</span><span class="grid-now">₹88</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=soya-bean-masala-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/soya-bean-masala-roll.jpg" alt="Soya Roll"><span class="grid-badge">32% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Soya Masala Roll</div><div class="grid-desc">soya bean masala • 2 pcs</div><div class="grid-price"><span class="grid-old">₹170</span><span class="grid-now">₹115</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=noodles-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/noodles-roll.jpg" alt="Noodles Roll"><span class="grid-badge">32% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Noodles Roll</div><div class="grid-desc">stir-fried noodles inside • 2 pcs</div><div class="grid-price"><span class="grid-old">₹170</span><span class="grid-now">₹116</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=manchurian-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/manchurian-roll.jpg" alt="Manchurian Roll"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Manchurian Roll</div><div class="grid-desc">spicy manchurian filling • 2 pcs</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹119</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=mix-veg-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/mix-veg-roll.jpg" alt="Mix Veg Roll"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Mix Veg Roll</div><div class="grid-desc">fresh mixed veg filling • 2 pcs</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹119</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=paneer-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/paneer-roll.jpg" alt="Paneer Roll"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Roll</div><div class="grid-desc">spiced paneer cubes • 2 pcs</div><div class="grid-price"><span class="grid-old">₹210</span><span class="grid-now">₹144</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=cheese-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/cheese-roll.jpg" alt="Cheese Roll"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Cheese Roll</div><div class="grid-desc">melted cheese filling • 2 pcs</div><div class="grid-price"><span class="grid-old">₹210</span><span class="grid-now">₹144</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+            <div class="menu-sub-header veg">● Mix Rolls (2 pcs each)</div>
+            <div class="menu-grid">
+                <a href="dish.html?item=aloo-noodles-mix-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/aloo-noodles-mix-roll.jpg" alt="Aloo Noodles Roll"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Aloo Noodles Roll</div><div class="grid-desc">aloo + noodles mix • 2 pcs</div><div class="grid-price"><span class="grid-old">₹180</span><span class="grid-now">₹119</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=soya-bean-noodles-mix-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/soya-bean-noodles-mix-roll.jpg" alt="Soya Noodles Roll"><span class="grid-badge">35% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Soya Noodles Roll</div><div class="grid-desc">soya + noodles mix • 2 pcs</div><div class="grid-price"><span class="grid-old">₹185</span><span class="grid-now">₹121</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=mix-veg-noodles-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/mix-veg-noodles-roll.jpg" alt="Veg Noodles Roll"><span class="grid-badge">34% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Veg Noodles Roll</div><div class="grid-desc">veg + noodles mix • 2 pcs</div><div class="grid-price"><span class="grid-old">₹190</span><span class="grid-now">₹125</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=noodles-manchurian-mix-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/noodles-manchurian-mix-roll.jpg" alt="Noodles Manchurian Roll"><span class="grid-badge">30% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Noodles Manchurian Roll</div><div class="grid-desc">noodles + manchurian • 2 pcs</div><div class="grid-price"><span class="grid-old">₹200</span><span class="grid-now">₹139</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+                <a href="dish.html?item=paneer-noodles-mix-roll" class="grid-card">
+                    <div class="grid-img-wrap"><img loading="eager" src="assets/rolls/paneer-noodles-mix-roll.jpg" alt="Paneer Noodles Roll"><span class="grid-badge">31% OFF</span></div>
+                    <div class="grid-info"><div class="grid-name">Paneer Noodles Roll</div><div class="grid-desc">paneer + noodles mix • 2 pcs</div><div class="grid-price"><span class="grid-old">₹210</span><span class="grid-now">₹144</span><div class="card-share-btn" onclick="event.preventDefault();event.stopPropagation();shareItem(this)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div></div></div>
+                </a>
+            </div>
+
+
+
+
+            <!-- Horizontally scrollable mini cards -->
+            <div class="scroll-cards" id="scrollCards">
+                <div class="mini-card"><span class="emoji">🏠</span> <strong data-i18n="home_cooked">Home Cooked</strong> <span data-i18n="fresh_daily">Fresh Daily</span></div>
+                <div class="mini-card"><span class="emoji">🧈</span> <strong data-i18n="pure_ghee">Pure Ghee</strong> <span data-i18n="desi_style">Desi Style</span></div>
+                <div class="mini-card"><span class="emoji">🔥</span> <strong data-i18n="wood_fire">Wood Fire</strong> <span data-i18n="baked">Baked</span></div>
+                <div class="mini-card"><span class="emoji">🍮</span> <strong data-i18n="free_churma">Free Churma</strong> <span data-i18n="included">Included</span></div>
+                <div class="mini-card"><span class="emoji">📞</span> <strong>+91 88052</strong> 11717</div>
+            </div>
+
+            <!-- Closed overlay -->
+            <div class="closed-overlay" id="closedOverlay">
+                <p data-i18n="closed_msg">🕐 We're closed right now</p>
+                <span data-i18n="open_hours">Open daily 10:00 AM – 10:00 PM</span>
+            </div>
+
+            <a href="order.html" class="order-btn" id="orderBtn" data-i18n="order_now_btn">Order Now — View Menu</a>
+
+            <!-- Customer Reviews -->
+            <div class="reviews-section">
+                <div class="reviews-title" data-i18n="customer_love">⭐ Customer Love</div>
+                <div class="review-cards">
+                    <div class="review-track">
+                        <!-- Review 1 -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">R</div><span class="rc-name">Rahul S.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Best dal bati in the city! Tastes just like homemade. The ghee is so pure 🧈</div>
+                        </div>
+                        <!-- Review 2 - Marathi -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">स</div><span class="rc-name">सुनील पा.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">खूपच भारी चव! दाल बाटी एकदम घरच्यासारखी. तूप पण एकदम शुद्ध 🧈 नक्की ट्राय करा!</div>
+                        </div>
+                        <!-- Review 3 -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">P</div><span class="rc-name">Priya M.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Delivered hot & fresh within 30 mins. Churma was amazing! Will order again 😋</div>
+                        </div>
+                        <!-- Review 4 - Marathi -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">अ</div><span class="rc-name">अमिता जो.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">शेझवान नूडल्स आणि मंचुरियन राईस एकदम झक्कास! चायनीज खायचं असेल तर इथेच ऑर्डर करा 🥡</div>
+                        </div>
+                        <!-- Review 5 -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">A</div><span class="rc-name">Amit K.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">₹80 for this quality is a steal! Ordering every weekend now. 10/10 recommend 🔥</div>
+                        </div>
+                        <!-- Review 6 - Marathi -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">म</div><span class="rc-name">मनीषा द.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">पनीर रोल आणि चीज रोल खूपच मस्त! 2 पीस मिळतात त्या किंमतीत — पैसा वसूल 🌯👌</div>
+                        </div>
+                        <!-- Review 7 -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">S</div><span class="rc-name">Sneha R.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">My family loved it! Authentic Rajasthani taste. The bati was perfectly crispy 👌</div>
+                        </div>
+                        <!-- Review 8 - Marathi -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">वि</div><span class="rc-name">विशाल रा.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">गरम गरम डिलिव्हरी मिळाली! झुणका भाकर एकदम अस्सल. आई हातचं जेवण आठवलं 🏠😍</div>
+                        </div>
+                        <!-- Review 9 - Marathi -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">प</div><span class="rc-name">प्रकाश शि.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">पनीर केंटकी आणि पनीर चिल्ली मस्तच! स्वस्त आणि मस्त. रोज ऑर्डर करायला लागलो 😋🔥</div>
+                        </div>
+                        <!-- Review 10 -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">D</div><span class="rc-name">Deepak T.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Tried the Paneer Kentucky — crispy outside, soft inside. Chinese menu is 🔥. Best in town!</div>
+                        </div>
+                        <!-- DUPLICATE SET for seamless loop -->
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">R</div><span class="rc-name">Rahul S.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Best dal bati in the city! Tastes just like homemade. The ghee is so pure 🧈</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">स</div><span class="rc-name">सुनील पा.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">खूपच भारी चव! दाल बाटी एकदम घरच्यासारखी. तूप पण एकदम शुद्ध 🧈 नक्की ट्राय करा!</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">P</div><span class="rc-name">Priya M.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Delivered hot & fresh within 30 mins. Churma was amazing! Will order again 😋</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">अ</div><span class="rc-name">अमिता जो.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">शेझवान नूडल्स आणि मंचुरियन राईस एकदम झक्कास! चायनीज खायचं असेल तर इथेच ऑर्डर करा 🥡</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">A</div><span class="rc-name">Amit K.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">₹80 for this quality is a steal! Ordering every weekend now. 10/10 recommend 🔥</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">म</div><span class="rc-name">मनीषा द.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">पनीर रोल आणि चीज रोल खूपच मस्त! 2 पीस मिळतात त्या किंमतीत — पैसा वसूल 🌯👌</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">S</div><span class="rc-name">Sneha R.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">My family loved it! Authentic Rajasthani taste. The bati was perfectly crispy 👌</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">वि</div><span class="rc-name">विशाल रा.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">गरम गरम डिलिव्हरी मिळाली! झुणका भाकर एकदम अस्सल. आई हातचं जेवण आठवलं 🏠😍</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">प</div><span class="rc-name">प्रकाश शि.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">पनीर केंटकी आणि पनीर चिल्ली मस्तच! स्वस्त आणि मस्त. रोज ऑर्डर करायला लागलो 😋🔥</div>
+                        </div>
+                        <div class="review-card">
+                            <div class="rc-top"><div class="rc-avatar">D</div><span class="rc-name">Deepak T.</span><span class="rc-stars">⭐⭐⭐⭐⭐</span></div>
+                            <div class="rc-text">Tried the Paneer Kentucky — crispy outside, soft inside. Chinese menu is 🔥. Best in town!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Download + Share Row -->
+            <div class="action-row">
+                <a href="sai-prasad.apk" class="action-btn" id="downloadBtn" download>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span data-i18n="download_app">Download App</span>
+                </a>
+                <button class="action-btn share-btn" id="shareBtn" onclick="shareApp()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    <span data-i18n="share">Share</span>
+                </button>
+            </div>
+
+
+
+            <p class="foot">© 2026 Aapla Swad • ⏰ 10 AM – 10 PM</p>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="bnav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span data-i18n="nav_home">Home</span>
+            </a>
+            <a href="order.html" class="bnav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span data-i18n="nav_order">Order</span>
+            </a>
+            <a href="track.html" class="bnav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span data-i18n="nav_track">Track</span>
+            </a>
+            <a href="profile.html" class="bnav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span data-i18n="nav_profile">Profile</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- WhatsApp Support FAB -->
+    <!-- Only shown in a browser; pointless inside the app itself -->
+    <div id="getAppBar" style="display:none;position:fixed;left:1rem;right:1rem;
+       bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:97;max-width:460px;margin:0 auto;
+       background:linear-gradient(135deg,#ea580c,#f59e0b);border-radius:14px;
+       padding:0.7rem 0.9rem;align-items:center;gap:0.7rem;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+        <a href="/sai-prasad.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:0.7rem;text-decoration:none;flex:1;min-width:0;">
+            <img loading="eager" src="logo.png" alt="" style="width:34px;height:34px;border-radius:9px;flex-shrink:0;">
+            <span style="flex:1;min-width:0;">
+                <span style="display:block;font-size:0.82rem;font-weight:800;color:#fff;" data-i18n="get_app">Get the Aapla Swad app</span>
+                <span style="display:block;font-size:0.66rem;color:rgba(255,255,255,0.85);" data-i18n="faster_ordering">Faster ordering &amp; live tracking</span>
+            </span>
+            <span class="dl-btn" style="background:rgba(255,255,255,0.22);padding:0.35rem 0.7rem;border-radius:999px;" data-i18n="install">Install</span>
+        </a>
+        <button onclick="dismissAppBar();" aria-label="Dismiss"
+            style="background:none;border:none;color:rgba(255,255,255,0.75);font-size:1.1rem;
+                   line-height:1;padding:0 0.2rem;cursor:pointer;">×</button>
+    </div>
+
+    <script>
+        // Android browsers only: iPhone has no build, and the app should not
+        // advertise itself to someone already inside it.
+        (function () {
+            var inApp = !!(window.Capacitor && window.Capacitor.isNativePlatform &&
+                window.Capacitor.isNativePlatform());
+            var isAndroid = /Android/i.test(navigator.userAgent);
+            var dismissed = localStorage.getItem('sp_app_bar_dismissed');
+
+            if (!inApp && isAndroid && !dismissed) {
+                var bar = document.getElementById('getAppBar');
+                if (bar) bar.style.display = 'flex';
+            }
+        })();
+
+        function dismissAppBar() {
+            localStorage.setItem('sp_app_bar_dismissed', '1');
+            var bar = document.getElementById('getAppBar');
+            if (bar) bar.style.display = 'none';
+        }
+    </script>
+
+    <a href="https://wa.me/918805211717?text=Hi%20Aapla%20Swad!%20I%20need%20help%20with%20my%20order" target="_blank" class="wa-fab" title="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <script>
+        // ========== OPERATING HOURS CHECK ==========
+        function checkOpenStatus() {
+            const now = new Date();
+            const hour = now.getHours();
+            const badge = document.getElementById('statusBadge');
+            const overlay = document.getElementById('closedOverlay');
+            const orderBtn = document.getElementById('orderBtn');
+            if (hour >= 10 && hour < 22) {
+                badge.textContent = t('open_status');
+                badge.className = 'nav-right open';
+                overlay.classList.remove('show');
+                orderBtn.classList.remove('disabled');
+            } else {
+                badge.textContent = t('closed_status');
+                badge.className = 'nav-right closed';
+                overlay.classList.add('show');
+                orderBtn.classList.add('disabled');
+            }
+        }
+        checkOpenStatus();
+        setInterval(checkOpenStatus, 60000);
+
+
+
+
+
+
+        // ========== SHARE APP ==========
+        function shareApp() {
+            const shareData = {
+                title: 'Aapla Swad — Dal Bati ₹80',
+                text: '🔥 Best Dal Bati Churma in town! Order now for just ₹80. Try it!',
+                url: 'https://aaplaswad.store'
+            };
+            if (navigator.share) {
+                navigator.share(shareData);
+            } else {
+                window.open('https://wa.me/?text=' + encodeURIComponent(shareData.text + ' ' + shareData.url), '_blank');
+            }
+        }
+
+        // ========== HIDE APK INSIDE NATIVE APP ==========
+        const inNativeApp = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+        if (inNativeApp) {
+            const dlBtn = document.getElementById('downloadBtn');
+            if (dlBtn) dlBtn.style.display = 'none';
+        }
+
+        // ========== HIDE APK ON iOS ==========
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS && !inNativeApp) {
+            const dlBtn = document.getElementById('downloadBtn');
+            dlBtn.removeAttribute('download');
+            dlBtn.href = '#';
+            dlBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg> Add to Home Screen';
+            dlBtn.onclick = function(e) {
+                e.preventDefault();
+                alert('Tap the Share button (↑) in Safari, then tap "Add to Home Screen"');
+            };
+        }
+
+        // ========== AUTO-SCROLL MINI CARDS ==========
+        try {
+            const el = document.getElementById('scrollCards');
+            if (el) {
+                let dir = 1, pos = 0;
+                setInterval(() => {
+                    pos += dir;
+                    el.scrollTo({ left: pos, behavior: 'smooth' });
+                    if (pos >= el.scrollWidth - el.clientWidth) dir = -1;
+                    if (pos <= 0) dir = 1;
+                }, 30);
+            }
+        } catch(e) { console.warn('scroll error', e); }
+
+        // ========== IMAGE SLIDESHOW ==========
+        try {
+            const imgs = document.querySelectorAll('.hero img');
+            if (imgs.length > 1) {
+                let cur = 0;
+                setInterval(() => {
+                    imgs[cur].classList.remove('active');
+                    cur = (cur + 1) % imgs.length;
+                    imgs[cur].classList.add('active');
+                }, 3000);
+            }
+        } catch(e) { console.warn('slideshow error', e); }
+
+        // ========== PWA INSTALL ==========
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (!localStorage.getItem('sp_install_dismissed')) {
+                document.getElementById('installBanner').classList.add('show');
+            }
+        });
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') document.getElementById('installBanner').classList.remove('show');
+            deferredPrompt = null;
+        });
+        document.getElementById('installClose').addEventListener('click', () => {
+            document.getElementById('installBanner').classList.remove('show');
+            localStorage.setItem('sp_install_dismissed', '1');
+        });
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            document.getElementById('installBanner').classList.remove('show');
+        }
+        if ('serviceWorker' in navigator) {
+            // Don't register SW inside native app — it causes stale cache
+            if (!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())) {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            }
+        }
+        // --- Share Item Function (called from inline onclick) ---
+        async function shareItem(btn) {
+            const card = btn.closest('.grid-card');
+            if (!card) return;
+            const urlParams = new URL(card.href).searchParams;
+            const item = urlParams.get('item');
+            const name = card.querySelector('.grid-name').innerText;
+            const price = card.querySelector('.grid-now').innerText;
+            const url = window.location.origin + '/dish.html?item=' + item;
+            
+            const title = 'Try ' + name + ' at Aapla Swad!';
+            const text = 'I found this amazing ' + name + ' for just ' + price + '. Order now from Aapla Swad!';
+            
+            if (navigator.share) {
+                try { await navigator.share({ title, text, url }); } catch(err) {}
+            } else {
+                navigator.clipboard.writeText(title + ' - ' + url);
+                const oldHtml = btn.innerHTML;
+                btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                setTimeout(function() { btn.innerHTML = oldHtml; }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

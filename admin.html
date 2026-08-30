@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Admin — Aapla Swad</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root { --orange:#ea580c; --gold:#f59e0b; --dark:#111111; --card:#1a1a1a; --card2:#222; --border:rgba(255,255,255,0.06); --green:#22c55e; --red:#ef4444; --blue:#3b82f6; --purple:#8b5cf6; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Manrope',sans-serif; background:var(--dark); color:#fafafa; min-height:100dvh; }
+        .app { max-width:480px; margin:0 auto; padding-bottom:70px; }
+
+        /* Login */
+        .login-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100dvh; padding:2rem; }
+        .login-screen img { width:64px; height:64px; border-radius:50%; margin-bottom:1rem; }
+        .login-screen h2 { font-size:1.2rem; color:var(--gold); margin-bottom:0.25rem; }
+        .login-screen p { font-size:0.75rem; color:#666; margin-bottom:1.5rem; }
+        .login-field { width:100%; max-width:280px; margin-bottom:0.75rem; }
+        .login-field label { display:block; font-size:0.72rem; color:#999; margin-bottom:0.3rem; font-weight:500; }
+        .login-field input { width:100%; padding:0.7rem; background:var(--card); border:1px solid var(--border); border-radius:10px; color:#fafafa; font-size:0.9rem; font-family:inherit; }
+        .login-field input:focus { outline:none; border-color:var(--orange); }
+        .login-btn { width:100%; max-width:280px; padding:0.8rem; background:linear-gradient(135deg,var(--orange),var(--gold)); color:white; border:none; border-radius:12px; font-size:0.95rem; font-weight:700; cursor:pointer; font-family:inherit; margin-top:0.5rem; }
+
+        /* Topbar */
+        .topbar { position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:0.7rem 1rem; background:rgba(12,12,12,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); }
+        .topbar h1 { font-size:1rem; font-weight:800; }
+        .topbar h1 span { color:var(--gold); }
+        .topbar-time { font-size:0.62rem; color:#666; }
+
+        /* Dashboard Cards */
+        .dash-cards { display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; padding:0.75rem; }
+        .dash-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; }
+        .dc-icon { font-size:1.2rem; margin-bottom:0.3rem; }
+        .dc-val { font-size:1.5rem; font-weight:800; margin-bottom:0.1rem; }
+        .dc-label { font-size:0.62rem; color:#888; text-transform:uppercase; letter-spacing:0.5px; }
+        .dc-val.green { color:var(--green); }
+        .dc-val.gold { color:var(--gold); }
+        .dc-val.blue { color:var(--blue); }
+        .dc-val.orange { color:var(--orange); }
+
+        .section { padding:0 0.75rem; margin-bottom:1rem; }
+        .section-title { font-size:0.82rem; font-weight:700; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+        .chart-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; }
+        .chart-card canvas { max-height:180px; }
+
+        /* Tabs */
+        .tabs { display:flex; gap:0.3rem; padding:0 0.75rem; margin-bottom:0.5rem; overflow-x:auto; }
+        .tab { padding:0.4rem 0.75rem; border-radius:20px; font-size:0.68rem; font-weight:600; cursor:pointer; border:1px solid var(--border); background:transparent; color:#888; white-space:nowrap; font-family:inherit; }
+        .tab.active { background:var(--orange); color:white; border-color:var(--orange); }
+
+        /* Order list */
+        .admin-orders { padding:0 0.75rem; }
+        .ao-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.7rem; margin-bottom:0.4rem; cursor:pointer; transition:border-color 0.15s; }
+        .ao-card:active { border-color:var(--orange); }
+        .ao-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem; }
+        .ao-id { font-size:0.72rem; font-weight:700; color:var(--gold); }
+        .ao-status { font-size:0.58rem; font-weight:600; padding:0.12rem 0.45rem; border-radius:6px; }
+        .ao-status.pending { background:rgba(245,158,11,0.15); color:var(--gold); }
+        .ao-status.accepted { background:rgba(59,130,246,0.15); color:var(--blue); }
+        .ao-status.picked_up { background:rgba(139,92,246,0.15); color:var(--purple); }
+        .ao-status.delivered { background:rgba(34,197,94,0.15); color:var(--green); }
+        .ao-row { display:flex; justify-content:space-between; align-items:center; }
+        .ao-name { font-size:0.78rem; font-weight:600; }
+        .ao-amount { font-size:0.82rem; font-weight:700; color:var(--green); }
+        .ao-sub { font-size:0.65rem; color:#666; margin-top:0.15rem; }
+
+        /* Modal */
+        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:100; display:none; align-items:flex-end; justify-content:center; }
+        .modal-overlay.show { display:flex; }
+        .modal { background:var(--dark); border-top:1px solid var(--border); border-radius:20px 20px 0 0; width:100%; max-width:480px; max-height:85dvh; overflow-y:auto; padding:1.25rem; animation:slideUp 0.3s; }
+        @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+        .modal-handle { width:40px; height:4px; background:#444; border-radius:2px; margin:0 auto 1rem; }
+        .modal h3 { font-size:1rem; font-weight:700; color:var(--gold); margin-bottom:1rem; }
+        .md-row { display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid var(--border); font-size:0.78rem; }
+        .md-row .label { color:#888; }
+        .md-row .value { font-weight:600; text-align:right; max-width:60%; }
+        .md-actions { display:flex; gap:0.4rem; margin-top:1rem; }
+        .md-btn { flex:1; padding:0.6rem; border:none; border-radius:10px; font-size:0.75rem; font-weight:600; cursor:pointer; font-family:inherit; }
+        .md-btn.accept { background:var(--green); color:white; }
+        .md-btn.cancel { background:var(--red); color:white; }
+        .md-btn.close { background:rgba(255,255,255,0.08); color:#fafafa; }
+
+        /* Search */
+        .search-bar { padding:0.5rem 0.75rem; }
+        .search-bar input { width:100%; padding:0.6rem 0.75rem; background:var(--card); border:1px solid var(--border); border-radius:10px; color:#fafafa; font-size:0.78rem; font-family:inherit; }
+        .search-bar input:focus { outline:none; border-color:var(--orange); }
+        .search-bar input::placeholder { color:#555; }
+        .empty-state { text-align:center; padding:2rem; color:#444; font-size:0.78rem; }
+
+        /* Bottom nav */
+        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:rgba(12,12,12,0.95); backdrop-filter:blur(10px); border-top:1px solid var(--border); display:flex; z-index:50; }
+        .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; padding:0.5rem; cursor:pointer; color:#555; font-size:0.58rem; font-weight:500; gap:0.15rem; transition:color 0.15s; }
+        .nav-item.active { color:var(--orange); }
+        .nav-icon { font-size:1.1rem; }
+
+        .view { display:none; }
+        .view.active { display:block; }
+    </style>
+    <script src="order-alert.js"></script>
+</head>
+<body>
+    <!-- LOGIN -->
+    <div class="login-screen" id="loginScreen">
+        <img src="logo.png" alt="Aapla Swad">
+        <h2>Admin Panel</h2>
+        <p>Restaurant Management</p>
+        <div class="login-field">
+            <label>Admin PIN</label>
+            <input type="password" id="admin-pin" placeholder="4-digit PIN" maxlength="4">
+        </div>
+        <button class="login-btn" onclick="adminLogin()">Login</button>
+        <p style="margin-top:1rem;font-size:0.6rem;color:#444;">Demo PIN: 1234</p>
+    </div>
+
+    <!-- MAIN -->
+    <div class="app" id="mainApp" style="display:none;">
+        <div class="topbar">
+            <h1>⚙️ <span>Admin</span></h1>
+            <span class="topbar-time" id="liveTime"></span>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="view active" id="view-dashboard">
+            <div class="dash-cards">
+                <div class="dash-card"><div class="dc-icon">📦</div><div class="dc-val gold" id="d-total-orders">0</div><div class="dc-label">Today's Orders</div></div>
+                <div class="dash-card"><div class="dc-icon">💰</div><div class="dc-val green" id="d-revenue">₹0</div><div class="dc-label">Today's Revenue</div></div>
+                <div class="dash-card"><div class="dc-icon">⏳</div><div class="dc-val orange" id="d-pending">0</div><div class="dc-label">Pending</div></div>
+                <div class="dash-card"><div class="dc-icon">✅</div><div class="dc-val blue" id="d-delivered">0</div><div class="dc-label">Delivered</div></div>
+            </div>
+            <div class="section"><div class="section-title">📊 Revenue (Last 7 Days)</div><div class="chart-card"><canvas id="revenueChart"></canvas></div></div>
+            <div class="section"><div class="section-title">📈 Orders by Hour</div><div class="chart-card"><canvas id="hourChart"></canvas></div></div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="view" id="view-orders">
+            <div class="search-bar"><input type="text" id="searchInput" placeholder="Search by order ID, name, or phone..." oninput="renderOrders()"></div>
+            <div class="tabs">
+                <button class="tab active" onclick="setFilter('all',this)">All</button>
+                <button class="tab" onclick="setFilter('pending',this)">Pending</button>
+                <button class="tab" onclick="setFilter('accepted',this)">Accepted</button>
+                <button class="tab" onclick="setFilter('picked_up',this)">Picked Up</button>
+                <button class="tab" onclick="setFilter('delivered',this)">Delivered</button>
+            </div>
+            <div class="admin-orders" id="adminOrders"></div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div class="view" id="view-analytics">
+            <div class="dash-cards">
+                <div class="dash-card"><div class="dc-icon">👥</div><div class="dc-val blue" id="a-total-customers">0</div><div class="dc-label">Total Customers</div></div>
+                <div class="dash-card"><div class="dc-icon">📦</div><div class="dc-val gold" id="a-total-orders">0</div><div class="dc-label">All-Time Orders</div></div>
+                <div class="dash-card"><div class="dc-icon">💰</div><div class="dc-val green" id="a-total-revenue">₹0</div><div class="dc-label">All-Time Revenue</div></div>
+                <div class="dash-card"><div class="dc-icon">🧾</div><div class="dc-val orange" id="a-avg-order">₹0</div><div class="dc-label">Avg Order Value</div></div>
+            </div>
+            <div class="section"><div class="section-title">💳 Payment Methods</div><div class="chart-card"><canvas id="paymentChart"></canvas></div></div>
+            <div class="section"><div class="section-title">🏆 Top Repeat Customers</div><div id="topCustomers"></div></div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchView('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</div>
+            <div class="nav-item" onclick="switchView('orders',this)"><span class="nav-icon">📦</span>Orders</div>
+            <div class="nav-item" onclick="switchView('analytics',this)"><span class="nav-icon">📈</span>Analytics</div>
+        </div>
+    </div>
+
+    <!-- ORDER DETAIL MODAL -->
+    <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+        <div class="modal">
+            <div class="modal-handle"></div>
+            <h3 id="m-order-id"></h3>
+            <div id="m-details"></div>
+            <div class="md-actions" id="m-actions"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
+        let currentFilter = 'all';
+        let revenueChart, hourChart, paymentChart;
+        let allOrders = [];
+
+        function adminLogin() {
+            if (document.getElementById('admin-pin').value.trim() === '1234') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                initDashboard();
+            } else { alert('Invalid PIN. Demo PIN: 1234'); }
+        }
+
+        function switchView(view, el) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+            if (view === 'orders') renderOrders();
+            if (view === 'analytics') renderAnalytics();
+        }
+
+        function setFilter(filter, el) {
+            currentFilter = filter;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            renderOrders();
+        }
+
+        // === FETCH FROM AWS ===
+        async function fetchAllOrders() {
+            try {
+                const res = await fetch(API_URL + '/orders');
+                const data = await res.json();
+                if (data.success) {
+                    allOrders = data.orders;
+                    renderDashboard();
+                    renderOrders();
+                    // Check for new pending orders and alert kitchen
+                    var pending = allOrders.filter(o => o.status === 'pending');
+                    if (window.OrderAlert) window.OrderAlert.checkNewOrders(pending);
+                }
+            } catch (err) { console.error('Fetch error:', err); }
+        }
+
+        function initDashboard() {
+            updateClock();
+            setInterval(updateClock, 1000);
+            fetchAllOrders();
+        }
+
+        function updateClock() {
+            document.getElementById('liveTime').textContent = new Date().toLocaleString('en-IN', { hour:'2-digit', minute:'2-digit', second:'2-digit', day:'2-digit', month:'short' });
+        }
+
+        function renderDashboard() {
+            const today = new Date().toDateString();
+            const todayOrders = allOrders.filter(o => new Date(o.createdAt).toDateString() === today);
+
+            document.getElementById('d-total-orders').textContent = todayOrders.length;
+            document.getElementById('d-revenue').textContent = '₹' + todayOrders.reduce((s,o) => s + (o.total||0), 0);
+            document.getElementById('d-pending').textContent = todayOrders.filter(o => o.status === 'pending').length;
+            document.getElementById('d-delivered').textContent = todayOrders.filter(o => o.status === 'delivered').length;
+
+            renderRevenueChart(allOrders);
+            renderHourChart(todayOrders);
+        }
+
+        function renderRevenueChart(orders) {
+            const labels = [], data = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(); d.setDate(d.getDate() - i);
+                labels.push(d.toLocaleDateString('en-IN', { day:'2-digit', month:'short' }));
+                data.push(orders.filter(o => new Date(o.createdAt).toDateString() === d.toDateString()).reduce((s,o) => s + (o.total||0), 0));
+            }
+            if (revenueChart) revenueChart.destroy();
+            revenueChart = new Chart(document.getElementById('revenueChart'), {
+                type:'bar', data:{ labels, datasets:[{ label:'Revenue', data, backgroundColor:'rgba(232,89,12,0.6)', borderRadius:6 }] },
+                options:{ responsive:true, plugins:{ legend:{display:false} }, scales:{ y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.05)'}}, x:{ticks:{color:'#666'},grid:{display:false}} } }
+            });
+        }
+
+        function renderHourChart(todayOrders) {
+            const hourData = new Array(24).fill(0);
+            todayOrders.forEach(o => { hourData[new Date(o.createdAt).getHours()]++; });
+            if (hourChart) hourChart.destroy();
+            hourChart = new Chart(document.getElementById('hourChart'), {
+                type:'line', data:{ labels:Array.from({length:24},(_,i)=>i+':00'), datasets:[{ label:'Orders', data:hourData, borderColor:'var(--gold)', backgroundColor:'rgba(245,158,11,0.1)', fill:true, tension:0.4 }] },
+                options:{ responsive:true, plugins:{ legend:{display:false} }, scales:{ y:{ticks:{color:'#666'},grid:{color:'rgba(255,255,255,0.05)'}}, x:{ticks:{color:'#666',maxTicksLimit:8},grid:{display:false}} } }
+            });
+        }
+
+        function renderOrders() {
+            const search = (document.getElementById('searchInput')?.value || '').toLowerCase();
+            let filtered = allOrders;
+            if (currentFilter !== 'all') filtered = filtered.filter(o => o.status === currentFilter);
+            if (search) filtered = filtered.filter(o => (o.orderId||'').toLowerCase().includes(search) || (o.customerName||'').toLowerCase().includes(search) || (o.phone||'').includes(search));
+
+            const container = document.getElementById('adminOrders');
+            if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">No orders found</div>'; return; }
+            container.innerHTML = filtered.map(o => {
+                const time = new Date(o.createdAt).toLocaleString('en-IN', { hour:'2-digit', minute:'2-digit', day:'2-digit', month:'short' });
+                return `<div class="ao-card" onclick="openOrderDetail('${o.orderId}')">
+                    <div class="ao-top"><span class="ao-id">${o.orderId}</span><span class="ao-status ${o.status}">${(o.status||'').replace('_',' ')}</span></div>
+                    <div class="ao-row"><span class="ao-name">${o.customerName}</span><span class="ao-amount">₹${o.total}</span></div>
+                    <div class="ao-sub">${time} • x${o.qty} • ${o.paymentMethod === 'cod' ? 'COD' : 'Paid Online'}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function openOrderDetail(orderId) {
+            const o = allOrders.find(x => x.orderId === orderId);
+            if (!o) return;
+            document.getElementById('m-order-id').textContent = o.orderId;
+            document.getElementById('m-details').innerHTML = `
+                <div class="md-row"><span class="label">Customer</span><span class="value">${o.customerName}</span></div>
+                <div class="md-row"><span class="label">Phone</span><span class="value"><a href="tel:${o.phone}" style="color:var(--green);text-decoration:none;">📞 ${o.phone}</a></span></div>
+                <div class="md-row"><span class="label">Address</span><span class="value">${o.address}</span></div>
+                ${o.landmark ? `<div class="md-row"><span class="label">Landmark</span><span class="value" style="color:var(--gold);">📌 ${o.landmark}</span></div>` : ''}
+                <div class="md-row"><span class="label">Pincode</span><span class="value">${o.pincode || '-'}</span></div>
+                <div class="md-row"><span class="label">Quantity</span><span class="value">x${o.qty} Dal Bati</span></div>
+                ${o.extras?.length ? `<div class="md-row"><span class="label">Extras</span><span class="value">${o.extras.join(', ')}</span></div>` : ''}
+                <div class="md-row"><span class="label">Total</span><span class="value" style="color:var(--green);font-size:1rem;">₹${o.total}</span></div>
+                <div class="md-row"><span class="label">Payment</span><span class="value">${o.paymentMethod === 'cod' ? '💵 COD' : '📱 Paid Online'}</span></div>
+                ${o.paymentId ? `<div class="md-row"><span class="label">Payment ID</span><span class="value" style="font-size:0.6rem;">${o.paymentId}</span></div>` : ''}
+                <div class="md-row"><span class="label">Status</span><span class="value"><span class="ao-status ${o.status}">${(o.status||'').replace('_',' ')}</span></span></div>
+                <div class="md-row"><span class="label">Ordered At</span><span class="value">${new Date(o.createdAt).toLocaleString('en-IN')}</span></div>`;
+
+            let actions = '<button class="md-btn close" onclick="closeModal()">Close</button>';
+            if (o.status === 'pending') {
+                actions = `<button class="md-btn accept" onclick="adminUpdateStatus('${o.orderId}','accepted')">✅ Accept</button>
+                           <button class="md-btn cancel" onclick="adminUpdateStatus('${o.orderId}','cancelled')">❌ Cancel</button>` + actions;
+            }
+            document.getElementById('m-actions').innerHTML = actions;
+            document.getElementById('modal').classList.add('show');
+        }
+
+        function closeModal() { document.getElementById('modal').classList.remove('show'); }
+
+        async function adminUpdateStatus(orderId, status) {
+            try {
+                await fetch(API_URL + '/orders/' + encodeURIComponent(orderId), {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                closeModal();
+                fetchAllOrders();
+            } catch (err) { alert('Update failed: ' + err.message); }
+        }
+
+        function renderAnalytics() {
+            const orders = allOrders;
+            const phones = [...new Set(orders.map(o => o.phone))];
+            const totalRev = orders.reduce((s,o) => s + (o.total||0), 0);
+            document.getElementById('a-total-customers').textContent = phones.length;
+            document.getElementById('a-total-orders').textContent = orders.length;
+            document.getElementById('a-total-revenue').textContent = '₹' + totalRev;
+            document.getElementById('a-avg-order').textContent = orders.length ? '₹' + Math.round(totalRev / orders.length) : '₹0';
+
+            const online = orders.filter(o => o.paymentMethod !== 'cod').length;
+            const cod = orders.filter(o => o.paymentMethod === 'cod').length;
+            if (paymentChart) paymentChart.destroy();
+            paymentChart = new Chart(document.getElementById('paymentChart'), {
+                type:'doughnut', data:{ labels:['Online','COD'], datasets:[{ data:[online,cod], backgroundColor:['#3b82f6','#f59e0b'] }] },
+                options:{ responsive:true, plugins:{ legend:{ labels:{color:'#888'} } } }
+            });
+
+            const customerMap = {};
+            orders.forEach(o => {
+                if (!customerMap[o.phone]) customerMap[o.phone] = { name:o.customerName, phone:o.phone, count:0, total:0 };
+                customerMap[o.phone].count++; customerMap[o.phone].total += (o.total||0);
+            });
+            const topCust = Object.values(customerMap).sort((a,b) => b.count - a.count).slice(0,5);
+            document.getElementById('topCustomers').innerHTML = topCust.length ? topCust.map((c,i) => `
+                <div class="ao-card"><div class="ao-row"><span class="ao-name">${i+1}. ${c.name}</span><span class="ao-amount">₹${c.total}</span></div><div class="ao-sub">${c.phone} • ${c.count} orders</div></div>
+            `).join('') : '<div class="empty-state">No customers yet</div>';
+        }
+
+        // Auto-refresh from AWS every 15s
+        setInterval(() => {
+            if (document.getElementById('mainApp').style.display !== 'none') fetchAllOrders();
+        }, 15000);
+    </script>
+</body>
+</html>

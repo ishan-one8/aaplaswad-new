@@ -1,0 +1,27 @@
+{
+  "name": "sai_prasad",
+  "version": "1.0.0",
+  "description": "",
+  "main": "order.js",
+  "scripts": {
+    "test": "node backend/test/auth.test.js && node backend/test/handler.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1111.0",
+    "@aws-sdk/lib-dynamodb": "^3.1111.0",
+    "@capacitor/android": "^8.5.0",
+    "@capacitor/browser": "^8.0.4",
+    "@capacitor/cli": "^8.5.0",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/local-notifications": "^8.2.1",
+    "@capacitor/push-notifications": "^8.1.2",
+    "@capgo/capacitor-social-login": "^8.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "typescript": "^7.0.2"
+  }
+}

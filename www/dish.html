@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0e0e0e">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Aapla Swad — Dish Details</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
+    <meta name="theme-color" content="#ea580c">
+    <meta name="description" content="View dish details and order from Aapla Swad — authentic Dal Bati, Zunka Bhakar, Chinese & Rolls delivered hot.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aaplaswad.store/dish.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Aapla Swad">
+    <meta property="og:title" content="Aapla Swad — Dish Details">
+    <meta property="og:description" content="View dish details and order from Aapla Swad. Authentic home-style cooking delivered hot.">
+    <meta property="og:url" content="https://aaplaswad.store/dish.html">
+    <meta property="og:image" content="https://aaplaswad.store/hero.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aapla Swad — Dish Details">
+    <meta name="twitter:description" content="View dish details and order from Aapla Swad. Authentic home-style cooking delivered hot.">
+    <meta name="twitter:image" content="https://aaplaswad.store/hero.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --orange:#ea580c; --gold:#f59e0b; --bg:#0e0e0e; --card:#161616; --border:rgba(255,255,255,0.06); }
+
+        /* Closed Overlay */
+        .closed-overlay { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
+        .closed-overlay.show { display:flex; }
+        .closed-icon { font-size:4rem; margin-bottom:1rem; animation:pulse-clock 2s ease-in-out infinite; }
+        @keyframes pulse-clock { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .closed-title { font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:800; color:#fafafa; margin-bottom:0.5rem; }
+        .closed-subtitle { font-size:0.85rem; color:#9ca3af; margin-bottom:0.3rem; line-height:1.5; }
+        .closed-time { font-size:1.1rem; font-weight:700; color:var(--gold); margin:0.8rem 0; background:rgba(245,158,11,0.1); padding:0.6rem 1.5rem; border-radius:12px; border:1px solid rgba(245,158,11,0.2); }
+        .closed-tomorrow { font-size:0.8rem; color:#6b7280; margin-bottom:1.5rem; }
+        .closed-dismiss { background:linear-gradient(135deg,var(--orange),#c2410c); color:#fff; border:none; font-size:0.85rem; font-weight:700; padding:0.75rem 2.5rem; border-radius:14px; cursor:pointer; font-family:'Manrope',sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:var(--bg); color:#fafafa; font-family:'Manrope','Outfit',sans-serif; min-height:100dvh; }
+        .app { max-width:480px; margin:0 auto; padding-bottom:80px; }
+
+        /* Back nav */
+        .dish-nav { position:sticky; top:0; z-index:100; background:rgba(14,14,14,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
+        .dish-nav-inner { max-width:480px; margin:0 auto; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.6rem; }
+        .back-btn { background:none; border:none; color:#fafafa; font-size:1.2rem; cursor:pointer; padding:0.2rem; display:flex; align-items:center; }
+        .nav-title { font-size:0.82rem; font-weight:700; color:#fafafa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+        /* Hero image */
+        .dish-hero { width:100%; height:auto; max-height:320px; object-fit:contain; background:#0e0e0e; }
+
+        /* Content */
+        .dish-content { padding:0.8rem 1rem; }
+
+        /* Tags */
+        .dish-tags { display:flex; gap:0.35rem; align-items:center; margin-bottom:0.4rem; flex-wrap:wrap; }
+        .tag-veg { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
+        .tag-nonveg { font-size:0.58rem; color:#ef4444; background:rgba(239,68,68,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
+        .tag-new { font-size:0.52rem; color:var(--orange); background:rgba(234,88,12,0.1); padding:0.1rem 0.35rem; border-radius:4px; font-weight:700; }
+        .tag-rating { font-size:0.58rem; color:var(--gold); }
+
+        /* Name & Price */
+        .dish-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; margin-bottom:0.2rem; }
+        .dish-title { font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:0.15rem; }
+        .share-btn { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#e5e5e5; cursor:pointer; flex-shrink:0; transition:all 0.2s; }
+        .share-btn:active { background:rgba(255,255,255,0.1); transform:scale(0.95); }
+        .dish-subtitle { font-size:0.68rem; color:#888; margin-bottom:0.5rem; }
+        .price-block { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
+        .p-old { font-size:0.72rem; color:#666; text-decoration:line-through; }
+        .p-now { font-size:1.3rem; font-weight:800; color:var(--gold); }
+        .p-off { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:700; }
+
+        /* Section headers */
+        .section-title { font-size:0.72rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.5rem; }
+
+        /* Includes */
+        .includes-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.7rem; margin-bottom:0.8rem; }
+        .include-item { display:flex; align-items:center; gap:0.5rem; padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .include-item:last-child { border-bottom:none; }
+        .include-emoji { font-size:1.1rem; width:28px; text-align:center; flex-shrink:0; }
+        .include-text { font-size:0.75rem; font-weight:600; color:#e5e5e5; }
+        .include-sub { font-size:0.58rem; color:#888; margin-top:0.05rem; }
+
+        /* Hotel Name Badge */
+        .hotel-badge { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 0.65rem; background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:0.6rem; }
+        .hotel-badge-icon { width:32px; height:32px; border-radius:8px; object-fit:cover; }
+        .hotel-badge-name { font-size:0.78rem; font-weight:700; color:#fafafa; }
+        .hotel-badge-sub { font-size:0.52rem; color:#888; }
+        .hotel-badge-type { font-size:0.5rem; font-weight:700; padding:0.1rem 0.35rem; border-radius:4px; margin-left:auto; }
+        .hotel-badge-type.veg { color:#22c55e; background:rgba(34,197,94,0.1); }
+        .hotel-badge-type.nonveg { color:#ef4444; background:rgba(239,68,68,0.1); }
+
+        /* Review Carousel */
+        .review-carousel-wrap { position:relative; margin-bottom:0.8rem; overflow:hidden; }
+        .review-carousel { display:flex; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+        .review-slide { min-width:100%; padding:0 2px; box-sizing:border-box; }
+        .review-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; }
+        .review-header { display:flex; align-items:center; gap:0.4rem; margin-bottom:0.3rem; }
+        .review-avatar { width:32px; height:32px; border-radius:50%; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:var(--gold); flex-shrink:0; }
+        .review-name { font-size:0.72rem; font-weight:700; color:#e5e5e5; }
+        .review-date { font-size:0.52rem; color:#666; margin-left:auto; }
+        .review-stars { font-size:0.7rem; color:var(--gold); margin-bottom:0.2rem; }
+        .review-text { font-size:0.7rem; color:#bbb; line-height:1.5; }
+        .review-dots { display:flex; justify-content:center; gap:6px; margin-top:0.5rem; }
+        .review-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.12); transition:all 0.3s; cursor:pointer; }
+        .review-dot.active { background:var(--gold); width:18px; border-radius:4px; }
+
+        /* Order button (fixed) */
+        .order-bar { position:fixed; bottom:0; left:0; right:0; background:rgba(14,14,14,0.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--border); padding:0.6rem 1rem; z-index:100; }
+        .order-bar-inner { max-width:480px; margin:0 auto; display:flex; align-items:center; gap:0.6rem; }
+        .ob-price { flex:1; }
+        .ob-price-now { font-size:1rem; font-weight:800; color:var(--gold); }
+        .ob-price-old { font-size:0.6rem; color:#666; text-decoration:line-through; margin-left:0.3rem; }
+        .ob-btn { padding:0.7rem 1.5rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; transition:transform 0.15s; display:flex; align-items:center; gap:0.3rem; }
+        .ob-btn:active { transform:scale(0.97); }
+
+        /* Divider */
+        .divider { height:6px; background:rgba(255,255,255,0.02); margin:0 -1rem 0.8rem; }
+
+        /* Bottom Sheet Overlay */
+        .bs-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+        .bs-overlay.show { opacity:1; pointer-events:auto; }
+        .bs-sheet { position:fixed; bottom:0; left:0; right:0; z-index:201; background:#1a1a1a; border-radius:20px 20px 0 0; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); max-height:85vh; overflow-y:auto; }
+        .bs-sheet.show { transform:translateY(0); }
+        .bs-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0.6rem auto 0; }
+        .bs-inner { padding:0.8rem 1rem 1.2rem; max-width:480px; margin:0 auto; }
+
+        /* Added confirmation */
+        .added-confirm { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 0.7rem; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.15); border-radius:12px; margin-bottom:0.7rem; }
+        .added-check { width:36px; height:36px; border-radius:50%; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+        .added-info { flex:1; }
+        .added-name { font-size:0.78rem; font-weight:700; color:#22c55e; }
+        .added-sub { font-size:0.58rem; color:#888; }
+
+        /* Suggestions */
+        .sug-title { font-size:0.68rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem; }
+        .sug-scroll { display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.3rem; scrollbar-width:none; margin-bottom:0.7rem; }
+        .sug-scroll::-webkit-scrollbar { display:none; }
+        .sug-card { min-width:140px; max-width:160px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden; flex-shrink:0; cursor:pointer; transition:border-color 0.2s; }
+        .sug-card:active { border-color:rgba(234,88,12,0.3); }
+        .sug-card.in-cart { border-color:rgba(34,197,94,0.3); }
+        .sug-img { width:100%; height:85px; object-fit:cover; }
+        .sug-body { padding:0.4rem 0.5rem 0.5rem; }
+        .sug-name { font-size:0.68rem; font-weight:700; color:#fafafa; margin-bottom:0.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .sug-desc { font-size:0.5rem; color:#888; margin-bottom:0.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .sug-price-row { display:flex; align-items:center; gap:0.25rem; margin-bottom:0.3rem; }
+        .sug-price { font-size:0.72rem; font-weight:800; color:var(--gold); }
+        .sug-old { font-size:0.5rem; color:#666; text-decoration:line-through; }
+        .sug-add-btn { width:100%; padding:0.3rem; background:rgba(234,88,12,0.1); border:1.5px solid rgba(234,88,12,0.25); color:#ea580c; border-radius:6px; font-size:0.62rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.15s; }
+        .sug-add-btn:active { transform:scale(0.95); background:rgba(234,88,12,0.2); }
+        .sug-add-btn.added { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.25); color:#22c55e; }
+
+        /* Cart summary in sheet */
+        .bs-cart-summary { display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.65rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; margin-bottom:0.6rem; }
+        .bs-cart-count { font-size:0.72rem; font-weight:700; color:#fafafa; }
+        .bs-cart-total { font-size:0.82rem; font-weight:800; color:var(--gold); margin-left:auto; }
+        .bs-go-cart { width:100%; padding:0.75rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:0.4rem; transition:transform 0.15s; }
+        .bs-go-cart:active { transform:scale(0.97); }
+    </style>
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- Nav -->
+        <nav class="dish-nav">
+            <div class="dish-nav-inner">
+                <button class="back-btn" onclick="history.back()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <span class="nav-title" id="navTitle">Loading...</span>
+                <img src="logo.png" alt="Aapla Swad" style="width:28px;height:28px;border-radius:6px;">
+            </div>
+        </nav>
+
+        <!-- Hero Image -->
+        <img src="" alt="" class="dish-hero" id="dishHero">
+
+        <div class="dish-content">
+            <!-- Hotel Badge -->
+            <div class="hotel-badge" id="hotelBadge"></div>
+
+            <!-- Tags -->
+            <div class="dish-tags" id="dishTags"></div>
+
+            <!-- Title & Share -->
+            <div class="dish-title-row">
+                <h1 class="dish-title" id="dishTitle">Loading...</h1>
+                <button class="share-btn" onclick="shareDish()" title="Share">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                </button>
+            </div>
+            <p class="dish-subtitle" id="dishSubtitle"></p>
+
+            <!-- Price -->
+            <div class="price-block">
+                <span class="p-old" id="pOld"></span>
+                <span class="p-now" id="pNow"></span>
+                <span class="p-off" id="pOff"></span>
+            </div>
+
+            <!-- What's Included -->
+            <div class="section-title">🍽️ What's Included</div>
+            <div class="includes-card" id="includesCard"></div>
+
+            <div class="divider"></div>
+
+            <!-- Customer Reviews (Rotating Carousel) -->
+            <div class="section-title">⭐ Customer Reviews</div>
+            <div class="review-carousel-wrap">
+                <div class="review-carousel" id="reviewCarousel"></div>
+                <div class="review-dots" id="reviewDots"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Order Button -->
+    <div class="order-bar" id="orderBar">
+        <div class="order-bar-inner">
+            <div class="ob-price">
+                <span class="ob-price-now" id="obPrice"></span>
+                <span class="ob-price-old" id="obOldPrice"></span>
+            </div>
+            <button class="ob-btn" id="obBtn" onclick="addToCartAndSuggest()">
+                Add to Cart
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Sheet: Cart + Suggestions -->
+    <div class="bs-overlay" id="bsOverlay" onclick="closeSuggestions()"></div>
+    <div class="bs-sheet" id="bsSheet">
+        <div class="bs-handle"></div>
+        <div class="bs-inner">
+            <div class="added-confirm" id="addedConfirm"></div>
+            <div class="sug-title">🍛 Also try these — Add more?</div>
+            <div class="sug-scroll" id="sugScroll"></div>
+            <div class="bs-cart-summary" id="bsCartSummary"></div>
+            <button class="bs-go-cart" onclick="goToCart()">
+                🛒 Go to Cart & Order
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Closed Overlay -->
+    <div class="closed-overlay" id="closedOverlay">
+        <div class="closed-icon">🕐</div>
+        <div class="closed-title">We're Closed Right Now</div>
+        <div class="closed-subtitle" id="closedMessage">We are closed right now. Please check back during opening hours.</div>
+        <div class="closed-time" id="closedTime">🕐 Orders open at 10:00</div>
+        <div class="closed-tomorrow">Please order tomorrow! 🙏</div>
+        <button class="closed-dismiss" onclick="document.getElementById('closedOverlay').classList.remove('show')">OK, Got it</button>
+    </div>
+
+    <script>
+    // --- Shop Status ---
+    const API_URL = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
+    let SHOP_OPEN = null;
+    let SHOP_MESSAGE = '';
+    let SHOP_OPEN_TIME = '10:00';
+    let SHOP_CLOSE_TIME = '21:40';
+    let shopStatusLoaded = false;
+    let currentDishData = null;
+
+    function isWithinHoursLocally() {
+        const now = new Date();
+        const istOffset = 5.5 * 60 * 60 * 1000;
+        const istNow = new Date(now.getTime() + istOffset + now.getTimezoneOffset() * 60000);
+        const nowMinutes = istNow.getHours() * 60 + istNow.getMinutes();
+        const [oh, om] = SHOP_OPEN_TIME.split(':').map(Number);
+        const [ch, cm] = SHOP_CLOSE_TIME.split(':').map(Number);
+        const openMin = oh * 60 + om;
+        const closeMin = ch * 60 + cm;
+        if (closeMin > openMin) {
+            return nowMinutes >= openMin && nowMinutes < closeMin;
+        } else {
+            return nowMinutes >= openMin || nowMinutes < closeMin;
+        }
+    }
+
+    async function fetchShopStatus() {
+        try {
+            const res = await fetch(API_URL + '/shop-status');
+            const data = await res.json();
+            if (data && data.success !== undefined) {
+                SHOP_OPEN = !!data.isOpen;
+                SHOP_MESSAGE = data.message || '';
+                SHOP_OPEN_TIME = data.openTime || '10:00';
+                SHOP_CLOSE_TIME = data.closeTime || '21:40';
+                shopStatusLoaded = true;
+            }
+        } catch (e) {
+            SHOP_OPEN = isWithinHoursLocally();
+            if (!SHOP_OPEN) {
+                SHOP_MESSAGE = 'We are closed. Orders open at ' + SHOP_OPEN_TIME + '.';
+            }
+            shopStatusLoaded = true;
+        }
+        // HARD FAILSAFE: Always enforce client-side time (10 AM - 10 PM)
+        if (!isWithinHoursLocally()) {
+            SHOP_OPEN = false;
+            SHOP_MESSAGE = SHOP_MESSAGE || 'We are closed. Orders open at 10:00 AM.';
+        }
+    }
+
+    fetchShopStatus();
+
+    function isShopOpen() {
+        if (shopStatusLoaded && SHOP_OPEN !== null) return SHOP_OPEN;
+        return isWithinHoursLocally();
+    }
+
+    // Check if current dish is Shriyan Chinese and if Chinese hours apply
+    function isChineseOpenLocal() {
+        const now = new Date();
+        const hour = now.getHours();
+        return hour >= 15 && hour < 22;
+    }
+
+    // Mauli Veg Rol: only 5 PM - 10 PM
+    function isRollsOpenLocal() {
+        const now = new Date();
+        const hour = now.getHours();
+        return hour >= 17 && hour < 22;
+    }
+
+    function showClosedOverlay(customMsg, customTime) {
+        const overlay = document.getElementById('closedOverlay');
+        const msgEl = document.getElementById('closedMessage');
+        const timeEl = document.getElementById('closedTime');
+        if (msgEl) msgEl.textContent = customMsg || SHOP_MESSAGE || 'We are closed right now. Please check back during opening hours.';
+        if (timeEl) timeEl.textContent = customTime || ('🕐 Orders open at ' + SHOP_OPEN_TIME);
+        overlay.classList.add('show');
+    }
+
+    const MENU = {
+        'dal-bati': {
+            name: 'Normal Dal Batti', shortName: 'Dal Batti', price: 80, oldPrice: 150,
+            discount: '47% OFF', image: 'hero.png', category: 'veg',
+            includesList: [
+                { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Crispy wood-fire baked dough balls' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' },
+                { emoji: '🥘', name: 'Dal', desc: 'Rich spiced dal' },
+                { emoji: '🌶️', name: 'Thecha', desc: 'Crushed green chili-garlic condiment' },
+                { emoji: '🫙', name: 'Loncha', desc: 'Tangy homemade pickle' }
+            ],
+            reviews: [
+                { name: 'Priya S.', stars: 5, text: 'Best dal bati I have ever had! Crispy bati with so much ghee. Reminds me of Rajasthan ❤️', date: '2 days ago' },
+                { name: 'Amit K.', stars: 5, text: 'Fresh and hot delivery. The churma was perfect — sweet but not too much. Will order again!', date: '5 days ago' },
+                { name: 'Sneha P.', stars: 4, text: 'Very good quality at ₹80! Bati could be a bit more crispy but overall great taste.', date: '1 week ago' },
+                { name: 'Rajesh M.', stars: 5, text: 'Authentic Rajasthani taste. Dal was rich and flavorful. Portion size is generous 🙌', date: '1 week ago' }
+            ]
+        },
+        'zunka-bhakar': {
+            name: 'Zunka Bhakar Thali', shortName: 'Zunka Bhakar', price: 117, oldPrice: 250,
+            discount: '53% OFF', image: 'zunka.png', category: 'veg',
+            includesList: [
+                { emoji: '🫓', name: 'Bhakri (3 pcs)', desc: 'Crispy jowar/bajra flatbread' },
+                { emoji: '🍛', name: 'Zunka', desc: 'Spiced besan curry with onion & garlic' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🌶️', name: 'Green Chili', desc: 'Spicy fried green chilies' },
+                { emoji: '🥒', name: 'Pickle', desc: 'Tangy homemade mango pickle' }
+            ],
+            reviews: [
+                { name: 'Mangesh D.', stars: 5, text: 'Authentic Maharashtrian taste! Zunka was perfectly spiced with crispy bhakri. Must try!', date: '3 days ago' },
+                { name: 'Swati R.', stars: 5, text: 'Reminds me of my aaji\'s cooking. Very homestyle and fresh. Love it! 💛', date: '4 days ago' },
+                { name: 'Vishal T.', stars: 4, text: 'Good zunka bhakar at this price. Bhakri is soft and fresh. Pickle is amazing!', date: '1 week ago' }
+            ]
+        },
+        'bharit-bhakar': {
+            name: 'Bharit Bhakar Thali', shortName: 'Bharit Bhakar', price: 121, oldPrice: 200,
+            discount: '40% OFF', image: 'bharit.png', category: 'veg',
+            includesList: [
+                { emoji: '🍆', name: 'Bharit (Vangyacha Bharit)', desc: 'Smoky roasted eggplant mash with masala' },
+                { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge for squeeze' },
+                { emoji: '🫙', name: 'Aachar (Pickle)', desc: 'Spicy homemade mango/lime pickle' },
+                { emoji: '🌶️', name: 'Thecha', desc: 'Crushed green chili-garlic condiment' }
+            ],
+            reviews: [
+                { name: 'Pooja N.', stars: 5, text: 'Bharit is smoky and perfectly made! Thecha adds the perfect kick. Love this combo!', date: '2 days ago' },
+                { name: 'Ganesh K.', stars: 5, text: 'Best bharit in the area. Fresh bhakar, proper Marathi style. ₹121 is a steal!', date: '4 days ago' },
+                { name: 'Anita J.', stars: 4, text: 'Very tasty and homemade feel. The aachar and thecha are amazing side additions.', date: '1 week ago' }
+            ]
+        },
+        'bombil-thali': {
+            name: 'Bombil Thali', shortName: 'Bombil', price: 130, oldPrice: 350,
+            discount: '63% OFF', image: 'bombil.png', category: 'nonveg',
+            includesList: [
+                { emoji: '🐟', name: 'Bombil Fry (6 pcs)', desc: 'Golden crispy fried Bombay duck fish' },
+                { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Spicy red Maharashtrian fish curry' },
+                { emoji: '🍚', name: 'Steamed Rice', desc: 'Hot fluffy white rice' },
+                { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }
+            ],
+            reviews: [
+                { name: 'Sachin P.', stars: 5, text: 'Bombil was crispy outside, soft inside! Rassa was spicy and flavorful. Best fish thali! 🐟', date: '1 day ago' },
+                { name: 'Neha V.', stars: 5, text: '6 pieces for ₹199 is amazing value. Fish was fresh and well marinated.', date: '3 days ago' },
+                { name: 'Mahesh B.', stars: 4, text: 'Good quality bombil. Rice and rassa combo was perfect. Will reorder!', date: '5 days ago' }
+            ]
+        },
+        'zinga-thali': {
+            name: 'Zinga Thali', shortName: 'Zinga', price: 1, oldPrice: 125,
+            discount: 'TEST', image: 'zinga.png', category: 'nonveg',
+            includesList: [
+                { emoji: '🦐', name: 'Zinga Chatni', desc: 'Spicy prawn chutney with Maharashtrian masala' },
+                { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }
+            ],
+            reviews: [
+                { name: 'Deepak S.', stars: 5, text: 'Zinga chatni is incredible! Perfectly spiced prawns. Love the combination with bhakar 🦐', date: '2 days ago' },
+                { name: 'Kavita M.', stars: 5, text: 'Fresh prawns, authentic taste. ₹125 for this quality is unbeatable!', date: '4 days ago' },
+                { name: 'Rahul G.', stars: 4, text: 'Really good zinga chatni. Bhakar was fresh. Would love more prawns though!', date: '1 week ago' }
+            ]
+        },
+        'chicken-thali': {
+            name: 'Chicken Thali', shortName: 'Chicken', price: 151, oldPrice: 350,
+            discount: '57% OFF', image: 'chicken.png', category: 'nonveg',
+            includesList: [
+                { emoji: '🍗', name: 'Chicken Pieces (4 pcs)', desc: 'Tender spiced chicken curry pieces' },
+                { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Rich Maharashtrian chicken gravy' },
+                { emoji: '🍚', name: 'Steamed Rice', desc: 'Hot fluffy white rice' },
+                { emoji: '🫓', name: 'Bhakari (2 pcs)', desc: 'Crispy jowar/bajra flatbread' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }
+            ],
+            reviews: [
+                { name: 'Vikram J.', stars: 5, text: 'Chicken was tender and juicy! Rassa had authentic Kolhapuri style spice. 🔥🍗', date: '1 day ago' },
+                { name: 'Priyanka D.', stars: 5, text: 'Best chicken thali at this price. 4 big pieces with rice and bhakar — very filling!', date: '3 days ago' },
+                { name: 'Suresh K.', stars: 4, text: 'Good taste and portion. Bhakari was fresh. Rassa could be thicker but overall tasty.', date: '5 days ago' }
+            ]
+        },
+        'special-dal-batti': {
+            name: 'Special Dal Batti Thali', shortName: 'Spl Dal Batti', price: 120, oldPrice: 220,
+            discount: '45% OFF', image: 'special-dal-batti.png', category: 'veg',
+            includesList: [
+                { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Double portion! 8 golden baked batti' },
+                { emoji: '🥘', name: 'Rich Dal', desc: 'Creamy five-lentil dal with tadka' },
+                { emoji: '🍮', name: 'Sweet (Churma/Ladoo)', desc: 'Special sweet churma or ladoo' },
+                { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
+                { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }
+            ],
+            reviews: [
+                { name: 'Ramesh T.', stars: 5, text: '8 batti for ₹129! Incredible value. Each batti was perfectly baked and the dal was divine 🙏', date: '2 days ago' },
+                { name: 'Sunita L.', stars: 5, text: 'Special thali is worth every rupee. Sweet churma was amazing. Perfect family meal!', date: '3 days ago' },
+                { name: 'Anil W.', stars: 5, text: 'Double batti portion makes this the best deal. Fresh, hot, and authentic taste. ❤️', date: '1 week ago' }
+            ]
+        },
+        'rice-plate': {
+            name: 'Rice Plate', shortName: 'Rice Plate', price: 130, oldPrice: 220,
+            discount: '41% OFF', image: 'rice-plate.png', category: 'veg',
+            hotel: 'Aapla Swad Hotel',
+            includesList: [
+                { emoji: '🍛', name: '2 Bhaji', desc: 'Two seasonal vegetable curries' },
+                { emoji: '🍚', name: 'Rice', desc: 'Steamed white rice' },
+                { emoji: '🥘', name: 'Dal', desc: 'Rich spiced lentil dal' },
+                { emoji: '🫓', name: '3 Chapati', desc: 'Soft fresh-made chapati' },
+                { emoji: '🍮', name: 'Sweet', desc: 'Homemade dessert of the day' },
+                { emoji: '🧅', name: 'Kanda', desc: 'Fresh sliced raw onion' },
+                { emoji: '🍋', name: 'Limbu', desc: 'Fresh lemon wedge' },
+                { emoji: '🫙', name: 'Lonch', desc: 'Tangy homemade pickle' },
+                { emoji: '🌶️', name: 'Thecha', desc: 'Crushed green chili-garlic condiment' }
+            ],
+            reviews: [
+                { name: 'Meera P.', stars: 5, text: 'Full thali at ₹130! Two bhajis were amazing, chapati was soft and fresh. Best value! 🙌', date: '2 days ago' },
+                { name: 'Suresh K.', stars: 5, text: 'Rice plate is a complete meal. Dal was rich, bhaji was homestyle. Will order again!', date: '4 days ago' },
+                { name: 'Anita D.', stars: 4, text: 'Very filling portion with sweet included. Tastes like home food. Loved the thecha! ❤️', date: '1 week ago' }
+            ]
+        },
+        'veg-manchurian-dry': {
+            name: 'Veg Manchurian Dry', shortName: 'Manchurian Dry', price: 119, oldPrice: 180,
+            discount: '34% OFF', image: 'assets/chinese/veg-manchurian-dry.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🧆', name: 'Crispy Veg Balls', desc: 'Deep fried mixed vegetable balls' },
+                { emoji: '🥢', name: 'Chinese Sauce', desc: 'Spicy soy-based stir-fry sauce' },
+                { emoji: '🧅', name: 'Spring Onion', desc: 'Fresh spring onion garnish' }
+            ],
+            reviews: [
+                { name: 'Rohit S.', stars: 5, text: 'Best manchurian in town! Crispy outside, soft inside. Perfect spice level 🔥', date: '2 days ago' },
+                { name: 'Neha K.', stars: 4, text: 'Very tasty and good portion. Sauce was amazing!', date: '4 days ago' }
+            ]
+        },
+        'paneer-kentucky': {
+            name: 'Paneer Kentucky', shortName: 'Paneer Kentucky', price: 154, oldPrice: 220,
+            discount: '30% OFF', image: 'assets/chinese/paneer-kentucky.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🧀', name: 'Paneer Fingers', desc: 'Crispy breadcrumb-coated paneer' },
+                { emoji: '🍞', name: 'Crunchy Coating', desc: 'Golden breadcrumb batter' },
+                { emoji: '🥫', name: 'Dip', desc: 'Tangy ketchup dip on the side' }
+            ],
+            reviews: [
+                { name: 'Priya M.', stars: 5, text: 'Crispy and delicious! Kids loved it. Will order again 😋', date: '3 days ago' }
+            ]
+        },
+        'paneer-chilli': {
+            name: 'Paneer Chilli', shortName: 'Paneer Chilli', price: 155, oldPrice: 230,
+            discount: '33% OFF', image: 'assets/chinese/paneer-chilli.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🧀', name: 'Paneer Cubes', desc: 'Soft paneer stir-fried to perfection' },
+                { emoji: '🫑', name: 'Bell Peppers', desc: 'Colorful capsicum pieces' },
+                { emoji: '🌶️', name: 'Chili Sauce', desc: 'Spicy Indo-Chinese chili sauce' }
+            ],
+            reviews: [
+                { name: 'Amit T.', stars: 5, text: 'Paneer was soft and sauce was spicy! Perfect combo 🌶️', date: '1 day ago' }
+            ]
+        },
+        'veg-fried-rice': {
+            name: 'Veg Fried Rice', shortName: 'Fried Rice', price: 113, oldPrice: 170,
+            discount: '34% OFF', image: 'assets/chinese/veg-fried-rice.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🍚', name: 'Fried Rice', desc: 'Wok-tossed rice with soy sauce' },
+                { emoji: '🥕', name: 'Mixed Vegetables', desc: 'Carrots, peas, beans, corn' },
+                { emoji: '🧅', name: 'Spring Onion', desc: 'Fresh spring onion garnish' }
+            ],
+            reviews: [{ name: 'Kavita R.', stars: 5, text: 'Tasty and filling! Great value at this price.', date: '2 days ago' }]
+        },
+        'veg-manchurian-rice': {
+            name: 'Veg Manchurian Rice', shortName: 'Manchurian Rice', price: 121, oldPrice: 180,
+            discount: '33% OFF', image: 'assets/chinese/veg-manchurian-rice.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🍚', name: 'Fried Rice', desc: 'Soy sauce fried rice base' },
+                { emoji: '🧆', name: 'Manchurian Gravy', desc: 'Rich manchurian sauce with veg balls' }
+            ],
+            reviews: [{ name: 'Deepak S.', stars: 4, text: 'Good combo of rice and manchurian. Worth the price!', date: '3 days ago' }]
+        },
+        'veg-schezwan-rice': {
+            name: 'Veg Schezwan Rice', shortName: 'Schezwan Rice', price: 129, oldPrice: 190,
+            discount: '32% OFF', image: 'assets/chinese/veg-schezwan-rice.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🍚', name: 'Schezwan Rice', desc: 'Spicy schezwan sauce fried rice' },
+                { emoji: '🌶️', name: 'Spicy', desc: 'Hot schezwan pepper flavor' }
+            ],
+            reviews: [{ name: 'Rahul G.', stars: 5, text: 'Spicy and flavorful! Just the right amount of heat 🔥', date: '2 days ago' }]
+        },
+        'veg-paneer-rice': {
+            name: 'Veg Paneer Rice', shortName: 'Paneer Rice', price: 159, oldPrice: 230,
+            discount: '31% OFF', image: 'assets/chinese/veg-paneer-rice.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🍚', name: 'Fried Rice', desc: 'Soy sauce fried rice' },
+                { emoji: '🧀', name: 'Paneer Cubes', desc: 'Soft paneer pieces mixed in' }
+            ],
+            reviews: [{ name: 'Swati P.', stars: 5, text: 'Paneer was fresh and rice was perfectly cooked!', date: '4 days ago' }]
+        },
+        'veg-schezwan-paneer-rice': {
+            name: 'Veg Schezwan Paneer Rice', shortName: 'Schezwan Paneer Rice', price: 149, oldPrice: 220,
+            discount: '32% OFF', image: 'assets/chinese/veg-schezwan-paneer-rice.jpg', category: 'veg',
+            hotel: 'Shriyan Chinese',
+            includesList: [
+                { emoji: '🍚', name: 'Schezwan Rice', desc: 'Spicy schezwan fried rice' },
+                { emoji: '🧀', name: 'Paneer', desc: 'Soft paneer cubes' },
+                { emoji: '🌶️', name: 'Spicy', desc: 'Hot schezwan pepper flavor' }
+            ],
+            reviews: [{ name: 'Manish K.', stars: 5, text: 'Best combo! Schezwan + paneer is amazing 🤤', date: '1 day ago' }]
+        },
+        'veg-noodles': {
+            name: 'Veg Noodles', shortName: 'Veg Noodles', price: 109, oldPrice: 170,
+            discount: '36% OFF', image: 'assets/chinese/veg-noodles.jpg', category: 'veg', hotel: 'Shriyan Chinese',
+            includesList: [{ emoji: '🍜', name: 'Veg Noodles', desc: 'Stir-fried noodles with mixed vegetables' }],
+            reviews: [{ name: 'Sneha D.', stars: 5, text: 'Simple and tasty! Perfect snack.', date: '3 days ago' }]
+        },
+        'veg-manchurian-noodles': {
+            name: 'Veg Manchurian Noodles', shortName: 'Manchurian Noodles', price: 119, oldPrice: 180,
+            discount: '34% OFF', image: 'assets/chinese/veg-manchurian-noodles.jpg', category: 'veg', hotel: 'Shriyan Chinese',
+            includesList: [{ emoji: '🍜', name: 'Noodles', desc: 'Stir-fried noodles' }, { emoji: '🧆', name: 'Manchurian Balls', desc: 'Crispy veg manchurian balls' }],
+            reviews: [{ name: 'Anil W.', stars: 4, text: 'Good noodles with manchurian combo!', date: '5 days ago' }]
+        },
+        'veg-hakka-noodles': {
+            name: 'Veg Hakka Noodles', shortName: 'Hakka Noodles', price: 122, oldPrice: 180,
+            discount: '32% OFF', image: 'assets/chinese/veg-hakka-noodles.jpg', category: 'veg', hotel: 'Shriyan Chinese',
+            includesList: [{ emoji: '🍜', name: 'Hakka Noodles', desc: 'Indo-Chinese style hakka noodles with vegetables' }],
+            reviews: [{ name: 'Pooja N.', stars: 5, text: 'Authentic hakka noodles! Great taste 👌', date: '2 days ago' }]
+        },
+        'veg-schezwan-noodles': {
+            name: 'Veg Schezwan Noodles', shortName: 'Schezwan Noodles', price: 139, oldPrice: 200,
+            discount: '31% OFF', image: 'assets/chinese/veg-schezwan-noodles.jpg', category: 'veg', hotel: 'Shriyan Chinese',
+            includesList: [{ emoji: '🍜', name: 'Schezwan Noodles', desc: 'Spicy schezwan sauce noodles' }, { emoji: '🌶️', name: 'Spicy', desc: 'Hot and tangy' }],
+            reviews: [{ name: 'Vikram J.', stars: 5, text: 'Spicy noodles done right! 🌶️🔥', date: '1 day ago' }]
+        },
+        'veg-paneer-noodles': {
+            name: 'Veg Paneer Noodles', shortName: 'Paneer Noodles', price: 158, oldPrice: 230,
+            discount: '31% OFF', image: 'assets/chinese/veg-paneer-noodles.jpg', category: 'veg', hotel: 'Shriyan Chinese',
+            includesList: [{ emoji: '🍜', name: 'Noodles', desc: 'Stir-fried noodles' }, { emoji: '🧀', name: 'Paneer Cubes', desc: 'Soft paneer pieces' }],
+            reviews: [{ name: 'Priyanka D.', stars: 5, text: 'Paneer was so soft! Noodles were perfectly cooked.', date: '3 days ago' }]
+        },
+        'aloo-roll': {
+            name: 'Aloo Roll (2 pcs)', shortName: 'Aloo Roll', price: 88, oldPrice: 140,
+            discount: '37% OFF', image: 'assets/rolls/aloo-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🥔', name: 'Spiced Aloo', desc: 'Mashed potato masala filling' }, { emoji: '🫙', name: 'Chutney', desc: 'Green chutney on the side' }],
+            reviews: [{ name: 'Sachin P.', stars: 5, text: 'Best aloo rolls! Crispy and tasty at just ₹88 for 2! 🤩', date: '2 days ago' }]
+        },
+        'soya-bean-masala-roll': {
+            name: 'Soya Bean Masala Roll (2 pcs)', shortName: 'Soya Roll', price: 115, oldPrice: 170,
+            discount: '32% OFF', image: 'assets/rolls/soya-bean-masala-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🫘', name: 'Soya Bean Masala', desc: 'Spiced soya bean filling' }],
+            reviews: [{ name: 'Ganesh K.', stars: 4, text: 'Healthy and tasty! Good protein option.', date: '3 days ago' }]
+        },
+        'noodles-roll': {
+            name: 'Noodles Roll (2 pcs)', shortName: 'Noodles Roll', price: 116, oldPrice: 170,
+            discount: '32% OFF', image: 'assets/rolls/noodles-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🍜', name: 'Noodles Filling', desc: 'Stir-fried noodles inside' }],
+            reviews: [{ name: 'Meera P.', stars: 5, text: 'Unique combo! Noodles inside roll = amazing 😍', date: '1 day ago' }]
+        },
+        'manchurian-roll': {
+            name: 'Manchurian Roll (2 pcs)', shortName: 'Manchurian Roll', price: 119, oldPrice: 180,
+            discount: '34% OFF', image: 'assets/rolls/manchurian-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧆', name: 'Manchurian Filling', desc: 'Spicy manchurian inside' }],
+            reviews: [{ name: 'Mahesh B.', stars: 5, text: 'Manchurian roll is must try! Spicy and crispy!', date: '2 days ago' }]
+        },
+        'mix-veg-roll': {
+            name: 'Mix Veg Roll (2 pcs)', shortName: 'Mix Veg Roll', price: 119, oldPrice: 180,
+            discount: '34% OFF', image: 'assets/rolls/mix-veg-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🥗', name: 'Mixed Vegetables', desc: 'Fresh mixed veg filling' }],
+            reviews: [{ name: 'Sunita L.', stars: 4, text: 'Fresh and tasty! Good for light meal.', date: '4 days ago' }]
+        },
+        'paneer-roll': {
+            name: 'Paneer Roll (2 pcs)', shortName: 'Paneer Roll', price: 144, oldPrice: 210,
+            discount: '31% OFF', image: 'assets/rolls/paneer-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧀', name: 'Spiced Paneer', desc: 'Rich paneer masala filling' }],
+            reviews: [{ name: 'Ramesh T.', stars: 5, text: 'Paneer roll is the best! Filling and delicious! 🧀', date: '1 day ago' }]
+        },
+        'cheese-roll': {
+            name: 'Cheese Roll (2 pcs)', shortName: 'Cheese Roll', price: 144, oldPrice: 210,
+            discount: '31% OFF', image: 'assets/rolls/cheese-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧀', name: 'Melted Cheese', desc: 'Gooey melted cheese filling' }],
+            reviews: [{ name: 'Priya S.', stars: 5, text: 'Cheese lovers must try! So cheesy and yummy! 🧀❤️', date: '2 days ago' }]
+        },
+        'aloo-noodles-mix-roll': {
+            name: 'Aloo Noodles Mix Roll (2 pcs)', shortName: 'Aloo Noodles Roll', price: 119, oldPrice: 180,
+            discount: '34% OFF', image: 'assets/rolls/aloo-noodles-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🥔', name: 'Aloo + Noodles', desc: 'Mixed aloo and noodles filling' }],
+            reviews: [{ name: 'Vishal T.', stars: 4, text: 'Nice combo roll! Good taste.', date: '3 days ago' }]
+        },
+        'soya-bean-noodles-mix-roll': {
+            name: 'Soya Bean Noodles Mix Roll (2 pcs)', shortName: 'Soya Noodles Roll', price: 121, oldPrice: 180,
+            discount: '33% OFF', image: 'assets/rolls/soya-bean-noodles-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🫘', name: 'Soya + Noodles', desc: 'Soya bean and noodles mix' }],
+            reviews: [{ name: 'Kavita M.', stars: 5, text: 'Healthy and filling! Love the soya + noodles combo.', date: '2 days ago' }]
+        },
+        'mix-veg-noodles-roll': {
+            name: 'Mix Veg Noodles Roll (2 pcs)', shortName: 'Veg Noodles Roll', price: 125, oldPrice: 180,
+            discount: '31% OFF', image: 'assets/rolls/mix-veg-noodles-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🥗', name: 'Veg + Noodles', desc: 'Mixed vegetables and noodles' }],
+            reviews: [{ name: 'Deepak S.', stars: 4, text: 'Good portion and tasty combo!', date: '4 days ago' }]
+        },
+        'noodles-manchurian-mix-roll': {
+            name: 'Noodles Manchurian Mix Roll (2 pcs)', shortName: 'Noodles Manchurian Roll', price: 139, oldPrice: 200,
+            discount: '31% OFF', image: 'assets/rolls/noodles-manchurian-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🍜', name: 'Noodles + Manchurian', desc: 'Noodles and manchurian filling' }],
+            reviews: [{ name: 'Suresh K.', stars: 5, text: 'Noodles + Manchurian inside a roll = heaven! 🤤', date: '1 day ago' }]
+        },
+        'paneer-noodles-mix-roll': {
+            name: 'Paneer Noodles Mix Roll (2 pcs)', shortName: 'Paneer Noodles Roll', price: 144, oldPrice: 210,
+            discount: '31% OFF', image: 'assets/rolls/paneer-noodles-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
+            includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧀', name: 'Paneer + Noodles', desc: 'Paneer and noodles mix filling' }],
+            reviews: [{ name: 'Anita J.', stars: 5, text: 'Premium roll with paneer and noodles. Worth every rupee!', date: '2 days ago' }]
+        }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const itemKey = params.get('item') || 'dal-bati';
+    const dish = MENU[itemKey];
+    currentDishData = dish;
+
+    let currentReview = 0;
+    let reviewInterval = null;
+    let preCart = JSON.parse(localStorage.getItem('sp_precart') || '{}');
+
+    if (!dish) {
+        document.body.innerHTML = '<div style="text-align:center;padding:3rem;color:#888;">Item not found. <a href="index.html" style="color:#f59e0b;">Go back</a></div>';
+    } else {
+        (async () => {
+            try {
+                const res = await Promise.race([
+                    fetch('https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com/menu'),
+                    new Promise((_, rej) => setTimeout(() => rej('timeout'), 2000))
+                ]);
+                const data = await res.json();
+                if (data && data.success && data.menu) {
+                    Object.keys(MENU).forEach(key => {
+                        const live = data.menu[key];
+                        if (!live) return;
+                        ['price', 'oldPrice', 'discount', 'name', 'shortName'].forEach(field => {
+                            if (live[field] !== undefined) MENU[key][field] = live[field];
+                        });
+                        MENU[key].available = live.available !== false;
+                    });
+                }
+            } catch (e) { }
+            renderDish();
+        })();
+    }
+
+    async function shareDish() {
+        if (!currentDishData) return;
+        const url = window.location.href;
+        const title = `Try ${currentDishData.name} at Aapla Swad!`;
+        const text = `I found this amazing ${currentDishData.name} for just ₹${currentDishData.price}. Order now from Aapla Swad!`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({ title, text, url });
+            } catch (err) {
+                console.log('Error sharing:', err);
+            }
+        } else {
+            navigator.clipboard.writeText(`${title} - ${url}`);
+            const btn = document.querySelector('.share-btn');
+            const oldHTML = btn.innerHTML;
+            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            setTimeout(() => { btn.innerHTML = oldHTML; }, 2000);
+        }
+    }
+
+    function renderDish() {
+        const isVeg = dish.category === 'veg';
+        const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Maratha Hotel');
+        const hotelSubMap = { 'Aapla Swad Hotel': 'Pure Veg • Home-style Cooking', 'Maratha Hotel': 'Non-Veg Speciality • Maharashtrian', 'Shriyan Chinese': 'Indo-Chinese • Veg', 'Mauli Veg Rol': 'Veg Rolls • 2 pcs each' };
+        const hotelSub = hotelSubMap[hotelName] || (isVeg ? 'Pure Veg' : 'Non-Veg Speciality');
+
+        document.title = hotelName + ' — ' + dish.name;
+        document.getElementById('navTitle').textContent = dish.shortName;
+        document.getElementById('dishHero').src = dish.image;
+        document.getElementById('dishHero').alt = dish.name;
+
+        // Hotel Badge
+        document.getElementById('hotelBadge').innerHTML = `
+            <img src="logo.png" alt="${hotelName}" class="hotel-badge-icon">
+            <div>
+                <div class="hotel-badge-name">${hotelName}</div>
+                <div class="hotel-badge-sub">${hotelSub}</div>
+            </div>
+            <span class="hotel-badge-type ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>
+        `;
+
+        // Tags
+        let tagsHTML = `<span class="${isVeg ? 'tag-veg' : 'tag-nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>`;
+        tagsHTML += `<span class="tag-rating">⭐ ${isVeg ? '4.9' : '4.8'} (${Math.floor(Math.random()*500+200)} reviews)</span>`;
+        if (itemKey !== 'dal-bati') tagsHTML += '<span class="tag-new">NEW</span>';
+        document.getElementById('dishTags').innerHTML = tagsHTML;
+
+        // Title
+        document.getElementById('dishTitle').textContent = dish.name;
+        document.getElementById('dishSubtitle').textContent = isVeg
+            ? 'Aapla Swad Hotel • Authentic home-style cooking • Served hot & fresh'
+            : 'Maratha Hotel • Maharashtrian non-veg speciality • Served hot & fresh';
+
+        // Price
+        document.getElementById('pOld').textContent = '₹' + dish.oldPrice;
+        document.getElementById('pNow').textContent = '₹' + dish.price;
+        document.getElementById('pOff').textContent = dish.discount;
+        document.getElementById('obPrice').textContent = '₹' + dish.price;
+        document.getElementById('obOldPrice').textContent = '₹' + dish.oldPrice;
+
+        // Includes
+        let incHTML = '';
+        dish.includesList.forEach(inc => {
+            incHTML += `
+            <div class="include-item">
+                <span class="include-emoji">${inc.emoji}</span>
+                <div>
+                    <div class="include-text">${inc.name}</div>
+                    <div class="include-sub">${inc.desc}</div>
+                </div>
+            </div>`;
+        });
+        document.getElementById('includesCard').innerHTML = incHTML;
+
+        // Reviews Carousel
+        let carouselHTML = '';
+        let dotsHTML = '';
+        dish.reviews.forEach((rev, i) => {
+            const initials = rev.name.split(' ').map(w => w[0]).join('');
+            carouselHTML += `
+            <div class="review-slide">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">${initials}</div>
+                        <div>
+                            <span class="review-name">${rev.name}</span>
+                            <div class="review-date">${rev.date}</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">${'⭐'.repeat(rev.stars)}</div>
+                    <div class="review-text">"${rev.text}"</div>
+                </div>
+            </div>`;
+            dotsHTML += `<div class="review-dot ${i === 0 ? 'active' : ''}" onclick="goToReview(${i})"></div>`;
+        });
+        document.getElementById('reviewCarousel').innerHTML = carouselHTML;
+        document.getElementById('reviewDots').innerHTML = dotsHTML;
+
+        // Start auto-rotation
+        startReviewCarousel();
+    }
+
+    // --- Review Carousel Logic ---
+    function goToReview(index) {
+        const carousel = document.getElementById('reviewCarousel');
+        const dots = document.querySelectorAll('.review-dot');
+        const total = dish.reviews.length;
+        currentReview = index % total;
+        carousel.style.transform = `translateX(-${currentReview * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === currentReview));
+    }
+
+    function startReviewCarousel() {
+        if (reviewInterval) clearInterval(reviewInterval);
+        reviewInterval = setInterval(() => {
+            goToReview(currentReview + 1);
+        }, 3500);
+    }
+
+    // Pause on touch
+    // Prices and availability come from the admin panel. The descriptions and
+    // reviews above are page content the API does not hold, so only the live
+    // fields are overlaid onto them.
+    async function applyLivePricing() {
+        try {
+            const res = await fetch('https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com/menu');
+            const data = await res.json();
+            if (!data || !data.success || !data.menu) return;
+
+            let changed = false;
+            Object.keys(MENU).forEach(key => {
+                const live = data.menu[key];
+                if (!live) return;
+                ['price', 'oldPrice', 'discount', 'name', 'shortName'].forEach(field => {
+                    if (live[field] !== undefined && live[field] !== MENU[key][field]) {
+                        MENU[key][field] = live[field];
+                        changed = true;
+                    }
+                });
+                MENU[key].available = live.available !== false;
+                if (live.available === false) changed = true;
+            });
+
+            if (changed) renderDish();
+        } catch (err) {
+            // Offline: the built-in prices stay on screen, and the order page
+            // re-checks against the server before anything is charged.
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        applyLivePricing();
+
+        const wrap = document.querySelector('.review-carousel-wrap');
+        if (wrap) {
+            wrap.addEventListener('touchstart', () => { if (reviewInterval) clearInterval(reviewInterval); });
+            wrap.addEventListener('touchend', () => { startReviewCarousel(); });
+        }
+    });
+
+    // --- Cart (localStorage-based) ---
+
+    function addToCartAndSuggest() {
+        // Check if shop is closed before adding to cart
+        if (!isShopOpen()) {
+            // Re-fetch in background for next check, but show overlay immediately
+            fetchShopStatus();
+            showClosedOverlay();
+            return;
+        }
+
+        // Check if this is a Chinese item and Chinese hours are closed (3 PM - 10 PM)
+        if (dish.hotel === 'Shriyan Chinese' && !isChineseOpenLocal()) {
+            showClosedOverlay(
+                '🥡 Shriyan Chinese is available only from 3:00 PM to 10:00 PM. Please come back later!',
+                '🕐 Opens at 3:00 PM'
+            );
+            return;
+        }
+
+        // Check if this is a Rolls item and Rolls hours are closed (5 PM - 10 PM)
+        if (dish.hotel === 'Mauli Veg Rol' && !isRollsOpenLocal()) {
+            showClosedOverlay(
+                '🌯 Mauli Veg Rol is available only from 5:00 PM to 10:00 PM. Please come back later!',
+                '🕐 Opens at 5:00 PM'
+            );
+            return;
+        }
+
+        // Add current item to pre-cart
+        preCart[itemKey] = (preCart[itemKey] || 0) + 1;
+        localStorage.setItem('sp_precart', JSON.stringify(preCart));
+
+        // Show confirmation
+        const isVeg = dish.category === 'veg';
+        document.getElementById('addedConfirm').innerHTML = `
+            <div class="added-check">✅</div>
+            <div class="added-info">
+                <div class="added-name">${dish.shortName} added to cart!</div>
+                <div class="added-sub">₹${dish.price} × ${preCart[itemKey]} = ₹${dish.price * preCart[itemKey]}</div>
+            </div>
+        `;
+
+        // Build suggestions (other items not yet in cart)
+        const sugScroll = document.getElementById('sugScroll');
+        let sugHTML = '';
+        Object.keys(MENU).forEach(key => {
+            if (key === itemKey) return; // skip current item
+            const m = MENU[key];
+            const inCart = (preCart[key] || 0) > 0;
+            sugHTML += `
+            <div class="sug-card ${inCart ? 'in-cart' : ''}" id="sug-card-${key}">
+                <img src="${m.image}" alt="${m.shortName}" class="sug-img">
+                <div class="sug-body">
+                    <div class="sug-name">${m.shortName}</div>
+                    <div class="sug-desc">${m.includesList.map(i => i.name).slice(0,2).join(' • ')}</div>
+                    <div class="sug-price-row">
+                        <span class="sug-price">₹${m.price}</span>
+                        <span class="sug-old">₹${m.oldPrice}</span>
+                    </div>
+                    <button class="sug-add-btn ${inCart ? 'added' : ''}" id="sug-btn-${key}" onclick="addSuggestion('${key}')">
+                        ${inCart ? '✓ Added' : '+ ADD'}
+                    </button>
+                </div>
+            </div>`;
+        });
+        sugScroll.innerHTML = sugHTML;
+
+        // Update cart summary
+        updateCartSummary();
+
+        // Change bottom bar button
+        const obBtn = document.getElementById('obBtn');
+        obBtn.innerHTML = '✓ Added — View Cart';
+        obBtn.onclick = goToCart;
+        obBtn.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+
+        // Show sheet
+        document.getElementById('bsOverlay').classList.add('show');
+        document.getElementById('bsSheet').classList.add('show');
+    }
+
+    function addSuggestion(key) {
+        preCart[key] = (preCart[key] || 0) + 1;
+        localStorage.setItem('sp_precart', JSON.stringify(preCart));
+
+        // Update button
+        const btn = document.getElementById('sug-btn-' + key);
+        btn.textContent = '✓ Added';
+        btn.classList.add('added');
+        const card = document.getElementById('sug-card-' + key);
+        card.classList.add('in-cart');
+
+        // Quick animation
+        card.style.transform = 'scale(0.95)';
+        setTimeout(() => { card.style.transform = 'scale(1)'; }, 150);
+
+        updateCartSummary();
+    }
+
+    function updateCartSummary() {
+        let totalItems = 0;
+        let totalPrice = 0;
+        Object.keys(preCart).forEach(key => {
+            if (preCart[key] > 0 && MENU[key]) {
+                totalItems += preCart[key];
+                totalPrice += preCart[key] * MENU[key].price;
+            }
+        });
+
+        const itemNames = Object.keys(preCart)
+            .filter(k => preCart[k] > 0 && MENU[k])
+            .map(k => `${MENU[k].shortName} ×${preCart[k]}`)
+            .join(', ');
+
+        document.getElementById('bsCartSummary').innerHTML = `
+            <div>
+                <div class="bs-cart-count">🛒 ${totalItems} item${totalItems > 1 ? 's' : ''}</div>
+                <div style="font-size:0.52rem;color:#888;">${itemNames}</div>
+            </div>
+            <span class="bs-cart-total">₹${totalPrice}</span>
+        `;
+    }
+
+    function closeSuggestions() {
+        document.getElementById('bsOverlay').classList.remove('show');
+        document.getElementById('bsSheet').classList.remove('show');
+    }
+
+    function goToCart() {
+        localStorage.setItem('sp_precart', JSON.stringify(preCart));
+        window.location.href = 'order.html';
+    }
+    </script>
+</body>
+</html>
