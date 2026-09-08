@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#0a0a0a">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account — Aapla Swad</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="canonical" href="https://aaplaswad.store/delete-account.html">
+    <meta name="description" content="Request deletion of your Aapla Swad account and personal data.">
+    <meta name="robots" content="noindex, follow">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #ea580c;
+            --gold: #f59e0b;
+            --dark: #0e0e0e;
+            --card-solid: #161616;
+            --border: rgba(255,255,255,0.06);
+            --white: #f3f4f6;
+            --gray: #9ca3af;
+            --red: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--dark);
+            color: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--orange);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+        .warning-box {
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.25);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+        .warning-box p { color: #fca5a5; margin-bottom: 0; }
+        .warning-box strong { color: #ef4444; }
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        li {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #d1d5db;
+            margin-bottom: 6px;
+        }
+        strong { color: var(--white); font-weight: 600; }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--white);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--card-solid);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--white);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--orange);
+        }
+        textarea { min-height: 80px; resize: vertical; }
+        select { appearance: none; cursor: pointer; }
+        .delete-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .delete-btn:hover { background: #dc2626; }
+        .delete-btn:active { transform: scale(0.98); }
+        .success-msg {
+            display: none;
+            background: rgba(34,197,94,0.08);
+            border: 1px solid rgba(34,197,94,0.25);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .success-msg p { color: #86efac; }
+        .success-msg .check { font-size: 40px; margin-bottom: 8px; }
+        a { color: var(--orange); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Aapla Swad</a>
+        <h1>🗑️ Delete Your Account</h1>
+        <p>We're sorry to see you go. If you'd like to delete your Aapla Swad account and all associated data, please fill out the form below.</p>
+
+        <div class="warning-box">
+            <p><strong>⚠️ Warning:</strong> Account deletion is permanent and cannot be undone. All your order history, saved addresses, and preferences will be permanently removed.</p>
+        </div>
+
+        <p><strong>What gets deleted:</strong></p>
+        <ul>
+            <li>Your account profile (name, email, phone number)</li>
+            <li>Order history and receipts</li>
+            <li>Saved delivery addresses</li>
+            <li>Push notification preferences</li>
+        </ul>
+
+        <p><strong>What is NOT deleted:</strong></p>
+        <ul>
+            <li>Completed payment transaction records (required by law for 7 years)</li>
+        </ul>
+
+        <form id="deleteForm" onsubmit="submitDelete(event)">
+            <div class="form-group">
+                <label for="email">Email address (used to sign in)</label>
+                <input type="email" id="email" name="email" placeholder="your.email@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason for leaving (optional)</label>
+                <select id="reason" name="reason">
+                    <option value="">Select a reason...</option>
+                    <option value="no-longer-use">I no longer use the app</option>
+                    <option value="not-in-area">Delivery not available in my area</option>
+                    <option value="privacy">Privacy concerns</option>
+                    <option value="too-many-notifications">Too many notifications</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Any feedback? (optional)</label>
+                <textarea id="feedback" name="feedback" placeholder="Help us improve..."></textarea>
+            </div>
+            <button type="submit" class="delete-btn">Delete My Account Permanently</button>
+        </form>
+
+        <div class="success-msg" id="successMsg">
+            <div class="check">✅</div>
+            <p><strong>Deletion request received!</strong></p>
+            <p>Your account will be deleted within 7 business days. You'll receive a confirmation email once the process is complete.</p>
+            <p style="margin-top:12px;">If you have questions, contact us at <a href="mailto:aaplaswad.store@gmail.com">aaplaswad.store@gmail.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        function submitDelete(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            if (!email) return;
+
+            // Send deletion request via mailto (or you can wire this to your backend)
+            const reason = document.getElementById('reason').value;
+            const feedback = document.getElementById('feedback').value;
+            const subject = encodeURIComponent('Account Deletion Request — Aapla Swad');
+            const body = encodeURIComponent(
+                `Account Deletion Request\n\nEmail: ${email}\nReason: ${reason || 'Not specified'}\nFeedback: ${feedback || 'None'}\n\nPlease delete my account and all associated data.`
+            );
+
+            // Open mailto for the deletion request
+            window.open(`mailto:aaplaswad.store@gmail.com?subject=${subject}&body=${body}`, '_self');
+
+            // Show success message
+            document.getElementById('deleteForm').style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

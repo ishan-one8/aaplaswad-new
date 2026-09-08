@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">Aapla Swad</string>
-    <string name="title_activity_main">Aapla Swad</string>
-    <string name="package_name">com.saiprasad.dalbati</string>
-    <string name="custom_url_scheme">com.saiprasad.dalbati</string>
-</resources>
