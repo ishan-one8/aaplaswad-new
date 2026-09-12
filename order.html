@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0e0e0e">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,128 +22,19 @@
     <meta name="twitter:description" content="Order authentic Dal Bati, Zunka Bhakar, Chinese & Rolls. Home-style cooking delivered hot.">
     <meta name="twitter:image" content="https://aaplaswad.store/hero.png">
 
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="icon-192.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="order.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=1">
+    <link rel="stylesheet" href="order.css?v=4">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        /* Cart Item Cards */
-        .menu-select-label { font-size:0.72rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.5rem; }
-        .cart-item-card { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:14px; margin-bottom:0.5rem; overflow:hidden; }
-        .ci-row { display:flex; gap:0.5rem; padding:0.6rem; align-items:flex-start; }
-        .ci-img { width:68px; height:68px; border-radius:10px; object-fit:cover; flex-shrink:0; }
-        .ci-info { flex:1; min-width:0; }
-        .ci-tags { display:flex; gap:0.3rem; align-items:center; margin-bottom:0.1rem; flex-wrap:wrap; }
-        .ci-veg { font-size:0.5rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.08rem 0.3rem; border-radius:4px; font-weight:600; }
-        .ci-rating { font-size:0.5rem; color:#f59e0b; }
-        .ci-new { font-size:0.48rem; color:#ea580c; background:rgba(234,88,12,0.1); padding:0.08rem 0.3rem; border-radius:4px; font-weight:700; }
-        .ci-name { font-size:0.78rem; font-weight:700; color:#fafafa; margin-bottom:0.05rem; }
-        .ci-desc { font-size:0.58rem; color:#888; margin-bottom:0.2rem; }
-        .ci-price-row { display:flex; align-items:center; gap:0.3rem; }
-        .ci-old { font-size:0.58rem; color:#666; text-decoration:line-through; }
-        .ci-price { font-size:0.82rem; font-weight:800; color:#f59e0b; }
-        .ci-off { font-size:0.5rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.08rem 0.25rem; border-radius:4px; font-weight:600; }
-        .ci-actions { display:flex; align-items:center; flex-shrink:0; }
-        .ci-add-btn { padding:0.35rem 0.85rem; background:rgba(234,88,12,0.1); border:1.5px solid rgba(234,88,12,0.3); color:#ea580c; border-radius:8px; font-size:0.72rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; transition:all 0.15s; }
-        .ci-add-btn:active { transform:scale(0.95); background:rgba(234,88,12,0.2); }
-        .ci-qty-controls { display:flex; align-items:center; gap:0.1rem; background:rgba(234,88,12,0.08); border:1.5px solid rgba(234,88,12,0.2); border-radius:8px; overflow:hidden; }
-        .ci-qty-btn { width:30px; height:30px; border:none; background:none; color:#ea580c; font-size:1rem; font-weight:700; cursor:pointer; font-family:inherit; }
-        .ci-qty-btn:active { background:rgba(234,88,12,0.15); }
-        .ci-qty-btn.ci-plus { color:#22c55e; }
-        .ci-qty-num { min-width:22px; text-align:center; font-size:0.82rem; font-weight:700; color:#fafafa; }
-        .ci-extras { padding:0.4rem 0.6rem 0.5rem; border-top:1px solid rgba(255,255,255,0.04); background:rgba(255,255,255,0.01); }
-        .ci-extras-title { font-size:0.6rem; color:#888; margin-bottom:0.3rem; }
-        .cart-count-badge { display:inline-flex; align-items:center; justify-content:center; min-width:18px; height:18px; border-radius:9px; background:#ea580c; color:white; font-size:0.6rem; font-weight:700; margin-left:0.3rem; padding:0 4px; }
-        .ci-nonveg { font-size:0.5rem; color:#ef4444; background:rgba(239,68,68,0.1); padding:0.08rem 0.3rem; border-radius:4px; font-weight:600; }
-        .menu-category-header { font-size:0.68rem; font-weight:700; color:#9ca3af; margin-bottom:0.35rem; display:flex; align-items:center; gap:0.3rem; }
-        .mc-dot { font-size:0.6rem; }
-        .mc-veg { color:#22c55e; }
-        .mc-nonveg { color:#ef4444; }
-        .nav-profile-link { display:flex; align-items:center; gap:0.4rem; text-decoration:none; padding:0.2rem 0.5rem; border-radius:20px; transition:background 0.2s; }
-        .nav-profile-link:hover { background:rgba(245,158,11,0.1); }
-        .nav-avatar { width:30px; height:30px; border-radius:50%; border:2px solid #f59e0b; object-fit:cover; }
-        .nav-profile-link span { font-size:0.68rem; color:#ccc; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-        .login-bar { background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.15); border-radius:12px; padding:0.6rem 0.85rem; margin:0 1rem 0.5rem; display:flex; align-items:center; justify-content:space-between; gap:0.5rem; }
-        .login-bar.hidden { display:none; }
-        .login-bar-text { font-size:0.72rem; color:#ccc; }
-        .login-bar-text strong { color:#f59e0b; }
-        .g-signin-btn { background:white; border:1px solid #ddd; border-radius:20px; padding:0.35rem 0.75rem; font-size:0.68rem; font-weight:600; color:#333; cursor:pointer; display:flex; align-items:center; gap:0.35rem; font-family:inherit; white-space:nowrap; }
-        .g-signin-btn img { width:16px; height:16px; }
-        .g-signin-btn:active { transform:scale(0.97); }
-        .welcome-bar { background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.15); border-radius:12px; padding:0.55rem 0.85rem; max-width:480px; margin:0.5rem auto; display:flex; align-items:center; gap:0.5rem; }
-        .welcome-bar.hidden { display:none; }
-        .welcome-bar img { width:32px; height:32px; border-radius:50%; border:2px solid #22c55e; }
-        .welcome-info { flex:1; }
-        .welcome-info .wname { font-size:0.78rem; font-weight:600; color:#fafafa; }
-        .welcome-info .wemail { font-size:0.6rem; color:#888; }
-        .welcome-bar .my-orders-btn { font-size:0.62rem; color:#f59e0b; text-decoration:none; font-weight:600; border:1px solid rgba(245,158,11,0.2); padding:0.25rem 0.5rem; border-radius:8px; white-space:nowrap; }
-        /* Google Login Modal */
-        .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:200; display:flex; align-items:center; justify-content:center; padding:1.5rem; backdrop-filter:blur(6px); }
-        .gmodal { background:#1a1a1a; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:2rem 1.5rem; text-align:center; max-width:360px; width:100%; animation:modalIn 0.35s; }
-        @keyframes modalIn { from { opacity:0; transform:scale(0.9) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
-        .gm-icon { font-size:2.5rem; margin-bottom:0.75rem; }
-        .gmodal h3 { font-size:1.1rem; font-weight:700; color:#fafafa; margin-bottom:0.4rem; }
-        .gm-sub { font-size:0.72rem; color:#888; margin-bottom:1.25rem; line-height:1.4; }
-        /* Total bar — FIXED at bottom */
-        .order-total-bar {
-            position: fixed;
-            bottom: 52px;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0.6rem 1rem;
-            background: rgba(14,14,14,0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-top: 1px solid var(--border);
-            gap: 0.75rem;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
-        @supports (bottom: env(safe-area-inset-bottom)) {
-            .order-total-bar {
-                bottom: calc(52px + env(safe-area-inset-bottom, 0px));
-            }
-        }
-        .gm-google-btn { display:flex; align-items:center; justify-content:center; gap:0.5rem; width:100%; padding:0.85rem; background:white; border:1px solid #ddd; border-radius:12px; font-size:0.95rem; font-weight:600; color:#333; cursor:pointer; font-family:inherit; transition:transform 0.1s, box-shadow 0.15s; }
-        .gm-google-btn:active { transform:scale(0.97); }
-        .gm-google-btn:hover { box-shadow:0 4px 15px rgba(66,133,244,0.2); }
-        .gm-google-btn img { width:20px; height:20px; }
-        .gm-skip { display:block; width:100%; margin-top:0.75rem; padding:0.6rem; background:none; border:none; color:#666; font-size:0.72rem; cursor:pointer; font-family:inherit; }
-        .gm-skip:hover { color:#999; }
-        .profile-link { display:block; text-align:center; padding:0.7rem; margin-top:0.5rem; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2); border-radius:10px; color:#f59e0b; font-size:0.82rem; font-weight:600; text-decoration:none; }
-        /* Login Gate */
-        .login-gate { position:fixed; inset:0; z-index:999; background:#111111; display:flex; align-items:center; justify-content:center; }
-        .login-gate.hidden { display:none; }
-        .lg-content { text-align:center; padding:2rem; max-width:360px; width:100%; animation:lgFadeIn 0.6s; }
-        @keyframes lgFadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-        .lg-logo { width:90px; height:90px; border-radius:50%; border:3px solid #f59e0b; margin-bottom:1rem; }
-        .lg-title { font-size:1.8rem; font-weight:800; color:#f59e0b; margin-bottom:0.15rem; font-family:'Outfit',sans-serif; }
-        .lg-tagline { font-size:0.82rem; color:#9ca3af; margin-bottom:1.5rem; }
-        .lg-divider { width:50px; height:2px; background:linear-gradient(90deg, transparent, #f59e0b, transparent); margin:0 auto 1.5rem; }
-        .lg-prompt { font-size:0.85rem; color:#d1d5db; margin-bottom:1.25rem; font-weight:500; }
-        .lg-footer { font-size:0.62rem; color:#6b7280; margin-top:1.25rem; }
-        /* Bottom Nav */
-        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:rgba(17,17,17,0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid rgba(255,255,255,0.06); display:none; z-index:100; padding:0.4rem 0 env(safe-area-inset-bottom, 0.3rem); }
-        .bottom-nav.show { display:flex; }
-        .bnav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.15rem; padding:0.4rem 0; text-decoration:none; color:#6b7280; font-size:0.58rem; font-weight:600; transition:color 0.15s; }
-        .bnav-item.active { color:#f59e0b; }
-        .bnav-item svg { width:20px; height:20px; }
-        .bnav-item.active svg { stroke:#f59e0b; }
-        .wa-fab { position:fixed; bottom:70px; right:max(1rem, calc((100vw - 480px) / 2 + 1rem)); width:48px; height:48px; background:#25D366; border-radius:50%; display:none; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:99; transition:transform 0.15s; text-decoration:none; }
-        .wa-fab.show { display:flex; }
-        .wa-fab:hover { transform:scale(1.08); }
-        .wa-fab:active { transform:scale(0.95); }
-        .wa-fab svg { width:24px; height:24px; fill:white; }
-    </style>
+    <script src="theme.js?v=1"></script>
     <script src="i18n.js"></script>
 </head>
 <body class="order-page-body">
@@ -151,7 +42,9 @@
 
     <!-- ===== FULL SCREEN LOGIN GATE ===== -->
     <div class="login-gate" id="loginGate">
+        <span class="lg-blob b1"></span><span class="lg-blob b2"></span><span class="lg-blob b3"></span>
         <div class="lg-content">
+            <img src="logo.jpg" alt="" class="lg-logo">
             <h1 class="lg-title">Aapla Swad</h1>
             <p class="lg-tagline" data-i18n="tagline">Authentic Dal Bati Churma</p>
             <div class="lg-divider"></div>
@@ -160,7 +53,7 @@
             <!-- Google Sign-In (native in app, GSI in browser) -->
             <div id="lg-signin-btn" style="display:flex;justify-content:center;min-height:48px;width:100%;max-width:300px;margin:0 auto;"></div>
 
-            <p class="lg-footer" data-i18n="safe_secure">🔒 We only use your name & profile photo</p>
+            <p class="lg-footer"><i class="ic" data-ic="lock"></i> <span data-i18n="safe_secure">We only use your name &amp; profile photo</span></p>
         </div>
     </div>
 
@@ -170,7 +63,7 @@
     <!-- Top Bar -->
     <nav class="order-nav">
         <div class="order-nav-inner">
-            <a href="index.html" class="back-btn" id="back-btn">
+            <a href="index.html" class="icon-btn back-btn" aria-label="Back to home" id="back-btn">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
             </a>
             <div class="order-nav-brand">
@@ -185,6 +78,15 @@
 
     <!-- Order Flow -->
     <main class="order-main">
+
+        <!-- Closed notice (order.js shows/hides it and writes the <p> and first <span>) -->
+        <div id="closed-banner" class="closed-banner" style="display:none;" role="status">
+            <div class="cb-row">
+                <div class="cb-ic"><i class="ic" data-ic="clock"></i></div>
+                <div class="cb-text"><p>We're closed right now</p><span>Open daily 10:00 AM – 10:00 PM</span></div>
+                <b class="cb-count" id="cbCount" hidden><small>Opens in</small><span></span></b>
+            </div>
+        </div>
 
         <!-- Step Indicator -->
         <div class="step-indicators">
@@ -202,9 +104,18 @@
 
         <!-- STEP 1: Menu Cart -->
         <section class="order-step" id="step-1-panel">
+            <!-- Search + kitchen tabs over the full menu (order-ui.js) -->
+            <div class="menu-tools" id="menuTools" hidden>
+                <label class="menu-find">
+                    <i class="ic" data-ic="search"></i>
+                    <input id="menuFind" type="search" autocomplete="off" enterkeyhint="search" placeholder="Search dishes" data-i18n="search_dishes" data-i18n-attr="placeholder" aria-label="Search dishes">
+                </label>
+                <div class="ktabs" id="kitchenTabs" role="tablist" aria-label="Kitchens"></div>
+            </div>
+
             <div class="order-card">
 
-                <div class="menu-select-label" data-i18n="our_menu_cart">🍛 Our Menu — Add to Cart</div>
+                <div class="menu-select-label"><i class="ic" data-ic="bowl"></i> <span data-i18n="our_menu_cart">Our Menu — Add to Cart</span></div>
 
                 <!-- Dynamically generated menu items -->
                 <div id="menu-items-container"></div>
@@ -231,7 +142,7 @@
                             <div class="detect-hero-pulse"></div>
                         </div>
 
-                        <h3 class="substep-title" data-i18n="detect_loc">📍 Detect Location</h3>
+                        <h3 class="substep-title" data-i18n="detect_loc">Detect Location</h3>
                         <p class="substep-hint">On your mobile location, press the button below to detect your current location.</p>
 
                         <button class="detect-btn-hero" id="detect-btn" onclick="detectLocation()">
@@ -240,7 +151,7 @@
                         </button>
 
                         <div class="location-result" id="location-result" style="display:none;">
-                            <div class="loc-icon">📍</div>
+                            <div class="loc-icon"><i class="ic" data-ic="pin"></i></div>
                             <div class="loc-info">
                                 <span class="loc-status">Location Detected</span>
                                 <span class="loc-coords" id="loc-coords"></span>
@@ -255,7 +166,7 @@
 
                 <!-- SUB-STEP 2B: Manual Address (only when user skips detection) -->
                 <div id="substep-address" class="substep-panel" style="display:none;">
-                    <h3 class="substep-title">🏠 Enter Your Address</h3>
+                    <h3 class="substep-title"><i class="ic" data-ic="home"></i> Enter Your Address</h3>
                     <p class="substep-hint">Type your delivery address so we can reach you.</p>
 
                     <div class="form-fields">
@@ -290,33 +201,33 @@
 
                     <!-- Saved info confirmation (shown if we have saved name+phone) -->
                     <div id="saved-info-card" style="display:none;">
-                        <h3 class="substep-title">👋 Welcome back!</h3>
+                        <h3 class="substep-title"><i class="ic" data-ic="sparkles"></i> Welcome back!</h3>
                         <p class="substep-hint">Confirm your details to continue.</p>
 
                         <div class="saved-details-card">
                             <div class="saved-row">
-                                <span class="saved-label">👤 Name</span>
+                                <span class="saved-label"><i class="ic" data-ic="user"></i> Name</span>
                                 <span class="saved-value" id="saved-name-display">—</span>
                             </div>
                             <div class="saved-row">
-                                <span class="saved-label">📞 Phone</span>
+                                <span class="saved-label"><i class="ic" data-ic="phone"></i> Phone</span>
                                 <span class="saved-value" id="saved-phone-display">—</span>
                             </div>
                         </div>
 
                         <div class="substep-actions" style="flex-direction:column;gap:0.5rem;">
                             <button class="next-btn" style="width:100%;justify-content:center;" onclick="confirmSavedInfo()">
-                                ✅ Yes, this is correct — Continue
+                                <i class="ic" data-ic="check"></i> Yes, this is correct — Continue
                             </button>
                             <button class="substep-skip" style="margin:0;font-size:0.75rem;" onclick="showEditInfoForm()">
-                                ✏️ Change name or number
+                                <i class="ic" data-ic="pencil"></i> Change name or number
                             </button>
                         </div>
                     </div>
 
                     <!-- Normal edit form -->
                     <div id="edit-info-form">
-                        <h3 class="substep-title">👤 Your Details</h3>
+                        <h3 class="substep-title"><i class="ic" data-ic="user"></i> Your Details</h3>
                         <p class="substep-hint">Tell us your name and number so we can reach you.</p>
 
                         <div class="form-fields">
@@ -358,9 +269,10 @@
         <!-- STEP 3: Confirm & Pay -->
         <section class="order-step hidden" id="step-3-panel">
             <div class="order-card">
-                <h3 class="step-title" data-i18n="review_confirm">✅ Review & Confirm</h3>
+                <h3 class="step-title" data-i18n="review_confirm">Review & Confirm</h3>
 
                 <div class="review-summary">
+                    <div class="bill-title" data-i18n="bill_details">Bill details</div>
                     <div id="review-items-list">
                         <!-- Dynamically populated by populateReview() -->
                     </div>
@@ -383,7 +295,7 @@
                     <h4 data-i18n="delivering_to">Delivering to</h4>
                     <p id="review-name"></p>
                     <p id="review-address"></p>
-                    <p id="review-landmark" style="color:#f59e0b;"></p>
+                    <p id="review-landmark" class="review-landmark"></p>
                     <p id="review-phone"></p>
                 </div>
 
@@ -392,11 +304,11 @@
                     <div class="pay-options">
                         <label class="pay-opt">
                             <input type="radio" name="pay" value="online" checked onchange="updatePayBtn()">
-                            <span class="pay-card">📱 <span data-i18n="pay_online">Pay Online</span> <small style="color:#22c55e;">(UPI / GPay / Cards)</small></span>
+                            <span class="pay-card"><i class="ic pay-ic" data-ic="smartphone"></i> <span data-i18n="pay_online">Pay Online</span> <small style="color:#22c55e;">(UPI / GPay / Cards)</small></span>
                         </label>
                         <label class="pay-opt">
                             <input type="radio" name="pay" value="cod" onchange="updatePayBtn()">
-                            <span class="pay-card">💵 <span data-i18n="cash_on_del">Cash on Delivery</span></span>
+                            <span class="pay-card"><i class="ic pay-ic" data-ic="banknote"></i> <span data-i18n="cash_on_del">Cash on Delivery</span></span>
                         </label>
                     </div>
                 </div>
@@ -422,12 +334,12 @@
                 <div class="success-icon" id="success-icon-wrap">
                     <svg id="success-icon-svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="16 8 10 16 7 13"/></svg>
                 </div>
-                <h2>Order Placed! 🎉</h2>
+                <h2>Order Placed!</h2>
                 <p>Your Dal Bati is being prepared fresh.</p>
-                <div id="s-code-box" style="display:none;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.06));border:1px solid rgba(34,197,94,0.35);border-radius:12px;padding:0.85rem;margin-bottom:0.75rem;text-align:center;">
-                    <div style="font-size:0.62rem;color:#9ca3af;letter-spacing:0.08em;font-weight:600;">DELIVERY CODE</div>
-                    <div id="s-delivery-code" style="font-size:2.1rem;font-weight:800;color:#22c55e;letter-spacing:0.25em;line-height:1.2;"></div>
-                    <div style="font-size:0.68rem;color:#9ca3af;">Tell this to the delivery partner when your food arrives</div>
+                <div id="s-code-box" class="code-box" style="display:none;">
+                    <div class="code-box-label">DELIVERY CODE</div>
+                    <div id="s-delivery-code" class="code-box-value"></div>
+                    <div class="code-box-hint">Tell this to the delivery partner when your food arrives</div>
                 </div>
                 <div class="success-details">
                     <div class="s-row"><span>Order ID</span><strong id="s-order-id"></strong></div>
@@ -437,7 +349,7 @@
                 </div>
 
                 <!-- Loyalty Stamp -->
-                <div id="s-loyalty" style="display:none;font-size:0.72rem;color:#f59e0b;text-align:center;padding:0.5rem 0.75rem;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);border-radius:10px;margin:0.5rem 0;font-weight:600;"></div>
+                <div id="s-loyalty" class="loyalty-note" style="display:none;"></div>
 
                 <!-- WhatsApp Confirmation -->
                 <a href="#" id="wa-confirm-btn" target="_blank" style="display:none;align-items:center;justify-content:center;gap:0.4rem;width:100%;padding:0.7rem;background:#25D366;color:white;border-radius:10px;text-decoration:none;font-size:0.82rem;font-weight:700;margin:0.4rem 0;">
@@ -446,12 +358,12 @@
                 </a>
 
                 <!-- Share Location -->
-                <a href="#" id="share-loc-btn" target="_blank" style="display:none;align-items:center;justify-content:center;gap:0.4rem;width:100%;padding:0.6rem;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#60a5fa;border-radius:10px;text-decoration:none;font-size:0.75rem;font-weight:600;">
-                    📍 Share My Location via WhatsApp
+                <a href="#" id="share-loc-btn" class="share-loc" target="_blank" style="display:none;">
+                    <i class="ic" data-ic="pin"></i> Share My Location via WhatsApp
                 </a>
 
-                <a href="track.html" class="next-btn track-link" id="track-link">📍 Track My Order</a>
-                <a href="profile.html" class="profile-link" id="profile-link">👤 View My Profile & Orders</a>
+                <a href="track.html" class="next-btn track-link" id="track-link"><i class="ic" data-ic="pin"></i> Track My Order</a>
+                <a href="profile.html" class="profile-link" id="profile-link"><i class="ic" data-ic="user"></i> View My Profile & Orders</a>
                 <a href="index.html" class="back-home-link">← Back to Home</a>
             </div>
         </section>
@@ -462,7 +374,7 @@
 
     <!-- Toast -->
     <div class="toast" id="toast">
-        <span class="toast-icon">✅</span>
+        <span class="toast-icon"><i class="ic" data-ic="check-circle"></i></span>
         <span class="toast-text" id="toast-text"></span>
     </div>
 
@@ -479,11 +391,6 @@
         </button>
     </div>
 
-    <!-- Closed Banner -->
-    <div id="closed-banner" style="display:none;position:fixed;bottom:110px;left:1rem;right:1rem;max-width:460px;margin:0 auto;z-index:98;background:rgba(239,68,68,0.95);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:0.6rem;text-align:center;">
-        <p style="font-size:0.78rem;color:#fff;font-weight:600;margin:0 0 0.1rem;">🕐 We're closed right now</p>
-        <span style="font-size:0.6rem;color:rgba(255,255,255,0.7);">Open daily 10:00 AM – 10:00 PM</span>
-    </div>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav" id="bottomNav">
@@ -493,15 +400,12 @@
         <a href="profile.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
     </nav>
 
-    <!-- WhatsApp Support -->
-    <a href="https://wa.me/918805211717?text=Hi%20Aapla%20Swad!%20I%20need%20help%20with%20my%20order" target="_blank" class="wa-fab" id="waFab" title="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
-
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="customer-auth.js"></script>
     <script src="push-config.js"></script>
     <script src="push-optin.js"></script>
     <script src="order.js"></script>
+    <script src="chef.js?v=2"></script>
+    <script src="order-ui.js?v=2"></script>
 </body>
 </html>

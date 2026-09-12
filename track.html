@@ -1,132 +1,206 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Track Order — Aapla Swad</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="icon-192.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="description" content="Track your Aapla Swad order in real-time. See order status, delivery progress and estimated arrival time.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://aaplaswad.store/track.html">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=1">
     <style>
-        :root { --orange:#ea580c; --gold:#f59e0b; --dark:#111111; --card:#1a1a1a; --border:rgba(255,255,255,0.06); --green:#22c55e; --blue:#3b82f6; --purple:#8b5cf6; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'Manrope',sans-serif; background:var(--dark); color:#fafafa; min-height:100dvh; }
-        .app { max-width:480px; margin:0 auto; min-height:100dvh; display:flex; flex-direction:column; }
+        /* ========== TRACK — live status + history ========== */
+        .app { max-width: var(--col); margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; }
+        .app-header-inner { max-width: var(--col); }
+        @media (min-width: 1024px) { .app-header-inner { max-width: var(--wide); } }
+        .page-logo { width: 40px; height: 40px; border-radius: 13px; object-fit: cover; box-shadow: var(--shadow-sm); flex-shrink: 0; }
+        .page-head-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .page-head-text h1 { font-family: var(--font-display); font-size: 1.22rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; }
+        .page-head-text span { font-size: 0.7rem; font-weight: 600; color: var(--text-3); }
+        .head-cta {
+            height: 40px; display: inline-flex; align-items: center; padding: 0 14px;
+            border-radius: 13px; background: var(--grad-brand); color: #fff;
+            font-size: 0.78rem; font-weight: 800; white-space: nowrap; box-shadow: var(--shadow-brand);
+        }
+        .content { flex: 1; padding: 14px 16px calc(var(--dock-space) + 8px); }
 
-        .topbar { display:flex; align-items:center; gap:0.5rem; padding:0.7rem 1rem; border-bottom:1px solid var(--border); flex-shrink:0; }
-        .topbar img { width:30px; height:30px; border-radius:50%; }
-        .topbar h1 { font-size:1rem; font-weight:700; flex:1; }
-        .topbar a { color:var(--gold); text-decoration:none; font-size:0.72rem; }
-        .content { flex:1; padding:1rem; }
+        .user-bar {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; margin-bottom: 14px;
+            border-radius: 18px; background: var(--surface); border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm); animation: rise 0.5s var(--ease-out);
+        }
+        .user-bar img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--ok-2); }
+        .ub-info { flex: 1; min-width: 0; }
+        .ub-name { font-size: 0.9rem; font-weight: 800; }
+        .ub-email { font-size: 0.72rem; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .ub-signout { height: 34px; padding: 0 12px; border-radius: 11px; background: var(--surface-2); border: 1px solid var(--line); color: var(--text-2); font-size: 0.74rem; font-weight: 700; }
 
-        /* User bar */
-        .user-bar { display:flex; align-items:center; gap:0.5rem; background:var(--card); border:1px solid var(--border); border-radius:12px; padding:0.6rem 0.85rem; margin-bottom:1rem; }
-        .user-bar img { width:32px; height:32px; border-radius:50%; border:2px solid var(--green); }
-        .user-bar .ub-info { flex:1; }
-        .user-bar .ub-name { font-size:0.78rem; font-weight:600; }
-        .user-bar .ub-email { font-size:0.6rem; color:#888; }
-        .ub-signout { font-size:0.6rem; color:#666; cursor:pointer; background:none; border:1px solid var(--border); padding:0.2rem 0.5rem; border-radius:6px; font-family:inherit; }
+        /* Segmented tabs */
+        .track-tabs { gap: 4px; padding: 4px; margin-bottom: 14px; border-radius: 16px; background: var(--surface-3); }
+        .track-tab { flex: 1; height: 42px; border: 0; border-radius: 12px; background: transparent; color: var(--text-2); font-size: 0.82rem; font-weight: 800; transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; }
+        .track-tab.active { background: var(--surface); color: var(--brand); box-shadow: var(--shadow-md); }
 
-        /* Tabs */
-        .track-tabs { display:flex; gap:0.3rem; margin-bottom:0.75rem; }
-        .track-tab { flex:1; padding:0.5rem; border:1px solid var(--border); border-radius:10px; background:transparent; color:#888; font-size:0.72rem; font-weight:600; cursor:pointer; font-family:inherit; text-align:center; }
-        .track-tab.active { background:var(--orange); color:white; border-color:var(--orange); }
+        .search-section { padding: 18px 16px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); text-align: center; animation: rise 0.5s var(--ease-out); }
+        .search-section h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; margin-bottom: 4px; }
+        .search-section p { font-size: 0.8rem; color: var(--text-2); margin-bottom: 14px; }
+        .search-row { display: flex; gap: 8px; }
+        .search-row input {
+            flex: 1; min-width: 0; height: 50px; padding: 0 14px;
+            border-radius: 14px; background: var(--surface-2); border: 1.5px solid var(--line);
+            color: var(--text); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.02em; outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .search-row input:focus { border-color: var(--brand); background: var(--surface); box-shadow: 0 0 0 4px var(--brand-soft); }
+        .search-row button { position: relative; overflow: hidden; height: 50px; padding: 0 20px; border: 0; border-radius: 14px; background: var(--grad-brand); color: #fff; font-size: 0.88rem; font-weight: 800; box-shadow: var(--shadow-brand); }
 
-        /* Search */
-        .search-section { padding:1rem 0 0.5rem; }
-        .search-section h2 { font-size:1rem; margin-bottom:0.25rem; text-align:center; }
-        .search-section p { font-size:0.72rem; color:#666; margin-bottom:0.75rem; text-align:center; }
-        .search-row { display:flex; gap:0.5rem; }
-        .search-row input { flex:1; padding:0.65rem; background:var(--card); border:1px solid var(--border); border-radius:10px; color:#fafafa; font-size:0.82rem; font-family:inherit; }
-        .search-row input:focus { outline:none; border-color:var(--orange); }
-        .search-row button { padding:0.65rem 0.85rem; background:var(--orange); color:white; border:none; border-radius:10px; font-weight:600; font-size:0.78rem; cursor:pointer; font-family:inherit; }
+        .track-card { display: none; margin-top: 14px; padding: 18px 16px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-md); }
+        .track-card.show { display: block; animation: rise 0.5s var(--ease-out); }
+        .tc-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px dashed var(--line-2); }
+        .tc-id { font-family: var(--font-display); font-size: 1.1rem; font-weight: 900; }
+        .tc-amount { font-family: var(--font-display); font-size: 1.2rem; font-weight: 900; color: var(--ok); }
 
-        /* Track card */
-        .track-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.25rem; margin-top:1rem; display:none; }
-        .track-card.show { display:block; animation:fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-        .tc-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border); }
-        .tc-id { font-size:1rem; font-weight:800; color:var(--gold); }
-        .tc-amount { font-size:1.1rem; font-weight:800; color:var(--green); }
+        .eta-box { position: relative; overflow: hidden; margin-bottom: 14px; padding: 18px 16px; border-radius: 20px; text-align: center; background: var(--grad-brand); color: #fff; box-shadow: var(--shadow-brand); }
+        .eta-box::after { content: ''; position: absolute; right: -8px; bottom: -16px; width: 100px; height: 100px; opacity: 0.22; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.5' cy='17.5' r='3.5'/%3E%3Ccircle cx='18.5' cy='17.5' r='3.5'/%3E%3Cpath d='M15 6h2l3 11.5M5.5 17.5 9 10h6l-3 7.5'/%3E%3C/svg%3E") center/contain no-repeat; animation: ride 3s ease-in-out infinite; }
+        @keyframes ride { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-14px); } }
+        .eta-label { font-size: 0.66rem; font-weight: 900; letter-spacing: 0.14em; opacity: 0.85; }
+        .eta-value { font-family: var(--font-display); font-size: 2.4rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; }
+        .eta-who { font-size: 0.8rem; opacity: 0.92; }
+        .eta-call { margin-top: 10px; padding: 8px 14px; border-radius: 99px; background: rgba(255, 255, 255, 0.22); color: #fff; font-size: 0.78rem; font-weight: 800; }
 
-        /* Timeline */
-        .timeline { margin:1.25rem 0; }
-        .tl-item { display:flex; gap:0.75rem; position:relative; padding-bottom:1.25rem; }
-        .tl-item:last-child { padding-bottom:0; }
-        .tl-line { position:absolute; left:13px; top:28px; bottom:0; width:2px; background:var(--border); }
-        .tl-item:last-child .tl-line { display:none; }
-        .tl-item.done .tl-line { background:var(--green); }
-        .tl-dot { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; flex-shrink:0; z-index:1; }
-        .tl-item.done .tl-dot { background:rgba(34,197,94,0.2); }
-        .tl-item.active .tl-dot { background:rgba(232,89,12,0.2); animation:pulse 1.5s infinite; }
-        .tl-item.waiting .tl-dot { background:rgba(255,255,255,0.05); }
-        @keyframes pulse { 0%,100% { box-shadow:0 0 0 0 rgba(232,89,12,0.3); } 50% { box-shadow:0 0 0 8px rgba(232,89,12,0); } }
-        .tl-text h4 { font-size:0.8rem; font-weight:600; }
-        .tl-item.waiting .tl-text h4 { color:#555; }
-        .tl-text p { font-size:0.65rem; color:#666; margin-top:0.1rem; }
+        .code-box { margin-bottom: 14px; padding: 16px; border-radius: 18px; text-align: center; background: var(--ok-soft); border: 1.5px dashed var(--ok-2); }
+        .code-box-label { font-size: 0.66rem; font-weight: 900; letter-spacing: 0.12em; color: var(--text-2); }
+        .code-box-value { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; letter-spacing: 0.28em; line-height: 1.2; color: var(--ok); margin: 2px 0; }
+        .code-box-hint { font-size: 0.74rem; color: var(--text-2); }
+        #mapBox { box-shadow: var(--shadow-sm); border: 1px solid var(--line); }
 
-        .info-section { border-top:1px solid var(--border); padding-top:0.75rem; margin-top:0.5rem; }
-        .info-row { display:flex; justify-content:space-between; padding:0.4rem 0; font-size:0.75rem; }
-        .info-row .lbl { color:#888; }
-        .info-row .val { font-weight:600; text-align:right; }
+        .timeline { margin: 6px 0 16px; }
+        .tl-item { position: relative; display: flex; gap: 14px; padding-bottom: 22px; animation: rise 0.5s var(--ease-out) both; }
+        .tl-item:nth-child(2) { animation-delay: 0.08s; }
+        .tl-item:nth-child(3) { animation-delay: 0.16s; }
+        .tl-item:nth-child(4) { animation-delay: 0.24s; }
+        .tl-item:last-child { padding-bottom: 0; }
+        .tl-line { position: absolute; left: 18px; top: 40px; bottom: 2px; width: 3px; border-radius: 3px; background: var(--surface-3); }
+        .tl-item:last-child .tl-line { display: none; }
+        .tl-item.done .tl-line { background: var(--ok-2); }
+        .tl-item.active .tl-line { background: linear-gradient(var(--brand), var(--surface-3)); }
+        .tl-dot { position: relative; z-index: 1; flex-shrink: 0; width: 39px; height: 39px; border-radius: 13px; display: grid; place-items: center; font-size: 1.05rem; background: var(--surface-3); }
+        .tl-item.done .tl-dot { background: var(--ok-soft); }
+        .tl-item.active .tl-dot { background: var(--brand-soft); animation: tlPulse 1.8s ease-out infinite; }
+        @keyframes tlPulse { 0% { box-shadow: 0 0 0 0 rgba(241, 90, 10, 0.45); } 100% { box-shadow: 0 0 0 12px rgba(241, 90, 10, 0); } }
+        .tl-item.waiting .tl-dot { filter: grayscale(1); opacity: 0.55; }
+        .tl-text { padding-top: 3px; }
+        .tl-text h4 { font-size: 0.93rem; font-weight: 800; color: var(--text); }
+        .tl-item.active .tl-text h4 { color: var(--brand); }
+        .tl-item.waiting .tl-text h4 { color: var(--text-3); }
+        .tl-text p { font-size: 0.76rem; color: var(--text-3); margin-top: 2px; }
 
-        .not-found { text-align:center; padding:2rem; color:#666; display:none; }
-        .not-found.show { display:block; }
-        .not-found .nf-icon { font-size:2rem; margin-bottom:0.5rem; }
-        .loading-msg { text-align:center; padding:1.5rem; color:#666; font-size:0.78rem; }
+        .info-section { padding: 4px 14px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); }
+        .info-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; font-size: 0.82rem; }
+        .info-row + .info-row { border-top: 1px dashed var(--line-2); }
+        .info-row .lbl { color: var(--text-3); font-weight: 600; }
+        .info-row .val { font-weight: 800; text-align: right; color: var(--text); }
 
-        /* My Orders list */
-        .my-orders { display:none; }
-        .my-orders.show { display:block; }
-        .mo-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; margin-bottom:0.5rem; cursor:pointer; transition:border-color 0.15s; }
-        .mo-card:active { border-color:var(--orange); }
-        .mo-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem; }
-        .mo-id { font-size:0.72rem; font-weight:700; color:var(--gold); }
-        .mo-status { font-size:0.56rem; font-weight:600; padding:0.1rem 0.4rem; border-radius:6px; }
-        .mo-status.pending { background:rgba(245,158,11,0.15); color:var(--gold); }
-        .mo-status.confirmed { background:rgba(59,130,246,0.15); color:var(--blue); }
-        .mo-status.preparing { background:rgba(139,92,246,0.15); color:var(--purple); }
-        .mo-status.on_the_way { background:rgba(59,130,246,0.15); color:#60a5fa; }
-        .mo-status.ready { background:rgba(34,197,94,0.15); color:var(--green); }
-        .mo-status.accepted { background:rgba(59,130,246,0.15); color:var(--blue); }
-        .mo-status.picked_up { background:rgba(139,92,246,0.15); color:var(--purple); }
-        .mo-status.delivered { background:rgba(34,197,94,0.15); color:var(--green); }
-        .mo-status.cancelled { background:rgba(239,68,68,0.15); color:#ef4444; }
-        .mo-row { display:flex; justify-content:space-between; align-items:center; }
-        .mo-items { font-size:0.75rem; }
-        .mo-amount { font-size:0.85rem; font-weight:700; color:var(--green); }
-        .mo-time { font-size:0.62rem; color:#666; margin-top:0.15rem; }
+        .not-found { display: none; text-align: center; padding: 30px 16px; color: var(--text-2); font-size: 0.86rem; }
+        .not-found.show { display: block; animation: rise 0.4s var(--ease-out); }
+        .not-found .nf-icon { font-size: 2.4rem; margin-bottom: 8px; }
+        .loading-msg { padding: 8px 0 24px; text-align: center; color: var(--text-3); font-size: 0.82rem; font-weight: 600; }
+        .loading-msg::before {
+            content: ''; display: block; height: 84px; margin-bottom: 12px; border-radius: 20px;
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 37%, var(--surface-2) 63%);
+            background-size: 400% 100%; animation: skel 1.3s ease infinite;
+        }
 
-        .empty-msg { text-align:center; padding:2rem; color:#555; font-size:0.78rem; }
-
-        /* Bottom Nav */
-        .bottom-nav { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:480px; background:rgba(17,17,17,0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid rgba(255,255,255,0.06); display:flex; z-index:100; padding:0.4rem 0 env(safe-area-inset-bottom, 0.3rem); }
-        .bnav-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:0.15rem; padding:0.4rem 0; text-decoration:none; color:#6b7280; font-size:0.58rem; font-weight:600; transition:color 0.15s; }
-        .bnav-item.active { color:#f59e0b; }
-        .bnav-item svg { width:20px; height:20px; }
-        .bnav-item.active svg { stroke:#f59e0b; }
-        .wa-fab { position:fixed; bottom:70px; right:max(1rem, calc((100vw - 480px) / 2 + 1rem)); width:48px; height:48px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:99; transition:transform 0.15s; text-decoration:none; }
-        .wa-fab:hover { transform:scale(1.08); }
-        .wa-fab:active { transform:scale(0.95); }
-        .wa-fab svg { width:24px; height:24px; fill:white; }
-        .content { padding-bottom:4rem; }
+        /* My orders list (cards built by the page script) */
+        .my-orders { display: none; }
+        .my-orders.show { display: block; }
+        .mo-card {
+            position: relative; overflow: hidden;
+            padding: 14px 14px 14px 18px; margin-bottom: 10px;
+            border-radius: 20px; background: var(--surface); border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm); cursor: pointer;
+            transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease;
+            animation: rise 0.5s var(--ease-out) both;
+        }
+        .mo-card:nth-child(2) { animation-delay: 0.05s; }
+        .mo-card:nth-child(3) { animation-delay: 0.1s; }
+        .mo-card:nth-child(4) { animation-delay: 0.15s; }
+        .mo-card:nth-child(n+5) { animation-delay: 0.2s; }
+        .mo-card::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 4px; border-radius: 0 4px 4px 0; background: var(--brand); }
+        .mo-card:has(.delivered)::before, .mo-card:has(.ready)::before { background: var(--ok-2); }
+        .mo-card:has(.cancelled)::before { background: var(--danger); }
+        .mo-card:active { transform: scale(0.98); }
+        @media (hover: hover) { .mo-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); } }
+        .mo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .mo-id { font-size: 0.86rem; font-weight: 900; color: var(--text); }
+        .mo-status { font-size: 0.66rem; font-weight: 900; letter-spacing: 0.04em; padding: 4px 9px; border-radius: 99px; background: var(--surface-3); color: var(--text-2); }
+        .mo-status.pending { background: var(--warn-soft); color: var(--warn); }
+        .mo-status.confirmed, .mo-status.accepted, .mo-status.on_the_way { background: var(--info-soft); color: var(--info); }
+        .mo-status.preparing, .mo-status.picked_up { background: var(--violet-soft); color: var(--violet); }
+        .mo-status.ready, .mo-status.delivered { background: var(--ok-soft); color: var(--ok); }
+        .mo-status.cancelled { background: var(--danger-soft); color: var(--danger); }
+        .mo-row { display: flex; justify-content: space-between; align-items: center; }
+        .mo-items { font-size: 0.84rem; font-weight: 600; color: var(--text-2); }
+        .mo-amount { font-family: var(--font-display); font-size: 1.05rem; font-weight: 900; color: var(--text); }
+        .mo-time { font-size: 0.72rem; color: var(--text-3); margin-top: 4px; }
+        .empty-msg { text-align: center; padding: 36px 16px; color: var(--text-2); font-size: 0.86rem; line-height: 1.6; }
+        .empty-msg::before { content: ''; display: block; width: 56px; height: 56px; margin: 0 auto 10px; border-radius: 18px; background: var(--brand-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f15a0a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11h18a9 9 0 0 1-18 0z'/%3E%3Cpath d='M7.5 7.5c0-1.4 1-2 1-3.5M12 7.5c0-1.4 1-2 1-3.5M16.5 7.5c0-1.4 1-2 1-3.5'/%3E%3C/svg%3E") center/28px no-repeat; }
+        .empty-msg a { font-weight: 800; }
+        /* Line icons instead of emoji */
+        .track-tab { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .track-tab .ic { width: 16px; height: 16px; }
+        .search-hero-ic { width: 52px; height: 52px; margin: 0 auto 10px; border-radius: 17px; display: grid; place-items: center; background: var(--brand-soft); color: var(--brand); }
+        .search-hero-ic .ic { width: 26px; height: 26px; }
+        .not-found .nf-icon .ic { width: 42px; height: 42px; color: var(--text-3); }
+        .tl-dot .ic { width: 18px; height: 18px; color: var(--text-3); }
+        .tl-item.done .tl-dot .ic { color: var(--ok); }
+        .tl-item.active .tl-dot .ic { color: var(--brand); }
+        .eta-call .ic { width: 14px; height: 14px; vertical-align: -2px; margin-right: 2px; }
+        .help-inline { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding: 12px 14px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+        .help-inline:active { transform: scale(0.98); }
+        .help-inline-ic { width: 42px; height: 42px; flex-shrink: 0; border-radius: 14px; display: grid; place-items: center; background: rgba(37, 211, 102, 0.14); color: #25d366; }
+        .help-inline-ic svg { width: 22px; height: 22px; fill: currentColor; }
+        .help-inline-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .help-inline-text b { font-size: 0.9rem; font-weight: 800; color: var(--text); }
+        .help-inline-text small { font-size: 0.74rem; color: var(--text-3); }
+        .help-go { transform: rotate(-90deg); color: var(--text-3); }
+        /* Live step: LIVE badge, bouncing icon, dashes flowing to the next step */
+        .tl-item.active .tl-text h4::after {
+            content: 'LIVE'; display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 99px;
+            background: var(--brand); color: #fff; font-size: 0.56rem; font-weight: 900; letter-spacing: 0.12em; vertical-align: 2px;
+            animation: liveBlink 1.6s ease-in-out infinite;
+        }
+        @keyframes liveBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+        .tl-item.active .tl-dot .ic { animation: stepBounce 1.4s ease-in-out infinite; }
+        @keyframes stepBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px) rotate(-8deg); } }
+        .tl-item.active .tl-line { background: repeating-linear-gradient(180deg, var(--brand) 0 6px, transparent 6px 12px); animation: dashFlow 0.8s linear infinite; }
+        @keyframes dashFlow { to { background-position: 0 12px; } }
+        /* ETA ticks down between refreshes */
+        .eta-count { font-family: var(--font-display); font-size: 2.6rem; font-weight: 900; line-height: 1.1; letter-spacing: 0.02em; font-variant-numeric: tabular-nums; }
+        .eta-box:not(.counting) .eta-count { display: none; }
+        .eta-box.counting .eta-value { display: none; }
     </style>
+    <script src="theme.js?v=1"></script>
     <script src="i18n.js"></script>
 </head>
 <body>
     <div class="app">
-        <div class="topbar">
-            <img src="logo.png" alt="">
-            <h1 data-i18n="my_orders">My Orders</h1>
-            <a href="order.html" data-i18n="new_order">+ New Order</a>
-        </div>
+        <header class="app-header" data-scroll-header>
+            <div class="app-header-inner">
+                <img src="logo.jpg" alt="" class="page-logo">
+                <div class="page-head-text"><h1 data-i18n="my_orders">My Orders</h1><span data-i18n="live_status_history">Live status &amp; history</span></div>
+                <a href="order.html" class="head-cta" data-i18n="new_order">+ New Order</a>
+            </div>
+        </header>
 
         <div class="content">
 
@@ -142,8 +216,8 @@
 
             <!-- Tabs -->
             <div class="track-tabs" id="trackTabs" style="display:none;">
-                <button class="track-tab active" onclick="switchTab('orders', this)" data-i18n="my_orders_tab">📦 My Orders</button>
-                <button class="track-tab" onclick="switchTab('track', this)" data-i18n="track_by_id">🔍 Track by ID</button>
+                <button class="track-tab active" onclick="switchTab('orders', this)"><i class="ic" data-ic="package"></i><span data-i18n="my_orders_tab">My Orders</span></button>
+                <button class="track-tab" onclick="switchTab('track', this)"><i class="ic" data-ic="search"></i><span data-i18n="track_by_id">Track by ID</span></button>
             </div>
 
             <!-- My Orders View -->
@@ -155,7 +229,8 @@
             <!-- Track by ID View -->
             <div id="trackView">
                 <div class="search-section">
-                    <h2 data-i18n="track_your_order">📍 Track Your Order</h2>
+                    <span class="search-hero-ic"><i class="ic" data-ic="pin"></i></span>
+                    <h2 data-i18n="track_your_order">Track Your Order</h2>
                     <p data-i18n="enter_order_id">Enter your order ID to check status</p>
                     <div class="search-row">
                         <input type="text" id="trackInput" placeholder="#SP2026XXXX">
@@ -163,25 +238,25 @@
                     </div>
                 </div>
 
-                <div class="not-found" id="notFound"><div class="nf-icon">🔍</div><p data-i18n="order_not_found">Order not found. Check your ID.</p></div>
+                <div class="not-found" id="notFound"><div class="nf-icon"><i class="ic" data-ic="search"></i></div><p data-i18n="order_not_found">Order not found. Check your ID.</p></div>
 
                 <div class="track-card" id="trackCard">
                     <div class="tc-header">
                         <span class="tc-id" id="t-id"></span>
                         <span class="tc-amount" id="t-amount"></span>
                     </div>
-                    <div id="etaBox" style="display:none;background:linear-gradient(135deg,rgba(234,88,12,0.15),rgba(245,158,11,0.1));border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:0.75rem;margin-bottom:0.85rem;text-align:center;">
-                        <div style="font-size:0.65rem;color:#9ca3af;letter-spacing:0.05em;" data-i18n="arriving_in">ARRIVING IN</div>
-                        <div id="etaValue" style="font-size:1.6rem;font-weight:800;color:#f59e0b;line-height:1.2;"></div>
-                        <div id="etaWho" style="font-size:0.68rem;color:#9ca3af;"></div>
-                        <a id="etaCall" href="#" style="display:none;margin-top:0.5rem;font-size:0.72rem;color:#3b82f6;text-decoration:none;font-weight:600;" data-i18n="call_delivery">📞 Call the delivery partner</a>
+                    <div id="etaBox" class="eta-box" style="display:none;">
+                        <div class="eta-label" data-i18n="arriving_in">ARRIVING IN</div>
+                        <div id="etaValue" class="eta-value"></div>
+                        <div id="etaWho" class="eta-who"></div>
+                        <a id="etaCall" href="#" class="eta-call" style="display:none;"><i class="ic" data-ic="phone"></i><span data-i18n="call_delivery">Call the delivery partner</span></a>
                     </div>
-                    <div id="codeBox" style="display:none;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(34,197,94,0.06));border:1px solid rgba(34,197,94,0.35);border-radius:12px;padding:0.8rem;margin-bottom:0.85rem;text-align:center;">
-                        <div style="font-size:0.62rem;color:#9ca3af;letter-spacing:0.08em;font-weight:600;" data-i18n="delivery_code">DELIVERY CODE</div>
-                        <div id="codeValue" style="font-size:1.9rem;font-weight:800;color:#22c55e;letter-spacing:0.25em;line-height:1.2;"></div>
-                        <div style="font-size:0.66rem;color:#9ca3af;" data-i18n="tell_delivery">Tell this to the delivery partner</div>
+                    <div id="codeBox" class="code-box" style="display:none;">
+                        <div class="code-box-label" data-i18n="delivery_code">DELIVERY CODE</div>
+                        <div id="codeValue" class="code-box-value"></div>
+                        <div class="code-box-hint" data-i18n="tell_delivery">Tell this to the delivery partner</div>
                     </div>
-                    <div id="mapBox" style="display:none;height:200px;border-radius:12px;overflow:hidden;margin-bottom:0.85rem;"></div>
+                    <div id="mapBox" style="display:none;height:200px;border-radius:18px;overflow:hidden;margin-bottom:0.85rem;"></div>
                     <div class="timeline" id="timeline"></div>
                     <div class="info-section">
                         <div class="info-row"><span class="lbl" data-i18n="quantity_label">Quantity</span><span class="val" id="t-qty"></span></div>
@@ -190,6 +265,13 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Help lives here now instead of a button floating over the page -->
+            <a class="help-inline" href="https://wa.me/918805211717?text=Hi%20Aapla%20Swad!%20I%20need%20help%20with%20my%20order" target="_blank" rel="noopener">
+                <span class="help-inline-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+                <span class="help-inline-text"><b data-i18n="need_help">Need help with an order?</b><small data-i18n="chat_whatsapp">Chat with us on WhatsApp</small></span>
+                <i class="ic help-go" data-ic="chevron"></i>
+            </a>
         </div>
     </div>
 
@@ -392,7 +474,7 @@
                 document.getElementById('t-qty').textContent = (order.items && order.items.length)
                     ? order.items.map(i => i.name + ' x' + i.qty).join(', ')
                     : 'x' + order.qty;
-                document.getElementById('t-pay').textContent = order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '📱 Paid Online';
+                document.getElementById('t-pay').textContent = order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Paid Online';
                 document.getElementById('t-time').textContent = new Date(order.createdAt).toLocaleString('en-IN');
 
                 renderEta(order);
@@ -400,10 +482,10 @@
                 renderCode(order);
 
                 const steps = [
-                    { icon:'📋', title:'Order Placed', desc:'Your order has been received' },
-                    { icon:'👨‍🍳', title:'Preparing', desc:'Your food is being cooked fresh' },
-                    { icon:'🛵', title:'On the Way', desc:order.partnerName ? order.partnerName + ' is bringing your order' : 'Your order has been picked up' },
-                    { icon:'✅', title:'Delivered', desc:'Enjoy your meal!' }
+                    { icon:'<i class="ic" data-ic="clipboard"></i>', title:'Order Placed', desc:'Your order has been received' },
+                    { icon:'<i class="ic" data-ic="chef"></i>', title:'Preparing', desc:'Your food is being cooked fresh' },
+                    { icon:'<i class="ic" data-ic="bike"></i>', title:'On the Way', desc:order.partnerName ? order.partnerName + ' is bringing your order' : 'Your order has been picked up' },
+                    { icon:'<i class="ic" data-ic="check"></i>', title:'Delivered', desc:'Enjoy your meal!' }
                 ];
                 // The kitchen has more states than the customer needs to see
                 const stageOf = {
@@ -512,8 +594,8 @@
             }
 
             const riderIcon = L.divIcon({
-                html: '<div style="font-size:26px;line-height:1">🛵</div>',
-                className: '', iconSize: [26, 26], iconAnchor: [13, 13]
+                html: '<div class="map-pin map-pin-rider"><i class="ic" data-ic="bike"></i></div>',
+                className: '', iconSize: [38, 38], iconAnchor: [19, 19]
             });
 
             if (partnerMarker) partnerMarker.setLatLng(rider);
@@ -521,8 +603,8 @@
 
             if (home) {
                 const homeIcon = L.divIcon({
-                    html: '<div style="font-size:22px;line-height:1">🏠</div>',
-                    className: '', iconSize: [22, 22], iconAnchor: [11, 11]
+                    html: '<div class="map-pin map-pin-home"><i class="ic" data-ic="home"></i></div>',
+                    className: '', iconSize: [38, 38], iconAnchor: [19, 19]
                 });
                 if (homeMarker) homeMarker.setLatLng(home);
                 else homeMarker = L.marker(home, { icon: homeIcon }).addTo(trackMap);
@@ -548,6 +630,45 @@
         }
     </script>
 
+    <script>
+        // ETA: tick down every second between the 10-second refreshes. Keeps its own
+        // clock unless the server moves the estimate by more than ~a minute.
+        (function () {
+            var box = document.getElementById('etaBox');
+            var val = document.getElementById('etaValue');
+            if (!box || !val) return;
+            var out = document.createElement('div');
+            out.className = 'eta-count';
+            out.setAttribute('aria-hidden', 'true');
+            val.parentNode.insertBefore(out, val.nextSibling);
+            var target = null, orderKey = null;
+            function parseMins(text) {
+                var h = /(\d+)\s*hr/.exec(text), m = /(\d+)\s*min/.exec(text);
+                if (!h && !m) return null;
+                return (h ? +h[1] * 60 : 0) + (m ? +m[1] : 0);
+            }
+            function tick() {
+                if (!target) return;
+                var s = Math.max(0, Math.round((target - Date.now()) / 1000));
+                if (s === 0) { out.textContent = typeof t === 'function' ? t('eta_any', 'Any minute now') : 'Any minute now'; return; }
+                var mm = Math.floor(s / 60), ss = s % 60;
+                out.textContent = (mm < 10 ? '0' : '') + mm + ':' + (ss < 10 ? '0' : '') + ss;
+            }
+            function sync() {
+                var mins = parseMins(val.textContent);
+                var id = (document.getElementById('t-id') || {}).textContent || '';
+                if (mins === null) { target = null; box.classList.remove('counting'); return; }
+                var serverTarget = Date.now() + mins * 60000;
+                if (!target || id !== orderKey || Math.abs(serverTarget - target) > 90000) target = serverTarget;
+                orderKey = id;
+                box.classList.add('counting');
+                tick();
+            }
+            new MutationObserver(sync).observe(val, { childList: true, characterData: true, subtree: true });
+            setInterval(tick, 1000);
+        })();
+    </script>
+
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="index.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
@@ -555,10 +676,5 @@
         <a href="track.html" class="bnav-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Track</a>
         <a href="profile.html" class="bnav-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
     </nav>
-
-    <!-- WhatsApp Support -->
-    <a href="https://wa.me/918805211717?text=Hi%20Aapla%20Swad!%20I%20need%20help" target="_blank" class="wa-fab" title="Chat on WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-    </a>
 </body>
 </html>

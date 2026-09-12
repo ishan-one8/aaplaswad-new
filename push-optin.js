@@ -133,15 +133,15 @@ function spShowOfferOptIn(container) {
     card.style.cssText = 'background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);' +
         'border-radius:12px;padding:0.85rem;margin:0.6rem 0;text-align:center;';
     card.innerHTML =
-        '<div style="font-size:0.82rem;font-weight:700;color:#f59e0b;margin-bottom:0.2rem;">' +
-            '🔔 Get our offers first</div>' +
-        '<div style="font-size:0.7rem;color:#9ca3af;margin-bottom:0.6rem;">' +
+        '<div style="font-size:0.82rem;font-weight:700;color:var(--brand-ink,#f59e0b);margin-bottom:0.2rem;">' +
+            (window.ASIcon ? ASIcon('bell') : '') + ' Get our offers first</div>' +
+        '<div style="font-size:0.7rem;color:var(--text-2,#9ca3af);margin-bottom:0.6rem;">' +
             'We will let you know about discounts and new thalis. No spam.</div>' +
         '<button id="sp-push-yes" style="padding:0.55rem 1.1rem;border:none;border-radius:9px;' +
             'background:linear-gradient(135deg,#ea580c,#f59e0b);color:#fff;font-weight:700;' +
             'font-size:0.78rem;font-family:inherit;cursor:pointer;">Yes, notify me</button>' +
         '<button id="sp-push-no" style="margin-left:0.5rem;padding:0.55rem 0.9rem;border:none;' +
-            'border-radius:9px;background:transparent;color:#6b7280;font-size:0.75rem;' +
+            'border-radius:9px;background:transparent;color:var(--text-3,#6b7280);font-size:0.75rem;' +
             'font-family:inherit;cursor:pointer;">No thanks</button>';
 
     container.appendChild(card);
@@ -149,8 +149,8 @@ function spShowOfferOptIn(container) {
     card.querySelector('#sp-push-yes').onclick = async () => {
         const ok = await spEnableOffers();
         card.innerHTML = ok
-            ? '<div style="font-size:0.78rem;color:#22c55e;font-weight:600;">✅ You are on the list</div>'
-            : '<div style="font-size:0.75rem;color:#9ca3af;">No problem — you can turn this on in your browser settings later.</div>';
+            ? '<div style="font-size:0.78rem;color:#22c55e;font-weight:600;">' + (window.ASIcon ? ASIcon('check-circle') : '') + ' You are on the list</div>'
+            : '<div style="font-size:0.75rem;color:var(--text-2,#9ca3af);">No problem — you can turn this on in your browser settings later.</div>';
         setTimeout(() => card.remove(), 3500);
     };
 

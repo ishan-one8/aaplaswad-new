@@ -23,12 +23,12 @@
 
     var style = document.createElement('style');
     style.textContent =
-        '#aapla-splash{position:fixed;inset:0;z-index:99999;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;gap:0.5rem}' +
-        '#aapla-splash img{width:130px;height:130px;object-fit:contain;border-radius:28px;animation:splashPulse 1s ease-in-out infinite alternate;box-shadow:0 8px 40px rgba(234,88,12,0.3)}' +
+        '#aapla-splash{position:fixed;inset:0;z-index:99999;background:var(--bg,#0a0a0a);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s ease;gap:0.5rem}' +
+        '#aapla-splash img{width:130px;height:130px;object-fit:contain;border-radius:28px;animation:splashPulse 1s ease-in-out infinite alternate;box-shadow:0 12px 44px rgba(241,90,10,0.32)}' +
         '@keyframes splashPulse{0%{transform:scale(0.94);opacity:0.85}100%{transform:scale(1);opacity:1}}' +
-        '.splash-name{font-family:"Outfit",sans-serif;font-size:1.5rem;font-weight:800;color:#f59e0b;margin-top:0.7rem;letter-spacing:-0.02em}' +
-        '.splash-tagline{font-family:"Outfit",sans-serif;font-size:0.7rem;color:#666;margin-top:-0.2rem}' +
-        '.splash-loader{width:140px;height:3px;background:rgba(255,255,255,0.06);border-radius:99px;margin-top:1rem;overflow:hidden}' +
+        '.splash-name{font-family:"Outfit",sans-serif;font-size:1.5rem;font-weight:800;font-weight:900;background:linear-gradient(135deg,#f15a0a,#ffa23a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:0.7rem;letter-spacing:-0.02em}' +
+        '.splash-tagline{font-family:"Outfit",sans-serif;font-size:0.7rem;color:var(--text-3,#666);margin-top:-0.2rem}' +
+        '.splash-loader{width:140px;height:3px;background:var(--line,rgba(255,255,255,0.06));border-radius:99px;margin-top:1rem;overflow:hidden}' +
         '.splash-loader-bar{width:0%;height:100%;background:linear-gradient(90deg,#ea580c,#f59e0b);border-radius:99px;transition:width 0.2s ease}' +
         '#aapla-splash.hide{opacity:0;pointer-events:none}';
 
@@ -55,7 +55,7 @@
     }
 
     function preload() {
-        var all = document.querySelectorAll('.grid-card img, .hero img');
+        var all = document.querySelectorAll('.promo-img, .hero img, .grid-card img:not([loading="lazy"])');
         var total = Math.min(all.length, 16);
         if (total === 0) { dismiss(); return; }
         var loaded = 0;

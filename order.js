@@ -19,11 +19,11 @@ const FALLBACK_MENU = {
         price: 80,
         oldPrice: 150,
         discount: '47% OFF',
-        image: 'hero.png',
+        image: 'hero.jpg',
         category: 'veg',
         includes: '4 bati • dal • churma • chutney • ghee',
         extras: { 'db-ghee': 10, 'db-churma': 15, 'db-bati': 20 },
-        extrasLabels: { 'db-ghee': '🧈 Extra Ghee', 'db-churma': '🍮 Extra Churma', 'db-bati': '🫓 2 Extra Bati' }
+        extrasLabels: { 'db-ghee': 'Extra Ghee', 'db-churma': 'Extra Churma', 'db-bati': '2 Extra Bati' }
     },
     'zunka-bhakar': {
         name: 'Zunka Bhakar Thali',
@@ -31,11 +31,11 @@ const FALLBACK_MENU = {
         price: 117,
         oldPrice: 250,
         discount: '53% OFF',
-        image: 'zunka.png',
+        image: 'zunka.jpg',
         category: 'veg',
         includes: '3 bhakri • zunka • onion • chili • pickle',
         extras: { 'zb-ghee': 10, 'zb-onion': 10, 'zb-bhakri': 25 },
-        extrasLabels: { 'zb-ghee': '🧈 Extra Ghee', 'zb-onion': '🧅 Extra Onion Salad', 'zb-bhakri': '🫓 2 Extra Bhakri' }
+        extrasLabels: { 'zb-ghee': 'Extra Ghee', 'zb-onion': 'Extra Onion Salad', 'zb-bhakri': '2 Extra Bhakri' }
     },
     'bharit-bhakar': {
         name: 'Bharit Bhakar Thali',
@@ -43,11 +43,11 @@ const FALLBACK_MENU = {
         price: 121,
         oldPrice: 200,
         discount: '40% OFF',
-        image: 'bharit.png',
+        image: 'bharit.jpg',
         category: 'veg',
         includes: 'bharit • 2 bhakar • onion • lemon • aachar • thecha',
         extras: { 'bb-ghee': 10, 'bb-bhakar': 25, 'bb-thecha': 15 },
-        extrasLabels: { 'bb-ghee': '🧈 Extra Ghee', 'bb-bhakar': '🫓 2 Extra Bhakar', 'bb-thecha': '🌶️ Extra Thecha' }
+        extrasLabels: { 'bb-ghee': 'Extra Ghee', 'bb-bhakar': '2 Extra Bhakar', 'bb-thecha': 'Extra Thecha' }
     },
     'bombil-thali': {
         name: 'Bombil Thali',
@@ -55,11 +55,11 @@ const FALLBACK_MENU = {
         price: 130,
         oldPrice: 350,
         discount: '63% OFF',
-        image: 'bombil.png',
+        image: 'bombil.jpg',
         category: 'nonveg',
         includes: '6 pcs bombil • rassa • rice • 2 bhakar • onion • lemon',
         extras: { 'bm-bhakar': 25, 'bm-rice': 20, 'bm-bombil': 40 },
-        extrasLabels: { 'bm-bhakar': '🫓 2 Extra Bhakar', 'bm-rice': '🍚 Extra Rice', 'bm-bombil': '🐟 Extra Bombil (3 pcs)' }
+        extrasLabels: { 'bm-bhakar': '2 Extra Bhakar', 'bm-rice': 'Extra Rice', 'bm-bombil': 'Extra Bombil (3 pcs)' }
     },
     'zinga-thali': {
         name: 'Zinga Thali',
@@ -67,11 +67,11 @@ const FALLBACK_MENU = {
         price: 1,
         oldPrice: 125,
         discount: 'TEST',
-        image: 'zinga.png',
+        image: 'zinga.jpg',
         category: 'nonveg',
         includes: 'zinga chatni • 2 bhakar • onion • lemon',
         extras: { 'zg-bhakar': 25, 'zg-zinga': 40 },
-        extrasLabels: { 'zg-bhakar': '🫓 2 Extra Bhakar', 'zg-zinga': '🦐 Extra Zinga' }
+        extrasLabels: { 'zg-bhakar': '2 Extra Bhakar', 'zg-zinga': 'Extra Zinga' }
     },
     'chicken-thali': {
         name: 'Chicken Thali',
@@ -79,11 +79,11 @@ const FALLBACK_MENU = {
         price: 151,
         oldPrice: 350,
         discount: '57% OFF',
-        image: 'chicken.png',
+        image: 'chicken.jpg',
         category: 'nonveg',
         includes: '4 pcs chicken • rassa • rice • 2 bhakari • onion • lemon',
         extras: { 'ck-bhakar': 25, 'ck-rice': 20, 'ck-chicken': 50 },
-        extrasLabels: { 'ck-bhakar': '🫓 2 Extra Bhakari', 'ck-rice': '🍚 Extra Rice', 'ck-chicken': '🍗 Extra Chicken (2 pcs)' }
+        extrasLabels: { 'ck-bhakar': '2 Extra Bhakari', 'ck-rice': 'Extra Rice', 'ck-chicken': 'Extra Chicken (2 pcs)' }
     },
     'special-dal-batti': {
         name: 'Special Dal Batti Thali',
@@ -91,11 +91,11 @@ const FALLBACK_MENU = {
         price: 120,
         oldPrice: 220,
         discount: '45% OFF',
-        image: 'special-dal-batti.png',
+        image: 'special-dal-batti.jpg',
         category: 'veg',
         includes: '8 pcs batti • dal • sweet • onion • lemon',
         extras: { 'sd-ghee': 10, 'sd-batti': 30, 'sd-sweet': 20 },
-        extrasLabels: { 'sd-ghee': '🧈 Extra Ghee', 'sd-batti': '🫓 4 Extra Batti', 'sd-sweet': '🍮 Extra Sweet' }
+        extrasLabels: { 'sd-ghee': 'Extra Ghee', 'sd-batti': '4 Extra Batti', 'sd-sweet': 'Extra Sweet' }
     },
     'rice-plate': {
         name: 'Rice Plate',
@@ -103,12 +103,12 @@ const FALLBACK_MENU = {
         price: 130,
         oldPrice: 220,
         discount: '41% OFF',
-        image: 'rice-plate.png',
+        image: 'rice-plate.jpg',
         category: 'veg',
         hotel: 'Aapla Swad Hotel',
         includes: '2 bhaji • rice • dal • 3 chapati • sweet • kanda • limbu • lonch • thecha',
         extras: { 'rp-chapati': 15, 'rp-rice': 20, 'rp-sweet': 20 },
-        extrasLabels: { 'rp-chapati': '🫓 Extra Chapati', 'rp-rice': '🍚 Extra Rice', 'rp-sweet': '🍮 Extra Sweet' }
+        extrasLabels: { 'rp-chapati': 'Extra Chapati', 'rp-rice': 'Extra Rice', 'rp-sweet': 'Extra Sweet' }
     },
 
     // ===== Shriyan Chinese =====
@@ -497,10 +497,7 @@ function showLoginModal(callback) {
     if (isNativeOrWebView) {
         // Native app / WebView: show a custom Google button
         holder.innerHTML = `
-            <button id="lg-native-google" style="display:flex;align-items:center;justify-content:center;
-                gap:0.5rem;width:100%;max-width:300px;padding:0.8rem 1rem;border:1px solid rgba(255,255,255,0.15);
-                border-radius:12px;background:rgba(255,255,255,0.05);color:#fafafa;font-size:0.92rem;
-                font-weight:600;font-family:inherit;cursor:pointer;transition:all 0.15s;margin:0 auto;">
+            <button id="lg-native-google" class="lg-google-btn">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="">
                 Continue with Google
             </button>`;
@@ -720,10 +717,10 @@ function renderCartMode(container) {
     let html = '';
     
     // Cart section header
-    html += '<div style="display:flex;align-items:center;gap:0.35rem;margin-bottom:0.5rem;">';
-    html += '<span style="font-size:1.1rem;">🛒</span>';
-    html += `<span style="font-size:0.78rem;font-weight:700;color:#fafafa;">${t('your_cart')}</span>`;
-    html += `<span style="font-size:0.55rem;color:#888;margin-left:auto;">${t('items_ready')}</span>`;
+    html += '<div class="cart-head">';
+    html += '<span class="cart-head-ic"><i class="ic" data-ic="cart"></i></span>';
+    html += `<span class="cart-head-title">${t('your_cart')}</span>`;
+    html += `<span class="cart-head-sub">${t('items_ready')}</span>`;
     html += '</div>';
 
     // Only show items in cart
@@ -733,11 +730,11 @@ function renderCartMode(container) {
     });
 
     // Divider
-    html += '<div style="height:1px;background:rgba(255,255,255,0.06);margin:0.8rem 0;"></div>';
+    html += '<div class="cart-divider"></div>';
 
     // Collapsible "Add more" section
     html += '<div id="addMoreSection">';
-    html += `<button onclick="toggleAddMore()" id="addMoreBtn" style="width:100%;padding:0.55rem 0.7rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#9ca3af;font-size:0.68rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:0.3rem;">`;
+    html += `<button onclick="toggleAddMore()" id="addMoreBtn" class="add-more-btn">`;
     html += `${t('add_more')} <span id="addMoreArrow" style="transition:transform 0.3s;">▼</span>`;
     html += '</button>';
     html += '<div id="addMoreList" style="display:none;margin-top:0.5rem;">';
@@ -747,11 +744,11 @@ function renderCartMode(container) {
     const nonCartNonveg = Object.keys(MENU).filter(k => cart[k] === 0 && MENU[k].category === 'nonveg');
 
     if (nonCartVeg.length > 0) {
-        html += `<div class="menu-category-header"><span class="mc-dot mc-veg">●</span> ${t('veg_thalis')}</div>`;
+        html += `<div class="menu-category-header"><span class="veg-mark"></span> ${t('veg_thalis')}</div>`;
         nonCartVeg.forEach(key => { html += buildItemCardHTML(key); });
     }
     if (nonCartNonveg.length > 0) {
-        html += `<div class="menu-category-header" style="margin-top:0.4rem;"><span class="mc-dot mc-nonveg">●</span> ${t('nonveg_thalis')}</div>`;
+        html += `<div class="menu-category-header" style="margin-top:0.4rem;"><span class="nonveg-mark"></span> ${t('nonveg_thalis')}</div>`;
         nonCartNonveg.forEach(key => { html += buildItemCardHTML(key); });
     }
 
@@ -774,7 +771,7 @@ function renderCartMode(container) {
     });
 
     recalc();
-    showToast('🛒 Items added to your cart!');
+    showToast('Items added to your cart');
 }
 
 function renderFullMenu(container) {
@@ -792,7 +789,7 @@ function renderFullMenu(container) {
 
     // Define hotel display order and styling
     const hotelOrder = ['Aapla Swad Hotel', 'Shriyan Chinese', 'Mauli Veg Rol', 'Maratha Hotel'];
-    const hotelEmojis = { 'Aapla Swad Hotel': '🏠', 'Shriyan Chinese': '🥡', 'Mauli Veg Rol': '🌯', 'Maratha Hotel': '🍗' };
+    const hotelIcons = { 'Aapla Swad Hotel': 'home', 'Shriyan Chinese': 'takeout', 'Mauli Veg Rol': 'wrap', 'Maratha Hotel': 'flame' };
 
     hotelOrder.forEach(hotelName => {
         const hotelData = hotels[hotelName];
@@ -801,20 +798,20 @@ function renderFullMenu(container) {
         if (allKeys.length === 0) return;
 
         // Hotel section header
-        html += `<div style="margin:0.8rem 0 0.4rem;padding:0.5rem 0.65rem;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.12);border-radius:10px;display:flex;align-items:center;gap:0.4rem;">
-            <span style="font-size:1.2rem;">${hotelEmojis[hotelName] || '🍽️'}</span>
+        html += `<div class="menu-hotel-header">
+            <span class="mh-emoji"><i class="ic" data-ic="${hotelIcons[hotelName] || 'bowl'}"></i></span>
             <div>
-                <div style="font-size:0.78rem;font-weight:700;color:#f59e0b;">${hotelName}</div>
-                <div style="font-size:0.52rem;color:#888;">${allKeys.length} items available</div>
+                <div class="mh-name">${hotelName}</div>
+                <div class="mh-sub">${allKeys.length} items available</div>
             </div>
         </div>`;
 
         if (hotelData.veg.length > 0) {
-            html += `<div class="menu-category-header"><span class="mc-dot mc-veg">●</span> ${t('veg_thalis')}</div>`;
+            html += `<div class="menu-category-header"><span class="veg-mark"></span> ${t('veg_thalis')}</div>`;
             hotelData.veg.forEach(key => { html += buildItemCardHTML(key); });
         }
         if (hotelData.nonveg.length > 0) {
-            html += `<div class="menu-category-header" style="margin-top:0.4rem;"><span class="mc-dot mc-nonveg">●</span> ${t('nonveg_thalis')}</div>`;
+            html += `<div class="menu-category-header" style="margin-top:0.4rem;"><span class="nonveg-mark"></span> ${t('nonveg_thalis')}</div>`;
             hotelData.nonveg.forEach(key => { html += buildItemCardHTML(key); });
         }
     });
@@ -825,8 +822,9 @@ function renderFullMenu(container) {
         const hotelData = hotels[hotelName];
         const allKeys = [...hotelData.veg, ...hotelData.nonveg];
         if (allKeys.length === 0) return;
-        html += `<div style="margin:0.8rem 0 0.4rem;padding:0.5rem 0.65rem;background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.12);border-radius:10px;">
-            <div style="font-size:0.78rem;font-weight:700;color:#f59e0b;">🍽️ ${hotelName}</div>
+        html += `<div class="menu-hotel-header">
+            <span class="mh-emoji"><i class="ic" data-ic="bowl"></i></span>
+            <div class="mh-name">${hotelName}</div>
         </div>`;
         allKeys.forEach(key => { html += buildItemCardHTML(key); });
     });
@@ -855,8 +853,10 @@ function buildItemCardHTML(key) {
     const isNew = !['dal-bati'].includes(key);
 
     // Translate dish name and description
-    const dishName = t('dish_' + key) || item.name;
-    const dishDesc = t('desc_' + key) || item.includes;
+    // t() hands back the key itself when there is no translation, so the real
+    // name has to go in as the fallback (Chinese and roll items have none)
+    const dishName = t('dish_' + key, item.name);
+    const dishDesc = t('desc_' + key, item.includes);
 
     // Map extras keys to translation keys
     const EXTRAS_MAP = {
@@ -915,12 +915,12 @@ function buildItemCardHTML(key) {
 function changeCartQty(itemKey, delta) {
     // Block Shriyan Chinese items outside 3 PM - 10 PM
     if (delta > 0 && isShriyanChineseItem(itemKey) && !isChineseOpen()) {
-        showToast('🥡 Shriyan Chinese opens at 3:00 PM. Available 3 PM – 10 PM');
+        showToast('Shriyan Chinese opens at 3:00 PM. Available 3 PM – 10 PM');
         return;
     }
     // Block Mauli Veg Rol items outside 5 PM - 10 PM
     if (delta > 0 && isMauliRolItem(itemKey) && !isRollsOpen()) {
-        showToast('🌯 Mauli Veg Rol opens at 5:00 PM. Available 5 PM – 10 PM');
+        showToast('Mauli Veg Rol opens at 5:00 PM. Available 5 PM – 10 PM');
         return;
     }
     cart[itemKey] = Math.max(0, (cart[itemKey] || 0) + delta);
@@ -1106,13 +1106,13 @@ function populateReview() {
     const landmark = document.getElementById('f-landmark').value.trim();
     const reviewLandmark = document.getElementById('review-landmark');
     if (landmark) {
-        reviewLandmark.textContent = '📌 ' + landmark;
+        reviewLandmark.textContent = 'Landmark: ' + landmark;
         reviewLandmark.style.display = '';
     } else {
         reviewLandmark.style.display = 'none';
     }
     
-    document.getElementById('review-phone').textContent = '📞 ' + document.getElementById('f-phone').value;
+    document.getElementById('review-phone').textContent = 'Phone: ' + document.getElementById('f-phone').value;
     updatePayBtn();
 }
 
@@ -1310,11 +1310,11 @@ function detectLocation() {
                 const dist = window._customerDistanceKm;
                 btn.classList.remove('detected');
                 btn.classList.add('out-of-range');
-                detectText.textContent = '❌ Out of Range';
+                detectText.textContent = 'Out of range';
                 document.getElementById('loc-coords').textContent = 
                     `You are ${dist} km away. We deliver within ${maxKm} km only.`;
                 document.getElementById('loc-coords').style.color = '#fca5a5';
-                showToast(`😔 Sorry! We currently deliver within ${maxKm} km only. You are ${dist} km away.`);
+                showToast(`Sorry! We currently deliver within ${maxKm} km only. You are ${dist} km away.`);
                 // Disable the Place Order button
                 const placeBtn = document.getElementById('place-btn');
                 if (placeBtn) placeBtn.disabled = true;
@@ -1322,7 +1322,7 @@ function detectLocation() {
             }
 
             console.log('📍 Exact GPS:', latitude, longitude, 'Accuracy:', accuracy + 'm');
-            showToast('Exact location captured! 📍 ±' + Math.round(accuracy) + 'm');
+            showToast('Exact location captured ±' + Math.round(accuracy) + 'm');
 
             // Auto-fill address via reverse geocoding, then advance to name step
             fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`)
@@ -1490,7 +1490,7 @@ function showPaymentNotConfirmed() {
     if (idEl) idEl.textContent = '—';
 
     const payEl = document.getElementById('s-payment');
-    if (payEl) payEl.textContent = 'Not confirmed ❌';
+    if (payEl) payEl.textContent = 'Not confirmed';
 
     // Show a retry button
     const btn = document.getElementById('place-btn');
@@ -1523,7 +1523,7 @@ async function completePayment(razorpayOrderId, attempts = 12) {
 
             if (data.success && data.order) {
                 localStorage.removeItem('sp_pending_payment');
-                showSuccess(data.order.orderId, 'Paid via Razorpay ✅', data.order.deliveryCode);
+                showSuccess(data.order.orderId, 'Paid via Razorpay', data.order.deliveryCode);
                 return data.order;
             }
 
@@ -1605,7 +1605,7 @@ async function placeOrder() {
     if (!isWithinDeliveryRange()) {
         const maxKm = SHOP_STATUS.maxDeliveryKm || 5;
         const dist = window._customerDistanceKm || '?';
-        showToast(`😔 Sorry! We currently deliver within ${maxKm} km only. You are ${dist} km away.`);
+        showToast(`Sorry! We currently deliver within ${maxKm} km only. You are ${dist} km away.`);
         return;
     }
 
@@ -1663,7 +1663,7 @@ async function cartStillOrderable() {
             chineseInCart.forEach(k => { cart[k] = 0; });
             renderMenu();
             recalc();
-            showToast('🥡 Shriyan Chinese items removed — available only 3 PM – 10 PM');
+            showToast('Shriyan Chinese items removed — available only 3 PM – 10 PM');
             // Check if cart is now empty
             const remaining = Object.keys(cart).filter(k => cart[k] > 0);
             if (remaining.length === 0) return false;
@@ -1677,7 +1677,7 @@ async function cartStillOrderable() {
             rollsInCart.forEach(k => { cart[k] = 0; });
             renderMenu();
             recalc();
-            showToast('🌯 Mauli Veg Rol items removed — available only 5 PM – 10 PM');
+            showToast('Mauli Veg Rol items removed — available only 5 PM – 10 PM');
             const remaining = Object.keys(cart).filter(k => cart[k] > 0);
             if (remaining.length === 0) return false;
         }
@@ -1781,7 +1781,7 @@ async function processCODOrder() {
 
     try {
         const order = await saveOrderToBackend('cod', null);
-        showSuccess(order.orderId, 'Cash on Delivery 💵', order.deliveryCode);
+        showSuccess(order.orderId, 'Cash on Delivery', order.deliveryCode);
     } catch (err) {
         showToast('Order failed: ' + err.message);
         btn.disabled = false;
@@ -1819,7 +1819,7 @@ function showSuccess(orderId, paymentLabel, deliveryCode) {
     });
 
     const heading = document.querySelector('#step-success h2');
-    if (heading) heading.textContent = 'Order Booked! 🎉';
+    if (heading) heading.textContent = 'Order Booked!';
     const sub = document.querySelector('#step-success .success-card > p');
     if (sub) sub.textContent = 'Your food is being prepared fresh.';
 
@@ -1830,7 +1830,7 @@ function showSuccess(orderId, paymentLabel, deliveryCode) {
 
     // Show delivery estimate
     const estEl = document.getElementById('s-delivery-est');
-    if (estEl) estEl.textContent = '🛵 Estimated delivery: 25-35 minutes';
+    if (estEl) estEl.textContent = 'Estimated delivery: 25-35 minutes';
 
     // Save to local orders for reorder & loyalty
     // Also persist customer info for future orders
@@ -1864,10 +1864,10 @@ function showSuccess(orderId, paymentLabel, deliveryCode) {
     const stampEl = document.getElementById('s-loyalty');
     if (stampEl) {
         if (stamps >= 5) {
-            stampEl.textContent = '🎉 Congrats! Your next order is FREE! (Stamp ' + stamps + '/5)';
+            stampEl.textContent = 'Congrats! Your next order is FREE! (Stamp ' + stamps + '/5)';
             stampEl.style.color = '#22c55e';
         } else {
-            stampEl.textContent = '🏷️ Loyalty stamp ' + stamps + '/5 — ' + (5 - stamps) + ' more for a free thali!';
+            stampEl.textContent = 'Loyalty stamp ' + stamps + '/5 — ' + (5 - stamps) + ' more for a free thali!';
         }
         stampEl.style.display = 'block';
     }
@@ -1937,8 +1937,8 @@ function checkOperatingHours() {
             const sub = closedBanner.querySelector('span');
             if (heading) {
                 heading.textContent = SHOP_STATUS.paused
-                    ? '🕐 We have paused new orders'
-                    : "🕐 We're closed right now";
+                    ? 'We have paused new orders'
+                    : "We're closed right now";
             }
             if (sub) {
                 sub.textContent = SHOP_STATUS.message ||

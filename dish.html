@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0e0e0e">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Aapla Swad — Dish Details</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="icon-192.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#ea580c">
     <meta name="description" content="View dish details and order from Aapla Swad — authentic Dal Bati, Zunka Bhakar, Chinese & Rolls delivered hot.">
     <meta name="robots" content="index, follow">
@@ -26,158 +26,277 @@
     <meta name="twitter:description" content="View dish details and order from Aapla Swad. Authentic home-style cooking delivered hot.">
     <meta name="twitter:image" content="https://aaplaswad.store/hero.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=1">
     <style>
-        :root { --orange:#ea580c; --gold:#f59e0b; --bg:#0e0e0e; --card:#161616; --border:rgba(255,255,255,0.06); }
+        /* ========== DISH — photo-led detail page ========== */
+        .dish-page .app { max-width: var(--wide); margin: 0 auto; padding-bottom: calc(112px + var(--safe-b)); }
 
-        /* Closed Overlay */
-        .closed-overlay { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
-        .closed-overlay.show { display:flex; }
-        .closed-icon { font-size:4rem; margin-bottom:1rem; animation:pulse-clock 2s ease-in-out infinite; }
-        @keyframes pulse-clock { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-        .closed-title { font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:800; color:#fafafa; margin-bottom:0.5rem; }
-        .closed-subtitle { font-size:0.85rem; color:#9ca3af; margin-bottom:0.3rem; line-height:1.5; }
-        .closed-time { font-size:1.1rem; font-weight:700; color:var(--gold); margin:0.8rem 0; background:rgba(245,158,11,0.1); padding:0.6rem 1.5rem; border-radius:12px; border:1px solid rgba(245,158,11,0.2); }
-        .closed-tomorrow { font-size:0.8rem; color:#6b7280; margin-bottom:1.5rem; }
-        .closed-dismiss { background:linear-gradient(135deg,var(--orange),#c2410c); color:#fff; border:none; font-size:0.85rem; font-weight:700; padding:0.75rem 2.5rem; border-radius:14px; cursor:pointer; font-family:'Manrope',sans-serif; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--bg); color:#fafafa; font-family:'Manrope','Outfit',sans-serif; min-height:100dvh; }
-        .app { max-width:480px; margin:0 auto; padding-bottom:80px; }
+        .dish-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border-bottom: 1px solid var(--line);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .dish-nav-inner {
+            max-width: var(--wide); margin: 0 auto;
+            display: flex; align-items: center; gap: 10px;
+            padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 1rem 0.6rem;
+        }
+        .nav-title {
+            flex: 1; min-width: 0; text-align: center;
+            font-family: var(--font-display); font-size: 1.02rem; font-weight: 800; color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        /* Phones: nav floats over the photo until the page scrolls */
+        @media (max-width: 899px) {
+            .dish-nav:not(.is-scrolled) { background: transparent; border-bottom-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+            .dish-nav:not(.is-scrolled) .nav-title { opacity: 0; transform: translateY(6px); }
+            .dish-nav:not(.is-scrolled) .icon-btn {
+                background: rgba(0, 0, 0, 0.35); border-color: rgba(255, 255, 255, 0.22); color: #fff; box-shadow: none;
+                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            }
+            .dish-hero-wrap { margin-top: calc(-62px - env(safe-area-inset-top, 0px)); }
+        }
 
-        /* Back nav */
-        .dish-nav { position:sticky; top:0; z-index:100; background:rgba(14,14,14,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
-        .dish-nav-inner { max-width:480px; margin:0 auto; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.6rem; }
-        .back-btn { background:none; border:none; color:#fafafa; font-size:1.2rem; cursor:pointer; padding:0.2rem; display:flex; align-items:center; }
-        .nav-title { font-size:0.82rem; font-weight:700; color:#fafafa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .dish-hero-wrap { position: relative; overflow: hidden; height: min(62vh, 112vw); background: var(--surface-3); }
+        .dish-hero-wrap::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0) 26%, rgba(0,0,0,0) 72%, rgba(0,0,0,0.22));
+        }
+        .dish-hero {
+            width: 100%; height: 100%; object-fit: cover;
+            transform: translate3d(0, calc(var(--sy, 0) * 0.35px), 0) scale(1.04);
+            animation: heroIn 1.3s var(--ease-out) backwards;
+        }
+        @keyframes heroIn { from { opacity: 0; transform: scale(1.2); } }
 
-        /* Hero image */
-        .dish-hero { width:100%; height:auto; max-height:320px; object-fit:contain; background:#0e0e0e; }
+        .dish-content {
+            position: relative; z-index: 1;
+            margin-top: -30px; padding: 22px 16px 10px;
+            border-radius: 30px 30px 0 0;
+            background: var(--bg);
+            animation: sheetUp 0.9s var(--ease-out) 0.1s both;
+        }
+        .dish-content::before { content: ''; display: block; width: 40px; height: 4px; border-radius: 4px; background: var(--line-2); margin: -10px auto 16px; }
+        @keyframes sheetUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
 
-        /* Content */
-        .dish-content { padding:0.8rem 1rem; }
+        @media (min-width: 900px) {
+            .dish-page .app { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); column-gap: 44px; padding-left: 24px; padding-right: 24px; }
+            .dish-nav { grid-column: 1 / -1; margin: 0 -24px; }
+            .dish-hero-wrap { position: sticky; top: 92px; align-self: start; height: calc(100vh - 130px); max-height: 640px; margin-top: 24px; border-radius: 30px; box-shadow: var(--shadow-lg); }
+            .dish-hero { transform: none; }
+            .dish-content { margin-top: 0; padding: 30px 0; border-radius: 0; background: transparent; }
+            .dish-content::before { display: none; }
+        }
 
-        /* Tags */
-        .dish-tags { display:flex; gap:0.35rem; align-items:center; margin-bottom:0.4rem; flex-wrap:wrap; }
-        .tag-veg { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
-        .tag-nonveg { font-size:0.58rem; color:#ef4444; background:rgba(239,68,68,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
-        .tag-new { font-size:0.52rem; color:var(--orange); background:rgba(234,88,12,0.1); padding:0.1rem 0.35rem; border-radius:4px; font-weight:700; }
-        .tag-rating { font-size:0.58rem; color:var(--gold); }
+        .hotel-badge {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; margin-bottom: 14px;
+            border-radius: 18px;
+            background: var(--surface); border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+        }
+        .hotel-badge-icon { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; }
+        .hotel-badge-name { font-size: 0.9rem; font-weight: 800; color: var(--text); }
+        .hotel-badge-sub { font-size: 0.7rem; font-weight: 600; color: var(--text-3); }
+        .hotel-badge-type { margin-left: auto; font-size: 0.62rem; font-weight: 900; letter-spacing: 0.05em; padding: 4px 8px; border-radius: 8px; white-space: nowrap; }
+        .hotel-badge-type.veg { color: var(--veg); background: var(--ok-soft); }
+        .hotel-badge-type.nonveg { color: var(--nonveg); background: var(--danger-soft); }
 
-        /* Name & Price */
-        .dish-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; margin-bottom:0.2rem; }
-        .dish-title { font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:0.15rem; }
-        .share-btn { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#e5e5e5; cursor:pointer; flex-shrink:0; transition:all 0.2s; }
-        .share-btn:active { background:rgba(255,255,255,0.1); transform:scale(0.95); }
-        .dish-subtitle { font-size:0.68rem; color:#888; margin-bottom:0.5rem; }
-        .price-block { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
-        .p-old { font-size:0.72rem; color:#666; text-decoration:line-through; }
-        .p-now { font-size:1.3rem; font-weight:800; color:var(--gold); }
-        .p-off { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:700; }
+        .dish-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+        .tag-veg, .tag-nonveg, .tag-new, .tag-rating { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 99px; font-size: 0.68rem; font-weight: 800; }
+        .tag-veg { color: var(--veg); background: var(--ok-soft); }
+        .tag-nonveg { color: var(--nonveg); background: var(--danger-soft); }
+        .tag-new { color: #fff; background: var(--grad-hot); letter-spacing: 0.06em; }
+        .tag-rating { color: var(--text); background: var(--surface); border: 1px solid var(--line); }
 
-        /* Section headers */
-        .section-title { font-size:0.72rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.5rem; }
+        .dish-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .dish-title { font-family: var(--font-display); font-size: clamp(1.75rem, 7.4vw, 2.5rem); font-weight: 900; line-height: 1.06; letter-spacing: -0.03em; color: var(--text); }
+        .share-btn {
+            width: 44px; height: 44px; flex-shrink: 0;
+            display: grid; place-items: center;
+            border-radius: 14px;
+            background: var(--surface); border: 1px solid var(--line);
+            color: var(--text); box-shadow: var(--shadow-sm);
+            transition: transform 0.2s var(--ease-spring);
+        }
+        .share-btn:active { transform: scale(0.9); }
+        .dish-subtitle { font-size: 0.84rem; line-height: 1.5; color: var(--text-2); margin: 8px 0 14px; }
 
-        /* Includes */
-        .includes-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.7rem; margin-bottom:0.8rem; }
-        .include-item { display:flex; align-items:center; gap:0.5rem; padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.03); }
-        .include-item:last-child { border-bottom:none; }
-        .include-emoji { font-size:1.1rem; width:28px; text-align:center; flex-shrink:0; }
-        .include-text { font-size:0.75rem; font-weight:600; color:#e5e5e5; }
-        .include-sub { font-size:0.58rem; color:#888; margin-top:0.05rem; }
+        .price-block { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+        .p-now { font-family: var(--font-display); font-size: 2.1rem; font-weight: 900; letter-spacing: -0.02em; color: var(--text); }
+        .p-old { order: 1; font-size: 0.98rem; color: var(--text-3); text-decoration: line-through; }
+        .p-off { order: 2; padding: 5px 9px; border-radius: 9px; background: var(--grad-hot); color: #fff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.03em; }
 
-        /* Hotel Name Badge */
-        .hotel-badge { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 0.65rem; background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:0.6rem; }
-        .hotel-badge-icon { width:32px; height:32px; border-radius:8px; object-fit:cover; }
-        .hotel-badge-name { font-size:0.78rem; font-weight:700; color:#fafafa; }
-        .hotel-badge-sub { font-size:0.52rem; color:#888; }
-        .hotel-badge-type { font-size:0.5rem; font-weight:700; padding:0.1rem 0.35rem; border-radius:4px; margin-left:auto; }
-        .hotel-badge-type.veg { color:#22c55e; background:rgba(34,197,94,0.1); }
-        .hotel-badge-type.nonveg { color:#ef4444; background:rgba(239,68,68,0.1); }
+        .section-title { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+        .includes-card { padding: 4px 14px; margin-bottom: 24px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+        .include-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px dashed var(--line-2); animation: rise 0.6s var(--ease-out) both; }
+        .include-item:last-child { border-bottom: 0; }
+        .include-item:nth-child(1) { animation-delay: 0.25s; }
+        .include-item:nth-child(2) { animation-delay: 0.32s; }
+        .include-item:nth-child(3) { animation-delay: 0.39s; }
+        .include-item:nth-child(4) { animation-delay: 0.46s; }
+        .include-item:nth-child(5) { animation-delay: 0.53s; }
+        .include-item:nth-child(6) { animation-delay: 0.6s; }
+        .include-item:nth-child(n+7) { animation-delay: 0.67s; }
+        .include-emoji { width: 42px; height: 42px; border-radius: 14px; flex-shrink: 0; display: grid; place-items: center; font-size: 1.3rem; background: var(--surface-2); }
+        .include-text { font-size: 0.92rem; font-weight: 800; color: var(--text); }
+        .include-sub { font-size: 0.75rem; color: var(--text-3); margin-top: 1px; }
+        .divider { display: none; }
 
-        /* Review Carousel */
-        .review-carousel-wrap { position:relative; margin-bottom:0.8rem; overflow:hidden; }
-        .review-carousel { display:flex; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); }
-        .review-slide { min-width:100%; padding:0 2px; box-sizing:border-box; }
-        .review-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; }
-        .review-header { display:flex; align-items:center; gap:0.4rem; margin-bottom:0.3rem; }
-        .review-avatar { width:32px; height:32px; border-radius:50%; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:var(--gold); flex-shrink:0; }
-        .review-name { font-size:0.72rem; font-weight:700; color:#e5e5e5; }
-        .review-date { font-size:0.52rem; color:#666; margin-left:auto; }
-        .review-stars { font-size:0.7rem; color:var(--gold); margin-bottom:0.2rem; }
-        .review-text { font-size:0.7rem; color:#bbb; line-height:1.5; }
-        .review-dots { display:flex; justify-content:center; gap:6px; margin-top:0.5rem; }
-        .review-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.12); transition:all 0.3s; cursor:pointer; }
-        .review-dot.active { background:var(--gold); width:18px; border-radius:4px; }
+        .review-carousel-wrap { position: relative; overflow: hidden; margin-bottom: 10px; }
+        .review-carousel { display: flex; transition: transform 0.6s var(--ease-out); }
+        .review-slide { min-width: 100%; padding: 0 2px; }
+        .review-card { padding: 16px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+        .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .review-avatar { width: 38px; height: 38px; border-radius: 13px; flex-shrink: 0; display: grid; place-items: center; background: var(--grad-brand); color: #fff; font-size: 0.8rem; font-weight: 800; }
+        .review-name { font-size: 0.88rem; font-weight: 800; color: var(--text); }
+        .review-date { font-size: 0.7rem; color: var(--text-3); }
+        .review-stars { font-size: 0.72rem; margin-bottom: 6px; }
+        .review-text { font-size: 0.86rem; line-height: 1.55; color: var(--text-2); }
+        .review-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+        .review-dot { width: 7px; height: 7px; border-radius: 99px; background: var(--line-2); cursor: pointer; transition: all 0.35s var(--ease-out); }
+        .review-dot.active { width: 22px; background: var(--brand); }
 
-        /* Order button (fixed) */
-        .order-bar { position:fixed; bottom:0; left:0; right:0; background:rgba(14,14,14,0.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--border); padding:0.6rem 1rem; z-index:100; }
-        .order-bar-inner { max-width:480px; margin:0 auto; display:flex; align-items:center; gap:0.6rem; }
-        .ob-price { flex:1; }
-        .ob-price-now { font-size:1rem; font-weight:800; color:var(--gold); }
-        .ob-price-old { font-size:0.6rem; color:#666; text-decoration:line-through; margin-left:0.3rem; }
-        .ob-btn { padding:0.7rem 1.5rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; transition:transform 0.15s; display:flex; align-items:center; gap:0.3rem; }
-        .ob-btn:active { transform:scale(0.97); }
+        /* Floating add-to-cart bar */
+        .order-bar {
+            position: fixed; z-index: 100;
+            left: 12px; right: 12px; bottom: calc(12px + var(--safe-b));
+            max-width: 560px; margin: 0 auto;
+            padding: 10px 10px 10px 18px;
+            border-radius: 22px;
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-lg);
+            animation: barIn 0.8s var(--ease-spring) 0.45s both;
+        }
+        @keyframes barIn { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
+        .order-bar-inner { display: flex; align-items: center; gap: 12px; }
+        .ob-price { flex: 1; display: flex; flex-direction: column; }
+        .ob-price-now { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; color: var(--text); }
+        .ob-price-old { font-size: 0.78rem; color: var(--text-3); text-decoration: line-through; }
+        .ob-btn {
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; gap: 6px;
+            height: 52px; padding: 0 22px;
+            border: 0; border-radius: 16px;
+            background: var(--grad-brand); color: #fff;
+            font-size: 0.96rem; font-weight: 800;
+            box-shadow: var(--shadow-brand);
+            transition: transform 0.2s var(--ease-spring);
+        }
+        .ob-btn:active { transform: scale(0.96); }
 
-        /* Divider */
-        .divider { height:6px; background:rgba(255,255,255,0.02); margin:0 -1rem 0.8rem; }
+        /* Bottom sheet: added + suggestions */
+        .bs-overlay { position: fixed; inset: 0; z-index: 200; background: var(--scrim); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .bs-overlay.show { opacity: 1; pointer-events: auto; }
+        .bs-sheet {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 201;
+            max-width: 640px; max-height: 86vh; margin: 0 auto; overflow-y: auto;
+            padding-bottom: var(--safe-b);
+            border-radius: 30px 30px 0 0;
+            background: var(--surface);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(105%);
+            transition: transform 0.6s var(--ease-out);
+        }
+        .bs-sheet.show { transform: none; }
+        .bs-handle { width: 44px; height: 5px; border-radius: 5px; background: var(--line-2); margin: 10px auto 0; }
+        .bs-inner { padding: 14px 16px 20px; }
+        .added-confirm { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 16px; border-radius: 18px; background: var(--brand-soft); }
+        .added-check { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; background: var(--surface); font-size: 1.2rem; box-shadow: var(--shadow-sm); }
+        .bs-sheet.show .added-check { animation: pop 0.6s var(--ease-spring) 0.2s both; }
+        .added-info { flex: 1; }
+        .added-name { font-size: 0.92rem; font-weight: 800; color: var(--brand-ink); }
+        .added-sub { font-size: 0.76rem; color: var(--text-2); }
+        .sug-title { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+        .sug-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 16px; padding: 2px 16px 8px; }
+        .sug-scroll::-webkit-scrollbar { display: none; }
+        .sug-card { flex-shrink: 0; width: 150px; overflow: hidden; border-radius: 18px; background: var(--surface-2); border: 1.5px solid var(--line); cursor: pointer; transition: transform 0.2s var(--ease-spring), border-color 0.2s ease; }
+        .sug-card.in-cart { border-color: var(--brand); }
+        .sug-img { width: 100%; height: 96px; object-fit: cover; }
+        .sug-body { padding: 8px 10px 10px; }
+        .sug-name { font-size: 0.8rem; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sug-desc { font-size: 0.66rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 2px 0 4px; }
+        .sug-price-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .sug-price { font-size: 0.86rem; font-weight: 800; color: var(--text); }
+        .sug-old { font-size: 0.68rem; color: var(--text-3); text-decoration: line-through; }
+        .sug-add-btn { position: relative; overflow: hidden; width: 100%; height: 34px; border-radius: 10px; background: var(--grad-brand); border: 0; color: #fff; font-size: 0.74rem; font-weight: 900; letter-spacing: 0.04em; box-shadow: 0 6px 16px rgba(241, 90, 10, 0.3); }
+        .sug-add-btn.added { background: var(--brand-soft); color: var(--brand-ink); box-shadow: none; }
+        .bs-cart-summary { display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-bottom: 12px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); }
+        .bs-cart-count { font-size: 0.86rem; font-weight: 800; color: var(--text); }
+        .bs-cart-total { margin-left: auto; font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: var(--text); }
+        .bs-go-cart {
+            position: relative; overflow: hidden;
+            width: 100%; height: 54px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            border: 0; border-radius: 16px;
+            background: var(--grad-brand); color: #fff;
+            font-size: 0.98rem; font-weight: 800;
+            box-shadow: var(--shadow-brand);
+        }
 
-        /* Bottom Sheet Overlay */
-        .bs-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; opacity:0; pointer-events:none; transition:opacity 0.3s; }
-        .bs-overlay.show { opacity:1; pointer-events:auto; }
-        .bs-sheet { position:fixed; bottom:0; left:0; right:0; z-index:201; background:#1a1a1a; border-radius:20px 20px 0 0; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); max-height:85vh; overflow-y:auto; }
-        .bs-sheet.show { transform:translateY(0); }
-        .bs-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0.6rem auto 0; }
-        .bs-inner { padding:0.8rem 1rem 1.2rem; max-width:480px; margin:0 auto; }
-
-        /* Added confirmation */
-        .added-confirm { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 0.7rem; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.15); border-radius:12px; margin-bottom:0.7rem; }
-        .added-check { width:36px; height:36px; border-radius:50%; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
-        .added-info { flex:1; }
-        .added-name { font-size:0.78rem; font-weight:700; color:#22c55e; }
-        .added-sub { font-size:0.58rem; color:#888; }
-
-        /* Suggestions */
-        .sug-title { font-size:0.68rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem; }
-        .sug-scroll { display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.3rem; scrollbar-width:none; margin-bottom:0.7rem; }
-        .sug-scroll::-webkit-scrollbar { display:none; }
-        .sug-card { min-width:140px; max-width:160px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden; flex-shrink:0; cursor:pointer; transition:border-color 0.2s; }
-        .sug-card:active { border-color:rgba(234,88,12,0.3); }
-        .sug-card.in-cart { border-color:rgba(34,197,94,0.3); }
-        .sug-img { width:100%; height:85px; object-fit:cover; }
-        .sug-body { padding:0.4rem 0.5rem 0.5rem; }
-        .sug-name { font-size:0.68rem; font-weight:700; color:#fafafa; margin-bottom:0.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .sug-desc { font-size:0.5rem; color:#888; margin-bottom:0.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .sug-price-row { display:flex; align-items:center; gap:0.25rem; margin-bottom:0.3rem; }
-        .sug-price { font-size:0.72rem; font-weight:800; color:var(--gold); }
-        .sug-old { font-size:0.5rem; color:#666; text-decoration:line-through; }
-        .sug-add-btn { width:100%; padding:0.3rem; background:rgba(234,88,12,0.1); border:1.5px solid rgba(234,88,12,0.25); color:#ea580c; border-radius:6px; font-size:0.62rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.15s; }
-        .sug-add-btn:active { transform:scale(0.95); background:rgba(234,88,12,0.2); }
-        .sug-add-btn.added { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.25); color:#22c55e; }
-
-        /* Cart summary in sheet */
-        .bs-cart-summary { display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.65rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; margin-bottom:0.6rem; }
-        .bs-cart-count { font-size:0.72rem; font-weight:700; color:#fafafa; }
-        .bs-cart-total { font-size:0.82rem; font-weight:800; color:var(--gold); margin-left:auto; }
-        .bs-go-cart { width:100%; padding:0.75rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:0.4rem; transition:transform 0.15s; }
-        .bs-go-cart:active { transform:scale(0.97); }
+        /* Closed notice */
+        .closed-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            padding: 24px; align-items: center; justify-content: center; text-align: center;
+            background: var(--scrim);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        }
+        .closed-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+        .closed-card { width: 100%; max-width: 360px; padding: 28px 22px 22px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lg); animation: rise 0.55s var(--ease-spring); }
+        .closed-icon { display: inline-block; font-size: 3.4rem; margin-bottom: 10px; animation: pulse-clock 2s ease-in-out infinite; }
+        @keyframes pulse-clock { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .closed-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+        .closed-subtitle { font-size: 0.86rem; line-height: 1.5; color: var(--text-2); }
+        .closed-time { display: inline-block; margin: 14px 0 6px; padding: 8px 16px; border-radius: 12px; background: var(--brand-soft); color: var(--brand-ink); font-size: 0.95rem; font-weight: 800; }
+        .closed-tomorrow { font-size: 0.8rem; color: var(--text-3); margin-bottom: 18px; }
+        .closed-dismiss { width: 100%; height: 50px; border: 0; border-radius: 15px; background: var(--grad-brand); color: #fff; font-size: 0.95rem; font-weight: 800; box-shadow: var(--shadow-brand); }
+        /* Line icons instead of emoji */
+        .section-title .ic, .sug-title .ic { width: 15px; height: 15px; color: var(--brand); vertical-align: -3px; margin-right: 2px; }
+        .include-emoji { background: var(--brand-soft); }
+        .include-emoji .ic { width: 20px; height: 20px; color: var(--brand); }
+        .include-item:nth-child(3n+2) .include-emoji { background: var(--ok-soft); }
+        .include-item:nth-child(3n+2) .include-emoji .ic { color: var(--ok); }
+        .include-item:nth-child(3n) .include-emoji { background: var(--warn-soft); }
+        .include-item:nth-child(3n) .include-emoji .ic { color: var(--warn); }
+        .tag-veg::before, .tag-nonveg::before, .hotel-badge-type::before { content: ''; width: 12px; height: 12px; flex-shrink: 0; background: var(--mark-veg) center/contain no-repeat; }
+        .tag-nonveg::before, .hotel-badge-type.nonveg::before { background-image: var(--mark-nonveg); }
+        .hotel-badge-type { display: inline-flex; align-items: center; gap: 5px; }
+        .tag-rating .ic { width: 13px; height: 13px; }
+        .review-stars.stars { display: block; margin-bottom: 8px; }
+        .added-check .ic { width: 22px; height: 22px; color: var(--brand); stroke-width: 3; }
+        .bs-cart-count .ic, .bs-go-cart .ic { width: 18px; height: 18px; vertical-align: -3px; }
+        .closed-icon .ic { width: 58px; height: 58px; color: var(--brand); }
     </style>
+    <script src="theme.js?v=1"></script>
     <script src="i18n.js"></script>
 </head>
-<body>
+<body class="dish-page">
     <div class="app">
-        <!-- Nav -->
-        <nav class="dish-nav">
+        <!-- Nav: floats over the photo on phones -->
+        <nav class="dish-nav" data-scroll-header>
             <div class="dish-nav-inner">
-                <button class="back-btn" onclick="history.back()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                <button class="icon-btn back-btn" onclick="if (document.referrer.indexOf(location.origin) === 0) { history.back(); } else { location.href = 'index.html'; }" aria-label="Go back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
                 <span class="nav-title" id="navTitle">Loading...</span>
-                <img src="logo.png" alt="Aapla Swad" style="width:28px;height:28px;border-radius:6px;">
+                <a href="order.html" class="icon-btn" aria-label="Go to cart"><i class="ic" data-ic="cart"></i></a>
             </div>
         </nav>
 
         <!-- Hero Image -->
-        <img src="" alt="" class="dish-hero" id="dishHero">
+        <div class="dish-hero-wrap" data-parallax>
+            <img src="" alt="" class="dish-hero" id="dishHero">
+        </div>
 
         <div class="dish-content">
             <!-- Hotel Badge -->
@@ -189,7 +308,7 @@
             <!-- Title & Share -->
             <div class="dish-title-row">
                 <h1 class="dish-title" id="dishTitle">Loading...</h1>
-                <button class="share-btn" onclick="shareDish()" title="Share">
+                <button class="share-btn" onclick="shareDish()" title="Share" aria-label="Share this dish">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 </button>
             </div>
@@ -203,13 +322,13 @@
             </div>
 
             <!-- What's Included -->
-            <div class="section-title">🍽️ What's Included</div>
+            <div class="section-title"><i class="ic" data-ic="bowl"></i> What's Included</div>
             <div class="includes-card" id="includesCard"></div>
 
             <div class="divider"></div>
 
             <!-- Customer Reviews (Rotating Carousel) -->
-            <div class="section-title">⭐ Customer Reviews</div>
+            <div class="section-title"><i class="ic" data-ic="star"></i> Customer Reviews</div>
             <div class="review-carousel-wrap">
                 <div class="review-carousel" id="reviewCarousel"></div>
                 <div class="review-dots" id="reviewDots"></div>
@@ -237,11 +356,11 @@
         <div class="bs-handle"></div>
         <div class="bs-inner">
             <div class="added-confirm" id="addedConfirm"></div>
-            <div class="sug-title">🍛 Also try these — Add more?</div>
+            <div class="sug-title"><i class="ic" data-ic="sparkles"></i> Also try these — Add more?</div>
             <div class="sug-scroll" id="sugScroll"></div>
             <div class="bs-cart-summary" id="bsCartSummary"></div>
             <button class="bs-go-cart" onclick="goToCart()">
-                🛒 Go to Cart & Order
+                <i class="ic" data-ic="cart"></i> Go to Cart & Order
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
         </div>
@@ -249,12 +368,14 @@
 
     <!-- Closed Overlay -->
     <div class="closed-overlay" id="closedOverlay">
-        <div class="closed-icon">🕐</div>
+        <div class="closed-card">
+        <div class="closed-icon"><i class="ic" data-ic="clock"></i></div>
         <div class="closed-title">We're Closed Right Now</div>
         <div class="closed-subtitle" id="closedMessage">We are closed right now. Please check back during opening hours.</div>
-        <div class="closed-time" id="closedTime">🕐 Orders open at 10:00</div>
-        <div class="closed-tomorrow">Please order tomorrow! 🙏</div>
+        <div class="closed-time" id="closedTime">Orders open at 10:00</div>
+        <div class="closed-tomorrow">Please order tomorrow!</div>
         <button class="closed-dismiss" onclick="document.getElementById('closedOverlay').classList.remove('show')">OK, Got it</button>
+        </div>
     </div>
 
     <script>
@@ -334,14 +455,14 @@
         const msgEl = document.getElementById('closedMessage');
         const timeEl = document.getElementById('closedTime');
         if (msgEl) msgEl.textContent = customMsg || SHOP_MESSAGE || 'We are closed right now. Please check back during opening hours.';
-        if (timeEl) timeEl.textContent = customTime || ('🕐 Orders open at ' + SHOP_OPEN_TIME);
+        if (timeEl) timeEl.textContent = customTime || ('Orders open at ' + SHOP_OPEN_TIME);
         overlay.classList.add('show');
     }
 
     const MENU = {
         'dal-bati': {
             name: 'Normal Dal Batti', shortName: 'Dal Batti', price: 80, oldPrice: 150,
-            discount: '47% OFF', image: 'hero.png', category: 'veg',
+            discount: '47% OFF', image: 'hero.jpg', category: 'veg',
             includesList: [
                 { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Crispy wood-fire baked dough balls' },
                 { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion' },
@@ -359,7 +480,7 @@
         },
         'zunka-bhakar': {
             name: 'Zunka Bhakar Thali', shortName: 'Zunka Bhakar', price: 117, oldPrice: 250,
-            discount: '53% OFF', image: 'zunka.png', category: 'veg',
+            discount: '53% OFF', image: 'zunka.jpg', category: 'veg',
             includesList: [
                 { emoji: '🫓', name: 'Bhakri (3 pcs)', desc: 'Crispy jowar/bajra flatbread' },
                 { emoji: '🍛', name: 'Zunka', desc: 'Spiced besan curry with onion & garlic' },
@@ -375,7 +496,7 @@
         },
         'bharit-bhakar': {
             name: 'Bharit Bhakar Thali', shortName: 'Bharit Bhakar', price: 121, oldPrice: 200,
-            discount: '40% OFF', image: 'bharit.png', category: 'veg',
+            discount: '40% OFF', image: 'bharit.jpg', category: 'veg',
             includesList: [
                 { emoji: '🍆', name: 'Bharit (Vangyacha Bharit)', desc: 'Smoky roasted eggplant mash with masala' },
                 { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
@@ -392,7 +513,7 @@
         },
         'bombil-thali': {
             name: 'Bombil Thali', shortName: 'Bombil', price: 130, oldPrice: 350,
-            discount: '63% OFF', image: 'bombil.png', category: 'nonveg',
+            discount: '63% OFF', image: 'bombil.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🐟', name: 'Bombil Fry (6 pcs)', desc: 'Golden crispy fried Bombay duck fish' },
                 { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Spicy red Maharashtrian fish curry' },
@@ -409,7 +530,7 @@
         },
         'zinga-thali': {
             name: 'Zinga Thali', shortName: 'Zinga', price: 1, oldPrice: 125,
-            discount: 'TEST', image: 'zinga.png', category: 'nonveg',
+            discount: 'TEST', image: 'zinga.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🦐', name: 'Zinga Chatni', desc: 'Spicy prawn chutney with Maharashtrian masala' },
                 { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
@@ -424,7 +545,7 @@
         },
         'chicken-thali': {
             name: 'Chicken Thali', shortName: 'Chicken', price: 151, oldPrice: 350,
-            discount: '57% OFF', image: 'chicken.png', category: 'nonveg',
+            discount: '57% OFF', image: 'chicken.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🍗', name: 'Chicken Pieces (4 pcs)', desc: 'Tender spiced chicken curry pieces' },
                 { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Rich Maharashtrian chicken gravy' },
@@ -441,7 +562,7 @@
         },
         'special-dal-batti': {
             name: 'Special Dal Batti Thali', shortName: 'Spl Dal Batti', price: 120, oldPrice: 220,
-            discount: '45% OFF', image: 'special-dal-batti.png', category: 'veg',
+            discount: '45% OFF', image: 'special-dal-batti.jpg', category: 'veg',
             includesList: [
                 { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Double portion! 8 golden baked batti' },
                 { emoji: '🥘', name: 'Rich Dal', desc: 'Creamy five-lentil dal with tadka' },
@@ -457,7 +578,7 @@
         },
         'rice-plate': {
             name: 'Rice Plate', shortName: 'Rice Plate', price: 130, oldPrice: 220,
-            discount: '41% OFF', image: 'rice-plate.png', category: 'veg',
+            discount: '41% OFF', image: 'rice-plate.jpg', category: 'veg',
             hotel: 'Aapla Swad Hotel',
             includesList: [
                 { emoji: '🍛', name: '2 Bhaji', desc: 'Two seasonal vegetable curries' },
@@ -727,6 +848,17 @@
         }
     }
 
+    // Line icon for each thing on the plate (the emoji in MENU stay as data only)
+    function includeIcon(name) {
+        const n = name.toLowerCase();
+        if (/chil|thecha|spicy|schezwan/.test(n)) return 'flame';
+        if (/ghee|sauce|dip|pickle|aachar|lonch|chutney|chatni/.test(n)) return 'droplet';
+        if (/sweet|churma|ladoo/.test(n)) return 'sparkles';
+        if (/batti|bati|bhakri|bhakar|bhakari|chapati|roll|coating|bread/.test(n)) return 'wheat';
+        if (/onion|lemon|limbu|kanda|veg|pepper|capsicum|salad/.test(n)) return 'leaf';
+        return 'bowl';
+    }
+
     function renderDish() {
         const isVeg = dish.category === 'veg';
         const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Maratha Hotel');
@@ -740,25 +872,23 @@
 
         // Hotel Badge
         document.getElementById('hotelBadge').innerHTML = `
-            <img src="logo.png" alt="${hotelName}" class="hotel-badge-icon">
+            <img src="icon-192.png" alt="${hotelName}" class="hotel-badge-icon">
             <div>
                 <div class="hotel-badge-name">${hotelName}</div>
                 <div class="hotel-badge-sub">${hotelSub}</div>
             </div>
-            <span class="hotel-badge-type ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>
+            <span class="hotel-badge-type ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? 'VEG' : 'NON-VEG'}</span>
         `;
 
         // Tags
-        let tagsHTML = `<span class="${isVeg ? 'tag-veg' : 'tag-nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>`;
-        tagsHTML += `<span class="tag-rating">⭐ ${isVeg ? '4.9' : '4.8'} (${Math.floor(Math.random()*500+200)} reviews)</span>`;
+        let tagsHTML = `<span class="${isVeg ? 'tag-veg' : 'tag-nonveg'}">${isVeg ? 'VEG' : 'NON-VEG'}</span>`;
+        tagsHTML += `<span class="tag-rating"><i class="ic" data-ic="star"></i> ${isVeg ? '4.9' : '4.8'} · ${dish.reviews.length} review${dish.reviews.length === 1 ? '' : 's'}</span>`;
         if (itemKey !== 'dal-bati') tagsHTML += '<span class="tag-new">NEW</span>';
         document.getElementById('dishTags').innerHTML = tagsHTML;
 
         // Title
         document.getElementById('dishTitle').textContent = dish.name;
-        document.getElementById('dishSubtitle').textContent = isVeg
-            ? 'Aapla Swad Hotel • Authentic home-style cooking • Served hot & fresh'
-            : 'Maratha Hotel • Maharashtrian non-veg speciality • Served hot & fresh';
+        document.getElementById('dishSubtitle').textContent = hotelName + ' • ' + hotelSub + ' • Served hot & fresh';
 
         // Price
         document.getElementById('pOld').textContent = '₹' + dish.oldPrice;
@@ -772,7 +902,7 @@
         dish.includesList.forEach(inc => {
             incHTML += `
             <div class="include-item">
-                <span class="include-emoji">${inc.emoji}</span>
+                <span class="include-emoji"><i class="ic" data-ic="${includeIcon(inc.name)}"></i></span>
                 <div>
                     <div class="include-text">${inc.name}</div>
                     <div class="include-sub">${inc.desc}</div>
@@ -796,7 +926,7 @@
                             <div class="review-date">${rev.date}</div>
                         </div>
                     </div>
-                    <div class="review-stars">${'⭐'.repeat(rev.stars)}</div>
+                    <div class="review-stars stars" style="--n:${rev.stars}" role="img" aria-label="${rev.stars} out of 5 stars"></div>
                     <div class="review-text">"${rev.text}"</div>
                 </div>
             </div>`;
@@ -881,8 +1011,8 @@
         // Check if this is a Chinese item and Chinese hours are closed (3 PM - 10 PM)
         if (dish.hotel === 'Shriyan Chinese' && !isChineseOpenLocal()) {
             showClosedOverlay(
-                '🥡 Shriyan Chinese is available only from 3:00 PM to 10:00 PM. Please come back later!',
-                '🕐 Opens at 3:00 PM'
+                'Shriyan Chinese is available only from 3:00 PM to 10:00 PM. Please come back later!',
+                'Opens at 3:00 PM'
             );
             return;
         }
@@ -890,8 +1020,8 @@
         // Check if this is a Rolls item and Rolls hours are closed (5 PM - 10 PM)
         if (dish.hotel === 'Mauli Veg Rol' && !isRollsOpenLocal()) {
             showClosedOverlay(
-                '🌯 Mauli Veg Rol is available only from 5:00 PM to 10:00 PM. Please come back later!',
-                '🕐 Opens at 5:00 PM'
+                'Mauli Veg Rol is available only from 5:00 PM to 10:00 PM. Please come back later!',
+                'Opens at 5:00 PM'
             );
             return;
         }
@@ -903,7 +1033,7 @@
         // Show confirmation
         const isVeg = dish.category === 'veg';
         document.getElementById('addedConfirm').innerHTML = `
-            <div class="added-check">✅</div>
+            <div class="added-check"><i class="ic" data-ic="check"></i></div>
             <div class="added-info">
                 <div class="added-name">${dish.shortName} added to cart!</div>
                 <div class="added-sub">₹${dish.price} × ${preCart[itemKey]} = ₹${dish.price * preCart[itemKey]}</div>
@@ -942,7 +1072,7 @@
         const obBtn = document.getElementById('obBtn');
         obBtn.innerHTML = '✓ Added — View Cart';
         obBtn.onclick = goToCart;
-        obBtn.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+        obBtn.style.background = 'linear-gradient(135deg, #ff7a18, #c2410c)';
 
         // Show sheet
         document.getElementById('bsOverlay').classList.add('show');
@@ -984,7 +1114,7 @@
 
         document.getElementById('bsCartSummary').innerHTML = `
             <div>
-                <div class="bs-cart-count">🛒 ${totalItems} item${totalItems > 1 ? 's' : ''}</div>
+                <div class="bs-cart-count"><i class="ic" data-ic="cart"></i> ${totalItems} item${totalItems > 1 ? 's' : ''}</div>
                 <div style="font-size:0.52rem;color:#888;">${itemNames}</div>
             </div>
             <span class="bs-cart-total">₹${totalPrice}</span>
