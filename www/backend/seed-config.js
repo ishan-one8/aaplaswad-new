@@ -15,7 +15,7 @@ const out = process.argv[2] || '/tmp/sai-prasad-config';
 const orderJsPath = path.join(__dirname, '..', 'order.js');
 
 const source = fs.readFileSync(orderJsPath, 'utf8');
-const match = source.match(/const MENU = (\{[\s\S]*?\n\});/);
+const match = source.match(/const FALLBACK_MENU = (\{[\s\S]*?\n\});/);
 if (!match) {
     console.error('Could not find the MENU object in order.js');
     process.exit(1);
