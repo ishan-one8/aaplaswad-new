@@ -50,6 +50,16 @@ async function updateMenuItem(itemKey, body) {
             return { ok: false, code: 400, error: 'Price must be a positive number' };
         }
         updated.price = Math.round(price);
+
+        // Auto-recalculate discount whenever price changes so the customer
+        // website always shows an accurate "X% OFF" badge.
+        if (updated.oldPrice && updated.oldPrice > updated.price) {
+            const pct = Math.round((1 - updated.price / updated.oldPrice) * 100);
+            updated.discount = pct + '% OFF';
+        } else {
+            // Price equals or exceeds the old MRP — no discount to show
+            updated.discount = '';
+        }
     }
 
     items[itemKey] = updated;

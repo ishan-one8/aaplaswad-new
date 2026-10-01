@@ -345,7 +345,16 @@ async function loadShopConfig() {
         ]);
 
         if (menuRes && menuRes.success && menuRes.menu && Object.keys(menuRes.menu).length) {
-            MENU = menuRes.menu;
+            // Merge API data into fallback menu (don't replace — keep items the API didn't return)
+            Object.keys(menuRes.menu).forEach(k => {
+                if (MENU[k]) {
+                    // Update existing item with API values (preserve fallback defaults for missing fields)
+                    Object.assign(MENU[k], menuRes.menu[k]);
+                } else {
+                    // New item from API
+                    MENU[k] = menuRes.menu[k];
+                }
+            });
             Object.keys(MENU).forEach(k => { if (cart[k] === undefined) cart[k] = 0; });
             Object.keys(cart).forEach(k => { if (!MENU[k]) delete cart[k]; });
         }
@@ -521,6 +530,14 @@ async function doNativeGoogleLogin() {
     button.innerHTML = '<span style="color:#888;">Signing in…</span>';
 
     try {
+        // If no native SocialLogin plugin, use OAuth redirect flow
+        if (!window.Capacitor || !window.Capacitor.Plugins || !window.Capacitor.Plugins.SocialLogin) {
+            if (typeof spStartOAuthRedirect === 'function') {
+                spStartOAuthRedirect();
+                return;
+            }
+            throw new Error('No sign-in method available');
+        }
         const { SocialLogin } = window.Capacitor.Plugins;
         if (!SocialLogin) throw new Error('SocialLogin plugin not found');
 
@@ -630,10 +647,18 @@ function setupWebGoogleSignIn() {
     setTimeout(() => {
         clearInterval(waitForGoogle);
         if (!loaded) {
+            // GSI failed to load (origin_mismatch, blocked, etc) — show OAuth redirect fallback
             const holder = document.getElementById('lg-signin-btn');
-            if (holder) holder.innerHTML = '<p style="font-size:0.7rem;color:#9ca3af;text-align:center;">Google Sign-In unavailable. Please check internet and refresh.</p>';
+            if (holder) {
+                holder.innerHTML = '<button id="lg-oauth-fallback" class="lg-google-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:280px;max-width:100%;margin:0 auto;padding:12px 20px;background:#fff;border:1px solid #ddd;border-radius:24px;font-size:0.95rem;font-weight:600;color:#333;cursor:pointer;font-family:inherit;">' +
+                    '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="">' +
+                    'Continue with Google</button>';
+                document.getElementById('lg-oauth-fallback').onclick = function() {
+                    if (typeof spStartOAuthRedirect === 'function') spStartOAuthRedirect();
+                };
+            }
         }
-    }, 5000);
+    }, 4000);
 }
 
 async function handleGoogleCredential(response) {
@@ -846,6 +871,24 @@ function toggleAddMore() {
 
 function buildItemCardHTML(key) {
     const item = MENU[key];
+    if (!item) return '';  // safety
+    // Fill in missing fields (API may return incomplete items)
+    if (!item.image) item.image = key + '.jpg';
+    if (!item.category) item.category = 'veg';
+    if (!item.includes) item.includes = '';
+    if (!item.extras) item.extras = {};
+    if (!item.extrasLabels) item.extrasLabels = {};
+    if (!item.name) item.name = key;
+    if (item.price === undefined) item.price = 0;
+    if (!item.oldPrice) item.oldPrice = item.price;
+    // Always recalculate discount from oldPrice and current price so admin
+    // price changes are reflected accurately, even if the stored string is stale.
+    if (item.oldPrice > item.price) {
+        item.discount = Math.round((1 - item.price / item.oldPrice) * 100) + '% OFF';
+    } else {
+        item.discount = '';
+    }
+
     const soldOut = item.available === false;
     const isVeg = item.category === 'veg';
     const tagText = isVeg ? t('veg_label') : t('nonveg_label');
