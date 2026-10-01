@@ -1506,5 +1506,60 @@
     </script>
     <!-- Chef greeter: OPEN / CLOSED sign when the app opens -->
     <script src="chef.js?v=2"></script>
+    <!-- Live price sync: admin price changes appear on the landing page -->
+    <script>
+    (function livePriceSync() {
+        var API = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com/menu';
+        fetch(API).then(function(r) { return r.json(); }).then(function(data) {
+            if (!data || !data.success || !data.menu) return;
+            var menu = data.menu;
+
+            // 1. Update grid cards — each card has a link "dish.html?item=KEY"
+            document.querySelectorAll('.grid-card').forEach(function(card) {
+                var link = card.querySelector('.grid-link');
+                if (!link) return;
+                var match = (link.getAttribute('href') || '').match(/item=([^&]+)/);
+                if (!match) return;
+                var key = match[1];
+                var item = menu[key];
+                if (!item) return;
+
+                var nowEl = card.querySelector('.grid-now');
+                var oldEl = card.querySelector('.grid-old');
+                var badgeEl = card.querySelector('.grid-badge');
+
+                if (nowEl) nowEl.textContent = '₹' + item.price;
+                if (oldEl && item.oldPrice) oldEl.textContent = '₹' + item.oldPrice;
+                if (badgeEl) {
+                    if (item.oldPrice && item.oldPrice > item.price) {
+                        var pct = Math.round((1 - item.price / item.oldPrice) * 100);
+                        badgeEl.textContent = pct + '% OFF';
+                    } else {
+                        badgeEl.style.display = 'none';
+                    }
+                }
+            });
+
+            // 2. Update promo carousel CTA buttons — they have "dish.html?item=KEY"
+            //    or just "order.html" for dal-bati (the hero slide)
+            document.querySelectorAll('.promo-cta').forEach(function(btn) {
+                var href = btn.getAttribute('href') || '';
+                var match = href.match(/item=([^&]+)/);
+                var key = match ? match[1] : null;
+
+                // The hero slide links to order.html and shows dal-bati price
+                if (!key && href.indexOf('order.html') !== -1) key = 'dal-bati';
+                if (!key) return;
+
+                var item = menu[key];
+                if (!item) return;
+
+                var priceEl = btn.querySelector('b');
+                if (priceEl) priceEl.textContent = '₹' + item.price;
+            });
+
+        }).catch(function() { /* keep static prices as fallback */ });
+    })();
+    </script>
 </body>
 </html>
