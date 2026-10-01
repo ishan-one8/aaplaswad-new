@@ -55,21 +55,46 @@ function toast(message, kind) {
 
 // ── API ──
 
+// Network failures must NEVER trigger a logout. Only a confirmed 401 from the
+// server means the token is dead. Even then, require several consecutive 401s
+// so a single Lambda cold-start timeout doesn't kick a busy cook off the app.
+let consecutive401s = 0;
+const MAX_401_BEFORE_LOGOUT = 3;
+
 async function api(path, options = {}) {
-    const res = await fetch(API_URL + path, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: 'Bearer ' + token } : {}),
-            ...(options.headers || {})
-        }
-    });
+    let res;
+    try {
+        res = await fetch(API_URL + path, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { Authorization: 'Bearer ' + token } : {}),
+                ...(options.headers || {})
+            }
+        });
+    } catch (networkErr) {
+        // Offline, DNS failure, CORS preflight blocked, timeout — NOT a logout
+        const error = new Error('Network error — check your connection');
+        error.status = 0;
+        error.isNetwork = true;
+        throw error;
+    }
 
     if (res.status === 401 && token) {
-        // Token expired or the account was deactivated
-        logout('Your session ended. Please log in again.');
-        throw new Error('Unauthorised');
+        consecutive401s++;
+        if (consecutive401s >= MAX_401_BEFORE_LOGOUT) {
+            // Multiple consecutive 401s — token is truly dead
+            logout('Your session ended. Please log in again.');
+            throw new Error('Unauthorised');
+        }
+        // Single 401 — might be a transient issue, don't logout yet
+        const error = new Error('Authentication failed');
+        error.status = 401;
+        throw error;
     }
+
+    // Any successful response resets the 401 counter
+    if (res.ok) consecutive401s = 0;
 
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success === false) {
@@ -77,6 +102,13 @@ async function api(path, options = {}) {
         error.status = res.status;
         throw error;
     }
+
+    // Auto-renew: if the server sent a fresh token, save it
+    if (data.token && data.token !== token) {
+        token = data.token;
+        localStorage.setItem(TOKEN_KEY, token);
+    }
+
     return data;
 }
 
@@ -1390,7 +1422,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (token && me) {
         startApp();
-        api('/staff/me').catch(() => { /* logout is handled inside api() */ });
+        // Validate the stored token. Retry once after a short delay to survive
+        // Lambda cold starts which can take several seconds and time out.
+        (async function validateSession() {
+            try {
+                const data = await api('/staff/me');
+                // Refresh the cached identity in case role/name changed
+                if (data.staffId) {
+                    me = { staffId: data.staffId, role: data.role, name: data.name };
+                    localStorage.setItem(ME_KEY, JSON.stringify(me));
+                    $('topWho').textContent = `${me.name} · ${me.role}`;
+                    if ($('topAvatar')) $('topAvatar').textContent = String(me.name || '?').trim().charAt(0).toUpperCase();
+                }
+            } catch (err) {
+                if (err.isNetwork || (err.status === 401 && consecutive401s < MAX_401_BEFORE_LOGOUT)) {
+                    // Retry once after 3 seconds
+                    console.warn('Session check failed, retrying…', err.message);
+                    setTimeout(async () => {
+                        try { await api('/staff/me'); } catch (e) { /* api() handles logout after threshold */ }
+                    }, 3000);
+                }
+                // If it was a hard logout (3+ consecutive 401s), api() already called logout()
+            }
+        })();
     }
 
     document.addEventListener('visibilitychange', () => {

@@ -349,10 +349,19 @@ exports.handler = async (event) => {
             if (!payload || !STAFF_ROLES.includes(payload.role)) {
                 return respond(event, 401, { success: false, error: 'Authentication required' });
             }
-            return respond(event, 200, {
+            const result = {
                 success: true, staffId: payload.sub, role: payload.role,
-                name: payload.name, payoutPerDelivery: staff ? staff.payoutPerDelivery : undefined
-            });
+                name: staff ? staff.name : payload.name,
+                payoutPerDelivery: staff ? staff.payoutPerDelivery : undefined
+            };
+            // Auto-renew: issue a fresh token when past the halfway mark so
+            // staff who use the app daily are never forced to log in again.
+            const now = Math.floor(Date.now() / 1000);
+            const halfLife = auth.STAFF_TOKEN_TTL / 2;
+            if (payload.iat && (now - payload.iat) > halfLife && staff) {
+                result.token = auth.signStaffToken(staff);
+            }
+            return respond(event, 200, result);
         }
 
         if (method === 'POST' && path === '/staff/device') {
