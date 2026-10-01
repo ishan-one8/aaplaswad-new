@@ -33,7 +33,7 @@ const FALLBACK_MENU = {
         discount: '53% OFF',
         image: 'zunka.jpg',
         category: 'veg',
-        includes: '3 bhakri • zunka • onion • chili • pickle',
+        includes: '2 bhakri • zunka • onion • chili • pickle',
         extras: { 'zb-ghee': 10, 'zb-onion': 10, 'zb-bhakri': 25 },
         extrasLabels: { 'zb-ghee': 'Extra Ghee', 'zb-onion': 'Extra Onion Salad', 'zb-bhakri': '2 Extra Bhakri' }
     },

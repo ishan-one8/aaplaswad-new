@@ -118,7 +118,7 @@ const TRANSLATIONS = {
 
     // ══════════ DISH DESCRIPTIONS (includes) ══════════
     'desc_dal-bati':            { en: '8 batti • onion • lemon • dal • thecha • loncha', hi: '8 बट्टी • कांदा • लिंबू • दाल • ठेचा • लोणचं', mr: '8 बट्टी • कांदा • लिंबू • दाल • ठेचा • लोणचं' },
-    'desc_zunka-bhakar':        { en: '3 bhakri • zunka • onion • chili • pickle', hi: '3 भाकरी • झुणका • प्याज • मिर्ची • अचार', mr: '3 भाकरी • झुणका • कांदा • मिरची • लोणचं' },
+    'desc_zunka-bhakar':        { en: '2 bhakri • zunka • onion • chili • pickle', hi: '2 भाकरी • झुणका • प्याज • मिर्ची • अचार', mr: '2 भाकरी • झुणका • कांदा • मिरची • लोणचं' },
     'desc_bharit-bhakar':       { en: 'bharit • 2 bhakar • onion • lemon • aachar • thecha', hi: 'भरीत • 2 भाकर • प्याज • नींबू • अचार • ठेचा', mr: 'भरीत • 2 भाकर • कांदा • लिंबू • लोणचं • ठेचा' },
     'desc_special-dal-batti':   { en: '8 pcs batti • dal • sweet • onion • lemon', hi: '8 बट्टी • दाल • मिठाई • प्याज • नींबू', mr: '8 बट्टी • दाल • गोड • कांदा • लिंबू' },
     'desc_bombil-thali':        { en: '6 pcs bombil • rassa • rice • 2 bhakar • onion • lemon', hi: '6 बोंबिल • रस्सा • चावल • 2 भाकर • प्याज • नींबू', mr: '6 बोंबील • रस्सा • भात • 2 भाकर • कांदा • लिंबू' },
