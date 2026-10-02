@@ -761,6 +761,24 @@ exports.handler = async (event) => {
             return respond(event, 404, { success: false, error: 'Unknown delivery route' });
         }
 
+
+        // ════════ PUBLIC: CUSTOMER STATS (aggregate only, no PII) ════════
+
+        if (method === 'GET' && path === '/customer-stats') {
+            const stats = await customers.summary(30);
+            // Strip PII — only return aggregate numbers and sign-up chart data
+            return respond(event, 200, {
+                success: true,
+                total: stats.total,
+                newThisWeek: stats.newThisWeek,
+                activeThisWeek: stats.activeThisWeek,
+                activeThisMonth: stats.activeThisMonth,
+                ordering: stats.ordering,
+                neverOrdered: stats.neverOrdered,
+                signUpsByDate: stats.signUpsByDate
+            });
+        }
+
         // ════════ ORDERS ════════
 
         if (method === 'POST' && path === '/orders') {
