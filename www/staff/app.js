@@ -55,21 +55,46 @@ function toast(message, kind) {
 
 // ── API ──
 
+// Network failures must NEVER trigger a logout. Only a confirmed 401 from the
+// server means the token is dead. Even then, require several consecutive 401s
+// so a single Lambda cold-start timeout doesn't kick a busy cook off the app.
+let consecutive401s = 0;
+const MAX_401_BEFORE_LOGOUT = 3;
+
 async function api(path, options = {}) {
-    const res = await fetch(API_URL + path, {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: 'Bearer ' + token } : {}),
-            ...(options.headers || {})
-        }
-    });
+    let res;
+    try {
+        res = await fetch(API_URL + path, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { Authorization: 'Bearer ' + token } : {}),
+                ...(options.headers || {})
+            }
+        });
+    } catch (networkErr) {
+        // Offline, DNS failure, CORS preflight blocked, timeout — NOT a logout
+        const error = new Error('Network error — check your connection');
+        error.status = 0;
+        error.isNetwork = true;
+        throw error;
+    }
 
     if (res.status === 401 && token) {
-        // Token expired or the account was deactivated
-        logout('Your session ended. Please log in again.');
-        throw new Error('Unauthorised');
+        consecutive401s++;
+        if (consecutive401s >= MAX_401_BEFORE_LOGOUT) {
+            // Multiple consecutive 401s — token is truly dead
+            logout('Your session ended. Please log in again.');
+            throw new Error('Unauthorised');
+        }
+        // Single 401 — might be a transient issue, don't logout yet
+        const error = new Error('Authentication failed');
+        error.status = 401;
+        throw error;
     }
+
+    // Any successful response resets the 401 counter
+    if (res.ok) consecutive401s = 0;
 
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success === false) {
@@ -77,6 +102,13 @@ async function api(path, options = {}) {
         error.status = res.status;
         throw error;
     }
+
+    // Auto-renew: if the server sent a fresh token, save it
+    if (data.token && data.token !== token) {
+        token = data.token;
+        localStorage.setItem(TOKEN_KEY, token);
+    }
+
     return data;
 }
 
@@ -288,23 +320,23 @@ async function changePin() {
 
 const NAV = {
     admin: [
-        { id: 'dash', icon: '📊', label: 'Home', title: 'Dashboard' },
-        { id: 'orders', icon: '🧾', label: 'Orders', title: 'Orders' },
-        { id: 'kitchen', icon: '🍳', label: 'Kitchen', title: 'Kitchen' },
-        { id: 'menu', icon: '🍽️', label: 'Menu', title: 'Menu & prices' },
-        { id: 'shop', icon: '⚙️', label: 'Shop', title: 'Shop settings' },
-        { id: 'staff', icon: '👥', label: 'Staff', title: 'Staff' },
-        { id: 'users', icon: '🧑‍🤝‍🧑', label: 'Users', title: 'App users' },
-        { id: 'offers', icon: '📣', label: 'Offers', title: 'Deals & offers' },
-        { id: 'reports', icon: '📈', label: 'Reports', title: 'Reports' }
+        { id: 'dash', icon: 'dash', label: 'Home', title: 'Dashboard' },
+        { id: 'orders', icon: 'receipt', label: 'Orders', title: 'Orders' },
+        { id: 'kitchen', icon: 'chef', label: 'Kitchen', title: 'Kitchen' },
+        { id: 'menu', icon: 'utensils', label: 'Menu', title: 'Menu & prices' },
+        { id: 'shop', icon: 'settings', label: 'Shop', title: 'Shop settings' },
+        { id: 'staff', icon: 'team', label: 'Staff', title: 'Staff' },
+        { id: 'users', icon: 'users', label: 'Users', title: 'App users' },
+        { id: 'offers', icon: 'megaphone', label: 'Offers', title: 'Deals & offers' },
+        { id: 'reports', icon: 'trend', label: 'Reports', title: 'Reports' }
     ],
     hotel: [
-        { id: 'kitchen', icon: '🍳', label: 'Orders', title: 'Kitchen' }
+        { id: 'kitchen', icon: 'chef', label: 'Orders', title: 'Kitchen' }
     ],
     delivery: [
-        { id: 'available', icon: '📦', label: 'Available', title: 'Available orders' },
-        { id: 'mine', icon: '🛵', label: 'My drops', title: 'My deliveries' },
-        { id: 'earnings', icon: '💰', label: 'Earnings', title: 'Today' }
+        { id: 'available', icon: 'package', label: 'Available', title: 'Available orders' },
+        { id: 'mine', icon: 'bike', label: 'My drops', title: 'My deliveries' },
+        { id: 'earnings', icon: 'wallet', label: 'Earnings', title: 'Today' }
     ]
 };
 
@@ -312,7 +344,7 @@ function buildNav() {
     const items = NAV[me.role] || [];
     $('nav').innerHTML = items.map(item => `
         <button data-view="${item.id}" onclick="switchView('${item.id}')">
-            <span class="ic">${item.icon}</span><span>${item.label}</span>
+            <i data-ic="${item.icon}"></i><span>${item.label}</span>
         </button>`).join('');
     $('nav').classList.toggle('hidden', items.length < 2);
 }
@@ -338,6 +370,7 @@ function startApp() {
     $('loginScreen').classList.add('hidden');
     $('app').classList.remove('hidden');
     $('topWho').textContent = `${me.name} · ${me.role}`;
+    if ($('topAvatar')) $('topAvatar').textContent = String(me.name || '?').trim().charAt(0).toUpperCase();
     buildNav();
     switchView((NAV[me.role] || [{ id: 'dash' }])[0].id);
     setupPush();
@@ -488,14 +521,23 @@ function drawBar(canvasId, labels, values, label, colour) {
         type: 'bar',
         data: {
             labels,
-            datasets: [{ label, data: values, backgroundColor: colour || 'rgba(234,88,12,0.65)', borderRadius: 6 }]
+            datasets: [{ label, data: values, // default bars fade from orange to amber, top to bottom
+                backgroundColor: colour || ((ctx) => {
+                    const area = ctx.chart.chartArea;
+                    if (!area) return '#f26b1d';
+                    const g = ctx.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+                    g.addColorStop(0, '#ff8a3d'); g.addColorStop(1, 'rgba(242,107,29,0.25)');
+                    return g;
+                }), hoverBackgroundColor: '#ff7a2e', borderRadius: 4, maxBarThickness: 28 }]
         },
         options: {
             responsive: true,
+            // wide desktop cards get a flatter chart so it does not fill the screen
+            aspectRatio: canvas.parentElement.clientWidth > 700 ? 3.4 : 2,
             plugins: { legend: { display: false } },
             scales: {
-                y: { ticks: { color: '#777' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                x: { ticks: { color: '#777' }, grid: { display: false } }
+                y: { ticks: { color: '#6c6c74', font: { family: 'Geist Mono', size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+                x: { ticks: { color: '#6c6c74', font: { family: 'Geist Mono', size: 11 } }, grid: { display: false }, border: { display: false } }
             }
         }
     });
@@ -509,7 +551,7 @@ const ORDER_FILTERS = ['all', 'pending', 'confirmed', 'preparing', 'ready', 'pic
 function renderOrderFilters() {
     $('orderFilters').innerHTML = ORDER_FILTERS.map(f => `
         <button class="btn btn-sm ${f === orderFilter ? '' : 'btn-ghost'}"
-                onclick="setOrderFilter('${f}')" style="white-space:nowrap">
+                onclick="setOrderFilter('${f}')">
             ${f === 'all' ? 'All' : f.replace('_', ' ')}
         </button>`).join('');
 }
@@ -534,16 +576,16 @@ function renderOrders() {
 
     $('ordersList').innerHTML = list.length
         ? list.map(o => orderCard(o, adminActions(o))).join('')
-        : emptyState('🧾', 'No orders match');
+        : emptyState('receipt', 'No orders match');
 }
 
 function adminActions(order) {
     const buttons = [];
     // COD orders in "pending" status: 3 buttons — Call, Approve, Reject
     if (order.paymentMethod === 'cod' && order.status === 'pending') {
-        buttons.push(`<a class="btn btn-sm btn-blue" style="text-decoration:none;text-align:center;width:100%" href="tel:${order.phone || ''}">📞 Call Customer</a>`);
-        buttons.push(`<button class="btn btn-sm btn-green" style="font-weight:700;font-size:0.82rem;width:100%" onclick="approveOrder('${order.orderId}')">✅ Approve & Notify Kitchen</button>`);
-        buttons.push(`<button class="btn btn-sm btn-red" style="width:100%" onclick="rejectCodOrder('${order.orderId}')">❌ Reject Order</button>`);
+        buttons.push(`<a class="btn btn-sm btn-blue" style="width:100%" href="tel:${order.phone || ''}"><i data-ic="phone"></i> Call Customer</a>`);
+        buttons.push(`<button class="btn btn-sm btn-green" style="font-weight:700;font-size:0.82rem;width:100%" onclick="approveOrder('${order.orderId}')"><i data-ic="check-circle"></i> Approve & Notify Kitchen</button>`);
+        buttons.push(`<button class="btn btn-sm btn-red" style="width:100%" onclick="rejectCodOrder('${order.orderId}')"><i data-ic="x-circle"></i> Reject Order</button>`);
     } else if (!['delivered', 'cancelled'].includes(order.status)) {
         buttons.push(`<button class="btn btn-sm btn-red" onclick="cancelOrder('${order.orderId}')">Cancel</button>`);
     }
@@ -574,7 +616,7 @@ async function rejectCodOrder(orderId) {
             method: 'PATCH',
             body: JSON.stringify({ status: 'cancelled', cancelReason: 'Order not confirmed by customer' })
         });
-        toast('❌ Order rejected. Customer notified.', 'ok');
+        toast('Order rejected. Customer notified.', 'ok');
         refresh();
     } catch (err) { toast(err.message, 'err'); }
 }
@@ -596,7 +638,7 @@ async function approveOrder(orderId) {
         await api('/hotel/orders/' + encodeURIComponent(orderId) + '/status', {
             method: 'PATCH', body: JSON.stringify({ status: 'confirmed' })
         });
-        toast('✅ Order approved! Kitchen & delivery notified.', 'ok');
+        toast('Order approved! Kitchen & delivery notified.', 'ok');
         refresh();
     } catch (err) { toast(err.message, 'err'); }
 }
@@ -622,9 +664,9 @@ function orderCard(order, actionsHtml, extraHtml) {
     <div class="order ${fresh ? 'fresh' : ''}">
         <div class="order-top">
             <span class="order-id">${esc(order.orderId)}</span>
-            <span class="badge ${order.status}">${esc((order.status || '').replace('_', ' '))}</span>
+            <span class="badge ${order.status}">${esc((order.status || '').replace(/_/g, ' '))}</span>
         </div>
-        <div class="order-name">${esc(order.customerName || 'Customer')}</div>
+        <div class="order-name"><span class="cust-av">${esc((order.customerName || 'C').trim().charAt(0).toUpperCase())}</span>${esc(order.customerName || 'Customer')}</div>
         <div class="order-meta">
             ${esc(order.address || '')}${order.landmark ? ' · ' + esc(order.landmark) : ''}
         </div>
@@ -641,13 +683,13 @@ function orderCard(order, actionsHtml, extraHtml) {
             ${order.waitingMinutes !== undefined
                 ? `<span class="waiting ${late ? 'late' : ''}">${order.waitingMinutes} min ago</span>` : ''}
         </div>
-        ${order.deliveryPartner ? `<div class="order-meta" style="margin-top:0.4rem">🛵 ${esc(order.deliveryPartner.name)}</div>` : ''}
+        ${order.deliveryPartner ? `<div class="order-meta" style="margin-top:0.4rem"><i data-ic="bike"></i> ${esc(order.deliveryPartner.name)}</div>` : ''}
         ${actionsHtml ? `<div class="btn-row">${actionsHtml}</div>` : ''}
     </div>`;
 }
 
 function emptyState(icon, text) {
-    return `<div class="empty"><span class="ic">${icon}</span>${esc(text)}</div>`;
+    return `<div class="empty"><i data-ic="${icon}"></i>${esc(text)}</div>`;
 }
 
 // ══════════ KITCHEN ══════════
@@ -660,12 +702,12 @@ function kitchenOrderCard(order, actionsHtml, rank) {
     <div class="order ${fresh ? 'fresh' : ''}">
         <div class="order-top">
             <span style="display:flex;align-items:center;gap:0.4rem">
-                ${rank ? `<span style="background:var(--saffron);color:#fff;font-weight:800;font-size:0.85rem;min-width:1.6rem;height:1.6rem;display:inline-flex;align-items:center;justify-content:center;border-radius:50%">#${rank}</span>` : ''}
+                ${rank ? `<span class="rank">#${rank}</span>` : ''}
                 <span class="order-id">${esc(order.orderId)}</span>
             </span>
-            <span class="badge ${order.status}">${esc((order.status || '').replace('_', ' '))}</span>
+            <span class="badge ${order.status}">${esc((order.status || '').replace(/_/g, ' '))}</span>
         </div>
-        <div class="order-name">${esc(order.customerName || 'Customer')}</div>
+        <div class="order-name"><span class="cust-av">${esc((order.customerName || 'C').trim().charAt(0).toUpperCase())}</span>${esc(order.customerName || 'Customer')}</div>
         <div class="items">${itemLines(order, true)}</div>
         <div class="order-foot">
             ${order.waitingMinutes !== undefined
@@ -689,7 +731,7 @@ function renderKitchen(data) {
                 ${Object.entries(p.extras || {}).map(([label, n]) =>
                     `<div class="x">+${esc(label)} ×${n}</div>`).join('')}
             </div>`).join('')
-        : '<span style="color:var(--dim);font-size:0.8rem">Nothing to cook right now</span>';
+        : '<span style="color:var(--text-3);font-size:0.82rem;font-weight:600">Nothing to cook right now</span>';
 
     // Only show orders that need cooking — picked up/dispatched orders are hidden
     const toCook = data.orders
@@ -698,13 +740,13 @@ function renderKitchen(data) {
 
     let html = '';
     if (toCook.length) {
-        html += `<div class="section-title" style="margin:0.5rem 0 0.3rem;font-size:0.75rem;color:var(--saffron)">
-            🍳 TO COOK — ${toCook.length} ${toCook.length === 1 ? 'order' : 'orders'} (oldest first)
+        html += `<div class="section-title" style="margin:0.5rem 0 0.6rem;color:var(--brand-ink)">
+            <i data-ic="flame"></i> To cook — ${toCook.length} ${toCook.length === 1 ? 'order' : 'orders'} (oldest first)
         </div>`;
         html += toCook.map((o, i) => kitchenOrderCard(o, kitchenActions(o), i + 1)).join('');
     }
 
-    $('kitchenList').innerHTML = html || emptyState('🍳', 'No active orders');
+    $('kitchenList').innerHTML = html || emptyState('chef', 'No active orders');
 }
 
 function kitchenActions(order) {
@@ -728,12 +770,12 @@ async function kitchenAccept(orderId) {
 function deliveryMeta(order) {
     return `
     <div class="row">
-        <span class="label">📍 Distance</span>
+        <span class="label"><i data-ic="pin"></i> Distance</span>
         <span class="value">${order.distanceKm !== null && order.distanceKm !== undefined
             ? order.distanceKm + ' km' : 'Unknown'}</span>
     </div>
     <div class="row">
-        <span class="label">💵 Collect</span>
+        <span class="label"><i data-ic="banknote"></i> Collect</span>
         <span class="value" style="color:${order.paymentMethod === 'cod' ? 'var(--gold)' : 'var(--green)'}">
             ${order.paymentMethod === 'cod' ? money(order.total) + ' in cash' : 'Already paid'}
         </span>
@@ -743,7 +785,7 @@ function deliveryMeta(order) {
 function renderAvailable() {
     if (!state.available.length) {
         $('availableList').innerHTML =
-            emptyState('📦', 'No orders waiting. New ones will alert you.');
+            emptyState('package', 'No orders waiting. New ones will alert you.');
         return;
     }
 
@@ -753,15 +795,15 @@ function renderAvailable() {
     const prepaid = state.available.filter(o => o.paymentMethod !== 'cod');
 
     const card = (o) => orderCard(o, `
-        <a class="btn btn-sm btn-blue" style="text-align:center;text-decoration:none"
-           href="tel:${esc(o.phone)}">📞 Call first</a>
-        <button class="btn btn-sm btn-green" onclick="claimOrder('${o.orderId}')">✅ Accept</button>
+        <a class="btn btn-sm btn-blue"
+           href="tel:${esc(o.phone)}"><i data-ic="phone"></i> Call first</a>
+        <button class="btn btn-sm btn-green" onclick="claimOrder('${o.orderId}')"><i data-ic="check-circle"></i> Accept</button>
     `, deliveryMeta(o));
 
     let html = '';
     if (cash.length) {
         html += `<div class="section-title" style="margin-top:0">
-                    💵 Cash on delivery — ${cash.length} ${cash.length === 1 ? 'order' : 'orders'}
+                    <i data-ic="banknote"></i> Cash on delivery — ${cash.length} ${cash.length === 1 ? 'order' : 'orders'}
                  </div>
                  <p style="font-size:0.72rem;color:var(--muted);margin:-0.3rem 0 0.7rem">
                     Call the customer to confirm before you accept.
@@ -769,10 +811,10 @@ function renderAvailable() {
         html += cash.map(card).join('');
     }
     if (prepaid.length) {
-        html += `<div class="section-title">✅ Already paid — ${prepaid.length}
+        html += `<div class="section-title"><i data-ic="check-circle"></i> Already paid — ${prepaid.length}
                  </div>`;
         html += prepaid.map(o => orderCard(o,
-            `<button class="btn btn-sm btn-green" onclick="claimOrder('${o.orderId}')">✅ Accept this order</button>`,
+            `<button class="btn btn-sm btn-green" onclick="claimOrder('${o.orderId}')"><i data-ic="check-circle"></i> Accept this order</button>`,
             deliveryMeta(o))).join('');
     }
 
@@ -784,31 +826,31 @@ function renderMine() {
         ? state.mine.map(o => orderCard(o, mineActions(o), `
             ${deliveryMeta(o)}
             <div class="btn-row">
-                <a class="btn btn-sm btn-blue" style="text-align:center;text-decoration:none"
-                   href="tel:${esc(o.phone)}">📞 Call</a>
-                <a class="btn btn-sm btn-ghost" style="text-align:center;text-decoration:none"
-                   href="${esc(o.mapsUrl)}" target="_blank" rel="noopener">🗺️ Navigate</a>
+                <a class="btn btn-sm btn-blue"
+                   href="tel:${esc(o.phone)}"><i data-ic="phone"></i> Call</a>
+                <a class="btn btn-sm btn-ghost"
+                   href="${esc(o.mapsUrl)}" target="_blank" rel="noopener"><i data-ic="map"></i> Navigate</a>
             </div>`)).join('')
-        : emptyState('🛵', 'You have no active deliveries');
+        : emptyState('bike', 'You have no active deliveries');
 }
 
 function mineActions(order) {
     const buttons = [];
     // Step 1: Preparing (food is being cooked)
     if (['pending', 'confirmed'].includes(order.status)) {
-        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','preparing')">🍳 Preparing</button>`);
+        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','preparing')"><i data-ic="chef"></i> Preparing</button>`);
     }
     // Step 2: Picked Up (food collected from kitchen — vanishes from kitchen dashboard)
     if (order.status === 'preparing') {
-        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','picked_up')">📦 Picked Up</button>`);
+        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','picked_up')"><i data-ic="package"></i> Picked Up</button>`);
     }
     // Step 3: On the Way (heading to customer)
     if (order.status === 'picked_up') {
-        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','on_the_way')">🚗 On the Way</button>`);
+        buttons.push(`<button class="btn btn-sm btn-blue" style="width:100%" onclick="deliveryStatus('${order.orderId}','on_the_way')"><i data-ic="bike"></i> On the Way</button>`);
     }
     // Step 4: Delivered (must enter delivery code)
     if (order.status === 'on_the_way') {
-        buttons.push(`<button class="btn btn-sm btn-green" style="width:100%;font-weight:700" onclick="askDeliveryCode('${order.orderId}', ${order.paymentMethod === 'cod'}, ${order.total})">✅ Delivered</button>`);
+        buttons.push(`<button class="btn btn-sm btn-green" style="width:100%;font-weight:700" onclick="askDeliveryCode('${order.orderId}', ${order.paymentMethod === 'cod'}, ${order.total})"><i data-ic="check-circle"></i> Delivered</button>`);
     }
     // Give back option (only before picked up)
     if (['pending', 'confirmed', 'preparing'].includes(order.status)) {
@@ -858,7 +900,7 @@ function askDeliveryCode(orderId, isCod, total) {
             </p>
             ${isCod ? `
             <div class="alert-banner" style="background:rgba(245,158,11,0.14);border-color:rgba(245,158,11,0.35);color:#fcd34d">
-                💵 Collect <b>${money(total)}</b> in cash before confirming
+                <i data-ic="banknote"></i> Collect <b>${money(total)}</b> in cash before confirming
             </div>` : ''}
             <div class="field" style="max-width:none">
                 <label>Delivery code</label>
@@ -934,7 +976,7 @@ function startLocationSharing() {
         () => { /* permission refused — deliveries still work, tracking just goes dark */ },
         { enableHighAccuracy: true, maximumAge: 15000, timeout: 20000 }
     );
-    $('locationPill').textContent = '📍 Sharing location';
+    $('locationPill').textContent = 'Sharing location';
     $('locationPill').className = 'pill open';
 }
 
@@ -1086,7 +1128,7 @@ function renderStaff() {
                     ${member.active === false ? 'Reactivate' : 'Deactivate'}
                 </button>` : ''}
             </div>
-        </div>`).join('') || emptyState('👥', 'No staff yet');
+        </div>`).join('') || emptyState('team', 'No staff yet');
 }
 
 async function toggleStaff(staffId, active) {
@@ -1181,7 +1223,7 @@ const RANGES = {
 function renderRangeButtons() {
     $('reportRanges').innerHTML = Object.entries(RANGES).map(([key, r]) => `
         <button class="btn btn-sm ${key === state.reportRange ? '' : 'btn-ghost'}"
-                onclick="setRange('${key}')" style="white-space:nowrap">${r.label}</button>`).join('');
+                onclick="setRange('${key}')">${r.label}</button>`).join('');
 }
 
 function setRange(key) {
@@ -1210,7 +1252,7 @@ async function loadReport() {
     drawBar('chartHours',
         report.hourly.map((_, h) => h + ':00').filter((_, h) => h >= 8 && h <= 23),
         report.hourly.filter((_, h) => h >= 8 && h <= 23),
-        'Orders', 'rgba(245,158,11,0.65)');
+        'Orders', 'rgba(165,148,249,0.7)');
 
     $('itemSales').innerHTML = report.itemSales.length
         ? report.itemSales.map(item => `
@@ -1248,7 +1290,7 @@ async function loadUsers() {
     drawBar('chartUsers',
         data.signUpsByDate.map(d => d.date.slice(5)),
         data.signUpsByDate.map(d => d.count),
-        'Sign-ups', 'rgba(34,197,94,0.65)');
+        'Sign-ups', 'rgba(62,207,142,0.7)');
 
     $('topCustomers').innerHTML = data.topCustomers.length
         ? data.topCustomers.map(c => `
@@ -1285,7 +1327,7 @@ async function loadUsers() {
                     <span class="value">${u.signInCount}× · ${esc(u.platform)}</span>
                 </div>
             </div>`).join('')
-        : emptyState('🧑‍🤝‍🧑', 'Nobody has signed in yet');
+        : emptyState('users', 'Nobody has signed in yet');
 }
 
 // ══════════ ADMIN: deals and offers ══════════
@@ -1312,7 +1354,7 @@ async function loadBroadcasts() {
                     </span>
                 </div>
             </div>`).join('')
-        : emptyState('📣', 'No offers sent yet');
+        : emptyState('megaphone', 'No offers sent yet');
 
     updateBroadcastPreview();
 }
@@ -1380,7 +1422,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (token && me) {
         startApp();
-        api('/staff/me').catch(() => { /* logout is handled inside api() */ });
+        // Validate the stored token. Retry once after a short delay to survive
+        // Lambda cold starts which can take several seconds and time out.
+        (async function validateSession() {
+            try {
+                const data = await api('/staff/me');
+                // Refresh the cached identity in case role/name changed
+                if (data.staffId) {
+                    me = { staffId: data.staffId, role: data.role, name: data.name };
+                    localStorage.setItem(ME_KEY, JSON.stringify(me));
+                    $('topWho').textContent = `${me.name} · ${me.role}`;
+                    if ($('topAvatar')) $('topAvatar').textContent = String(me.name || '?').trim().charAt(0).toUpperCase();
+                }
+            } catch (err) {
+                if (err.isNetwork || (err.status === 401 && consecutive401s < MAX_401_BEFORE_LOGOUT)) {
+                    // Retry once after 3 seconds
+                    console.warn('Session check failed, retrying…', err.message);
+                    setTimeout(async () => {
+                        try { await api('/staff/me'); } catch (e) { /* api() handles logout after threshold */ }
+                    }, 3000);
+                }
+                // If it was a hard logout (3+ consecutive 401s), api() already called logout()
+            }
+        })();
     }
 
     document.addEventListener('visibilitychange', () => {

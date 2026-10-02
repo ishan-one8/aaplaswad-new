@@ -4,89 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <meta name="robots" content="noindex, nofollow">
-    <meta name="theme-color" content="#111111">
+    <meta name="theme-color" content="#09090b">
     <title>Aapla Swad Staff</title>
     <link rel="icon" href="logo.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app.css?v=6">
 </head>
 <body>
 
 <!-- ══════════ LOGIN ══════════ -->
 <div class="login" id="loginScreen">
-    <img src="logo.png" alt="Aapla Swad">
-    <h1>Aapla Swad Staff</h1>
-    <p class="sub">Admin · Kitchen · Delivery</p>
+    <aside class="login-side" aria-hidden="true">
+        <div class="ls-brand"><img src="logo.png" alt=""> Aapla Swad</div>
+        <div class="ls-copy">
+            <p class="ls-kicker">Staff console</p>
+            <h2>The kitchen, the counter and the road, <em>in one place.</em></h2>
+            <ul class="ls-list">
+                <li><i data-ic="bell"></i><div><b>Live orders</b><span>New orders ring on every phone, even when the app is closed.</span></div></li>
+                <li><i data-ic="chef"></i><div><b>Kitchen board</b><span>What to cook right now, totalled across every order.</span></div></li>
+                <li><i data-ic="bike"></i><div><b>Delivery with proof</b><span>Each drop is confirmed with the customer's 4-digit code.</span></div></li>
+            </ul>
+        </div>
+        <p class="ls-foot">Aapla Swad · Staff only</p>
+    </aside>
 
-    <div class="field">
-        <label>Phone number</label>
-        <input type="tel" id="login-phone" inputmode="numeric" placeholder="10-digit number" maxlength="10" autocomplete="username">
+    <div class="login-card">
+        <div class="login-logo"><img src="logo.png" alt="Aapla Swad"></div>
+        <h1>Welcome <em>back</em></h1>
+        <p class="sub">Sign in with your phone number and PIN.</p>
+        <div class="login-roles">
+            <span><i data-ic="dash"></i>Admin</span><span><i data-ic="chef"></i>Kitchen</span><span><i data-ic="bike"></i>Delivery</span>
+        </div>
+
+        <div class="field">
+            <label for="login-phone">Phone number</label>
+            <input type="tel" id="login-phone" inputmode="numeric" placeholder="10-digit number" maxlength="10" autocomplete="username">
+        </div>
+        <div class="field">
+            <label for="login-pin">PIN</label>
+            <input type="password" id="login-pin" inputmode="numeric" placeholder="Your PIN" maxlength="8" autocomplete="current-password">
+        </div>
+        <div class="field">
+            <button class="btn" id="login-btn" onclick="doLogin()">Log in</button>
+        </div>
+        <p class="sub" id="login-error" role="alert"></p>
+        <p class="login-foot"><i data-ic="lock"></i> Forgot your PIN? Ask the admin to reset it.</p>
     </div>
-    <div class="field">
-        <label>PIN</label>
-        <input type="password" id="login-pin" inputmode="numeric" placeholder="Your PIN" maxlength="8" autocomplete="current-password">
-    </div>
-    <div class="field">
-        <button class="btn" id="login-btn" onclick="doLogin()">Log in</button>
-    </div>
-    <p class="sub" id="login-error" style="color:#fca5a5;min-height:1rem"></p>
 </div>
 
 <!-- ══════════ APP ══════════ -->
 <div class="app hidden" id="app">
     <div class="topbar">
-        <div>
-            <h2 id="topTitle">Dashboard</h2>
-            <div class="who" id="topWho"></div>
+        <div class="topbar-id">
+            <div class="avatar" id="topAvatar" aria-hidden="true"></div>
+            <div style="min-width:0">
+                <h2 id="topTitle">Dashboard</h2>
+                <div class="who" id="topWho"></div>
+            </div>
         </div>
-        <div style="display:flex;align-items:center;gap:0.5rem">
+        <div class="topbar-actions">
             <span class="pill" id="locationPill"></span>
             <span class="pill" id="shopPill"></span>
-            <button class="btn btn-sm btn-ghost" onclick="logout()">Exit</button>
+            <button class="exit-btn" onclick="logout()" aria-label="Log out" title="Log out"><i data-ic="logout"></i></button>
         </div>
     </div>
 
     <!-- ─── ADMIN: Dashboard ─── -->
     <div class="view" id="view-dash">
+        <div class="dash-hero">
+            <div class="hero-text">
+                <p class="hero-date" id="heroDate"></p>
+                <h1 class="hero-title"><span id="heroGreet">Hello</span>, <em id="heroName">team</em></h1>
+                <p class="hero-sub">Here is how Aapla Swad is doing today.</p>
+            </div>
+            <div class="hero-actions">
+                <button class="btn btn-ghost btn-sm" onclick="switchView('orders')"><i data-ic="receipt"></i> Orders</button>
+                <button class="btn btn-sm" onclick="switchView('kitchen')"><i data-ic="chef"></i> Open kitchen</button>
+            </div>
+        </div>
+
         <div class="stats four">
-            <div class="stat"><div class="n" id="d-orders">0</div><div class="l">Orders today</div></div>
-            <div class="stat"><div class="n" id="d-revenue">₹0</div><div class="l">Revenue</div></div>
-            <div class="stat"><div class="n" id="d-pending">0</div><div class="l">Pending</div></div>
-            <div class="stat"><div class="n" id="d-delivered">0</div><div class="l">Delivered</div></div>
+            <div class="stat hero"><i data-ic="receipt" class="st-ic"></i><div class="n" id="d-orders">0</div><div class="l">Orders today</div></div>
+            <div class="stat"><i data-ic="rupee" class="st-ic"></i><div class="n" id="d-revenue">₹0</div><div class="l">Revenue</div></div>
+            <div class="stat"><i data-ic="clock" class="st-ic"></i><div class="n" id="d-pending">0</div><div class="l">Pending</div></div>
+            <div class="stat"><i data-ic="check-circle" class="st-ic"></i><div class="n" id="d-delivered">0</div><div class="l">Delivered</div></div>
         </div>
 
         <div class="section-title">Money today</div>
         <div class="card">
-            <div class="row"><span class="label">💵 Cash orders</span><span class="value" id="d-cash">0 · ₹0</span></div>
-            <div class="row"><span class="label">💳 Online orders</span><span class="value" id="d-online">0 · ₹0</span></div>
-            <div class="row"><span class="label">Average order</span><span class="value" id="d-avg">₹0</span></div>
-            <div class="row"><span class="label">Cancelled</span><span class="value" id="d-cancelled">0</span></div>
+            <h3><i data-ic="wallet"></i> Money today</h3>
+            <div class="row"><span class="label"><i data-ic="banknote"></i> Cash orders</span><span class="value" id="d-cash">0 · ₹0</span></div>
+            <div class="row"><span class="label"><i data-ic="card"></i> Online orders</span><span class="value" id="d-online">0 · ₹0</span></div>
+            <div class="row"><span class="label"><i data-ic="trend"></i> Average order</span><span class="value" id="d-avg">₹0</span></div>
+            <div class="row"><span class="label"><i data-ic="x-circle"></i> Cancelled</span><span class="value" id="d-cancelled">0</span></div>
         </div>
 
         <div class="section-title">Kitchen right now</div>
         <div class="card">
-            <div class="row"><span class="label">New / Preparing / Ready</span><span class="value" id="d-kitchen">0 / 0 / 0</span></div>
-            <div class="row"><span class="label">Out for delivery</span><span class="value" id="d-otw">0</span></div>
+            <h3><i data-ic="chef"></i> Kitchen right now</h3>
+            <div class="row"><span class="label"><i data-ic="flame"></i> New / Preparing / Ready</span><span class="value" id="d-kitchen">0 / 0 / 0</span></div>
+            <div class="row"><span class="label"><i data-ic="bike"></i> Out for delivery</span><span class="value" id="d-otw">0</span></div>
         </div>
 
         <div class="section-title">Last 7 days</div>
-        <div class="card"><canvas id="chart7" height="150"></canvas></div>
+        <div class="card wide"><h3><i data-ic="trend"></i> Revenue, last 7 days</h3><canvas id="chart7" height="150"></canvas></div>
     </div>
 
     <!-- ─── ADMIN: Orders ─── -->
     <div class="view" id="view-orders">
-        <div class="field" style="max-width:none">
+        <div class="field search-field" style="max-width:none">
+            <i data-ic="search"></i>
             <input type="search" id="orderSearch" placeholder="Search name, phone or order ID" oninput="renderOrders()">
         </div>
-        <div style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.6rem" id="orderFilters"></div>
+        <div class="chips" id="orderFilters"></div>
         <div id="ordersList"></div>
     </div>
 
     <!-- ─── ADMIN: Menu ─── -->
     <div class="view" id="view-menu">
         <div class="card">
-            <h3>Prices &amp; availability</h3>
-            <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.5rem">
+            <h3><i data-ic="utensils"></i> Prices &amp; availability</h3>
+            <p class="card-note">
                 Changes apply to the customer app immediately.
             </p>
             <div id="menuList"></div>
@@ -96,7 +134,7 @@
     <!-- ─── ADMIN: Shop ─── -->
     <div class="view" id="view-shop">
         <div class="card">
-            <h3>Shop control</h3>
+            <h3><i data-ic="store"></i> Shop control</h3>
             <div class="row">
                 <span class="label">Shop open</span>
                 <label class="toggle"><input type="checkbox" id="cfg-isOpen"><span class="slider"></span></label>
@@ -112,8 +150,8 @@
         </div>
 
         <div class="card">
-            <h3>Opening hours</h3>
-            <div style="display:flex;gap:0.6rem">
+            <h3><i data-ic="clock"></i> Opening hours</h3>
+            <div class="field-pair">
                 <div class="field" style="max-width:none"><label>Opens</label><input type="time" id="cfg-openTime"></div>
                 <div class="field" style="max-width:none"><label>Closes</label><input type="time" id="cfg-closeTime"></div>
             </div>
@@ -134,12 +172,12 @@
         </div>
 
         <div class="card">
-            <h3>Delivery &amp; payments</h3>
-            <div style="display:flex;gap:0.6rem">
+            <h3><i data-ic="bike"></i> Delivery &amp; payments</h3>
+            <div class="field-pair">
                 <div class="field" style="max-width:none"><label>Delivery fee ₹</label><input type="number" id="cfg-deliveryFee" inputmode="numeric"></div>
                 <div class="field" style="max-width:none"><label>Min order ₹</label><input type="number" id="cfg-minOrderValue" inputmode="numeric"></div>
             </div>
-            <div style="display:flex;gap:0.6rem">
+            <div class="field-pair">
                 <div class="field" style="max-width:none"><label>Prep time (min)</label><input type="number" id="cfg-prepTimeMinutes" inputmode="numeric"></div>
                 <div class="field" style="max-width:none"><label>Default partner pay ₹</label><input type="number" id="cfg-defaultPayoutPerDelivery" inputmode="numeric"></div>
             </div>
@@ -154,7 +192,7 @@
         </div>
 
         <div class="card">
-            <h3>First order offer</h3>
+            <h3><i data-ic="flame"></i> First order offer</h3>
             <div class="row">
                 <span class="label">Give new customers a discount</span>
                 <label class="toggle"><input type="checkbox" id="cfg-firstOrderDiscountEnabled"><span class="slider"></span></label>
@@ -163,63 +201,63 @@
                 <label>Discount % on a customer's first order</label>
                 <input type="number" id="cfg-firstOrderDiscountPercent" inputmode="numeric" min="0" max="50">
             </div>
-            <p style="font-size:0.7rem;color:var(--muted)">
+            <p class="card-note" style="margin:0">
                 Maximum 50%. Turning this off stops the offer for new customers immediately.
             </p>
         </div>
 
         <div class="card">
-            <h3>Hotel location</h3>
-            <p style="font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem">
+            <h3><i data-ic="pin"></i> Hotel location</h3>
+            <p class="card-note">
                 Used to show delivery partners how far each drop is.
             </p>
-            <div style="display:flex;gap:0.6rem">
+            <div class="field-pair">
                 <div class="field" style="max-width:none"><label>Latitude</label><input type="text" id="cfg-hotelLat" inputmode="decimal"></div>
                 <div class="field" style="max-width:none"><label>Longitude</label><input type="text" id="cfg-hotelLng" inputmode="decimal"></div>
             </div>
-            <button class="btn btn-sm btn-ghost" onclick="useMyLocation()">📍 Use my current location</button>
+            <button class="btn btn-sm btn-ghost" onclick="useMyLocation()"><i data-ic="pin"></i> Use my current location</button>
         </div>
 
-        <button class="btn" onclick="saveConfig()">Save all settings</button>
+        <button class="btn" onclick="saveConfig()"><i data-ic="check"></i> Save all settings</button>
         <div style="height:1rem"></div>
     </div>
 
     <!-- ─── ADMIN: Staff ─── -->
     <div class="view" id="view-staff">
-        <button class="btn" onclick="openStaffModal()">+ Add staff member</button>
+        <button class="btn" onclick="openStaffModal()"><i data-ic="plus"></i> Add staff member</button>
         <div class="section-title">Team</div>
         <div id="staffList"></div>
     </div>
 
     <!-- ─── ADMIN: Reports ─── -->
     <div class="view" id="view-reports">
-        <div style="display:flex;gap:0.4rem;overflow-x:auto;padding-bottom:0.7rem" id="reportRanges"></div>
+        <div class="chips" id="reportRanges"></div>
         <div class="stats">
-            <div class="stat"><div class="n" id="r-orders">0</div><div class="l">Orders</div></div>
-            <div class="stat"><div class="n" id="r-revenue">₹0</div><div class="l">Revenue</div></div>
+            <div class="stat hero"><i data-ic="receipt" class="st-ic"></i><div class="n" id="r-orders">0</div><div class="l">Orders</div></div>
+            <div class="stat"><i data-ic="rupee" class="st-ic"></i><div class="n" id="r-revenue">₹0</div><div class="l">Revenue</div></div>
         </div>
         <div class="card" style="margin-top:0.85rem">
-            <h3>Cash vs online</h3>
-            <div class="row"><span class="label">💵 Cash</span><span class="value" id="r-cash">0 · ₹0</span></div>
-            <div class="row"><span class="label">💳 Online</span><span class="value" id="r-online">0 · ₹0</span></div>
+            <h3><i data-ic="wallet"></i> Cash vs online</h3>
+            <div class="row"><span class="label"><i data-ic="banknote"></i> Cash</span><span class="value" id="r-cash">0 · ₹0</span></div>
+            <div class="row"><span class="label"><i data-ic="card"></i> Online</span><span class="value" id="r-online">0 · ₹0</span></div>
             <div class="row"><span class="label">Average order value</span><span class="value" id="r-avg">₹0</span></div>
             <div class="row"><span class="label">Cancelled</span><span class="value" id="r-cancelled">0</span></div>
         </div>
-        <div class="card"><h3>Revenue by day</h3><canvas id="chartRange" height="150"></canvas></div>
-        <div class="card"><h3>Busiest hours</h3><canvas id="chartHours" height="150"></canvas></div>
-        <div class="card"><h3>Best selling items</h3><div id="itemSales"></div></div>
-        <div class="card"><h3>Partner payouts</h3><div id="payoutList"></div></div>
-        <button class="btn btn-ghost" onclick="exportCsv()">⬇ Download CSV</button>
+        <div class="card wide"><h3><i data-ic="trend"></i> Revenue by day</h3><canvas id="chartRange" height="150"></canvas></div>
+        <div class="card"><h3><i data-ic="clock"></i> Busiest hours</h3><canvas id="chartHours" height="150"></canvas></div>
+        <div class="card"><h3><i data-ic="flame"></i> Best selling items</h3><div id="itemSales"></div></div>
+        <div class="card"><h3><i data-ic="bike"></i> Partner payouts</h3><div id="payoutList"></div></div>
+        <button class="btn btn-ghost" onclick="exportCsv()"><i data-ic="download"></i> Download CSV</button>
         <div style="height:1rem"></div>
     </div>
 
     <!-- ─── ADMIN: Users ─── -->
     <div class="view" id="view-users">
         <div class="stats four">
-            <div class="stat"><div class="n" id="u-total">0</div><div class="l">Registered</div></div>
-            <div class="stat"><div class="n" id="u-new" style="color:var(--green)">0</div><div class="l">New this week</div></div>
-            <div class="stat"><div class="n" id="u-active" style="color:var(--blue)">0</div><div class="l">Active 7 days</div></div>
-            <div class="stat"><div class="n" id="u-ordered" style="color:var(--gold)">0</div><div class="l">Have ordered</div></div>
+            <div class="stat hero"><i data-ic="users" class="st-ic"></i><div class="n" id="u-total">0</div><div class="l">Registered</div></div>
+            <div class="stat"><i data-ic="plus" class="st-ic"></i><div class="n" id="u-new">0</div><div class="l">New this week</div></div>
+            <div class="stat"><i data-ic="trend" class="st-ic"></i><div class="n" id="u-active">0</div><div class="l">Active 7 days</div></div>
+            <div class="stat"><i data-ic="receipt" class="st-ic"></i><div class="n" id="u-ordered">0</div><div class="l">Have ordered</div></div>
         </div>
 
         <div class="card" style="margin-top:0.85rem">
@@ -227,9 +265,9 @@
             <div class="row"><span class="label">Active in the last 30 days</span><span class="value" id="u-month">0</span></div>
         </div>
 
-        <div class="card"><h3>Sign-ups per day</h3><canvas id="chartUsers" height="150"></canvas></div>
+        <div class="card wide"><h3><i data-ic="trend"></i> Sign-ups per day</h3><canvas id="chartUsers" height="150"></canvas></div>
 
-        <div class="card"><h3>Best customers (30 days)</h3><div id="topCustomers"></div></div>
+        <div class="card"><h3><i data-ic="flame"></i> Best customers (30 days)</h3><div id="topCustomers"></div></div>
 
         <div class="section-title">Newest sign-ups</div>
         <div id="userList"></div>
@@ -238,16 +276,16 @@
     <!-- ─── ADMIN: Offers ─── -->
     <div class="view" id="view-offers">
         <div class="alert-banner" id="pushWarning" style="display:none">
-            Push notifications are not set up, so nothing can be sent yet.
+            <i data-ic="alert"></i> Push notifications are not set up, so nothing can be sent yet.
         </div>
 
         <div class="stats">
-            <div class="stat"><div class="n" id="sub-all">0</div><div class="l">Allowed notifications</div></div>
-            <div class="stat"><div class="n" id="sub-recent">0</div><div class="l">Ordered in 30 days</div></div>
+            <div class="stat hero"><i data-ic="bell" class="st-ic"></i><div class="n" id="sub-all">0</div><div class="l">Allowed notifications</div></div>
+            <div class="stat"><i data-ic="receipt" class="st-ic"></i><div class="n" id="sub-recent">0</div><div class="l">Ordered in 30 days</div></div>
         </div>
 
         <div class="card" style="margin-top:0.85rem">
-            <h3>Send a deal or offer</h3>
+            <h3><i data-ic="megaphone"></i> Send a deal or offer</h3>
             <div class="field" style="max-width:none">
                 <label>Who should get it</label>
                 <select id="bc-audience">
@@ -257,12 +295,12 @@
                 </select>
             </div>
             <div class="field" style="max-width:none">
-                <label>Title <span style="color:var(--dim)" id="bc-title-count">0/60</span></label>
+                <label>Title <span class="count" id="bc-title-count">0/60</span></label>
                 <input type="text" id="bc-title" maxlength="60" placeholder="🔥 Today only — 20% off"
                        oninput="updateBroadcastPreview()">
             </div>
             <div class="field" style="max-width:none">
-                <label>Message <span style="color:var(--dim)" id="bc-body-count">0/180</span></label>
+                <label>Message <span class="count" id="bc-body-count">0/180</span></label>
                 <textarea id="bc-body" maxlength="180" rows="3"
                           placeholder="Dal Bati Thali at ₹65 till 9 PM. Order now!"
                           oninput="updateBroadcastPreview()"
@@ -270,16 +308,16 @@
             </div>
 
             <div class="section-title">How it will look</div>
-            <div style="background:#000;border:1px solid var(--border);border-radius:12px;padding:0.75rem;display:flex;gap:0.6rem;align-items:flex-start">
-                <img src="logo.png" style="width:32px;height:32px;border-radius:8px" alt="">
+            <div class="push-preview">
+                <img src="logo.png" alt="">
                 <div style="min-width:0;flex:1">
-                    <div style="font-size:0.62rem;color:var(--dim)">Aapla Swad · now</div>
-                    <div id="bc-preview-title" style="font-size:0.85rem;font-weight:700;word-break:break-word">Your title</div>
-                    <div id="bc-preview-body" style="font-size:0.78rem;color:#bbb;word-break:break-word">Your message</div>
+                    <div class="pp-app">Aapla Swad · now</div>
+                    <div id="bc-preview-title">Your title</div>
+                    <div id="bc-preview-body">Your message</div>
                 </div>
             </div>
 
-            <button class="btn" style="margin-top:0.85rem" onclick="sendBroadcast()">Send now</button>
+            <button class="btn" style="margin-top:0.85rem" onclick="sendBroadcast()"><i data-ic="megaphone"></i> Send now</button>
         </div>
 
         <div class="section-title">Already sent</div>
@@ -289,8 +327,8 @@
     <!-- ─── KITCHEN ─── -->
     <div class="view" id="view-kitchen">
         <div class="stats">
-            <div class="stat"><div class="n" id="k-arrived" style="color:var(--saffron)">0</div><div class="l">Arrived</div></div>
-            <div class="stat"><div class="n" id="k-pickedup" style="color:var(--green)">0</div><div class="l">Picked Up</div></div>
+            <div class="stat hero"><i data-ic="flame" class="st-ic"></i><div class="n" id="k-arrived">0</div><div class="l">Arrived</div></div>
+            <div class="stat"><i data-ic="bike" class="st-ic"></i><div class="n" id="k-pickedup">0</div><div class="l">Picked Up</div></div>
         </div>
 
         <div class="section-title">Cook these now</div>
@@ -313,21 +351,21 @@
     <!-- ─── DELIVERY: earnings ─── -->
     <div class="view" id="view-earnings">
         <div class="stats">
-            <div class="stat big"><div class="n" id="e-deliveries" style="color:var(--blue)">0</div><div class="l">Today</div></div>
-            <div class="stat big"><div class="n" id="e-earned" style="color:var(--green)">₹0</div><div class="l">Earned Today</div></div>
+            <div class="stat big"><i data-ic="package" class="st-ic"></i><div class="n" id="e-deliveries">0</div><div class="l">Today</div></div>
+            <div class="stat big hero"><i data-ic="wallet" class="st-ic"></i><div class="n" id="e-earned">₹0</div><div class="l">Earned Today</div></div>
         </div>
         <div class="stats" style="margin-top:0.5rem">
-            <div class="stat big"><div class="n" id="e-month-deliveries" style="color:var(--purple)">0</div><div class="l">This Month</div></div>
-            <div class="stat big"><div class="n" id="e-month-earned" style="color:var(--saffron)">₹0</div><div class="l">Earned This Month</div></div>
+            <div class="stat big"><i data-ic="trend" class="st-ic"></i><div class="n" id="e-month-deliveries">0</div><div class="l">This Month</div></div>
+            <div class="stat big"><i data-ic="rupee" class="st-ic"></i><div class="n" id="e-month-earned" >₹0</div><div class="l">Earned This Month</div></div>
         </div>
         <div class="card" style="margin-top:0.85rem">
-            <h3>Cash you are carrying</h3>
+            <h3><i data-ic="banknote"></i> Cash you are carrying</h3>
             <div class="row"><span class="label">Collected from customers</span><span class="value" id="e-cash">₹0</span></div>
             <div class="row"><span class="label">Your earnings</span><span class="value" id="e-earned2">₹0</span></div>
-            <div class="row"><span class="label" style="font-weight:700;color:#eee">Hand over to hotel</span><span class="value" id="e-net" style="color:var(--gold);font-size:1.1rem">₹0</span></div>
+            <div class="row total-row"><span class="label" style="font-weight:800;color:var(--text)"><i data-ic="store"></i> Hand over to hotel</span><span class="value" id="e-net" style="color:var(--accent);font-size:1rem">₹0</span></div>
         </div>
         <div class="card">
-            <h3>Change my PIN</h3>
+            <h3><i data-ic="lock"></i> Change my PIN</h3>
             <div class="field" style="max-width:none"><label>Current PIN</label><input type="password" id="pin-current" inputmode="numeric"></div>
             <div class="field" style="max-width:none"><label>New PIN</label><input type="password" id="pin-new" inputmode="numeric"></div>
             <button class="btn btn-sm btn-ghost" onclick="changePin()">Update PIN</button>
@@ -341,6 +379,8 @@
 <div id="modalHost"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="app.js"></script>
+<script src="icons.js"></script>
+<script src="ui.js"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

@@ -99,6 +99,17 @@
 
         .view { display:none; }
         .view.active { display:block; }
+
+        /* Users section */
+        .user-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem; padding:0.75rem; }
+        .user-stat { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.7rem; text-align:center; }
+        .us-val { font-size:1.4rem; font-weight:800; margin-bottom:0.15rem; }
+        .us-label { font-size:0.58rem; color:#888; text-transform:uppercase; letter-spacing:0.4px; }
+        .user-detail { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; margin:0 0.75rem 0.5rem; }
+        .ud-row { display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0; border-bottom:1px solid var(--border); }
+        .ud-row:last-child { border-bottom:none; }
+        .ud-label { font-size:0.78rem; color:#999; }
+        .ud-val { font-size:0.85rem; font-weight:700; }
     </style>
     <script src="order-alert.js"></script>
 </head>
@@ -160,9 +171,25 @@
             <div class="section"><div class="section-title">🏆 Top Repeat Customers</div><div id="topCustomers"></div></div>
         </div>
 
+        <!-- USERS -->
+        <div class="view" id="view-users">
+            <div class="user-stats">
+                <div class="user-stat"><div class="us-val blue" id="cu-total">—</div><div class="us-label">Registered</div></div>
+                <div class="user-stat"><div class="us-val green" id="cu-active-week">—</div><div class="us-label">Active 7d</div></div>
+                <div class="user-stat"><div class="us-val gold" id="cu-new">—</div><div class="us-label">New This Week</div></div>
+            </div>
+            <div class="user-detail">
+                <div class="ud-row"><span class="ud-label">Active in last 30 days</span><span class="ud-val" id="cu-active-month">—</span></div>
+                <div class="ud-row"><span class="ud-label">Have placed orders</span><span class="ud-val" id="cu-ordered" style="color:var(--green)">—</span></div>
+                <div class="ud-row"><span class="ud-label">Signed up but never ordered</span><span class="ud-val" id="cu-never" style="color:var(--red)">—</span></div>
+            </div>
+            <div class="section"><div class="section-title">📈 Sign-ups per day</div><div class="chart-card"><canvas id="signupChart"></canvas></div></div>
+        </div>
+
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchView('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</div>
             <div class="nav-item" onclick="switchView('orders',this)"><span class="nav-icon">📦</span>Orders</div>
+            <div class="nav-item" onclick="switchView('users',this)"><span class="nav-icon">👥</span>Users</div>
             <div class="nav-item" onclick="switchView('analytics',this)"><span class="nav-icon">📈</span>Analytics</div>
         </div>
     </div>
@@ -198,6 +225,7 @@
             el.classList.add('active');
             if (view === 'orders') renderOrders();
             if (view === 'analytics') renderAnalytics();
+            if (view === 'users') fetchCustomerStats();
         }
 
         function setFilter(filter, el) {
@@ -352,9 +380,50 @@
                 customerMap[o.phone].count++; customerMap[o.phone].total += (o.total||0);
             });
             const topCust = Object.values(customerMap).sort((a,b) => b.count - a.count).slice(0,5);
+            // Also fetch customer stats for the Users tab
+            fetchCustomerStats();
+
             document.getElementById('topCustomers').innerHTML = topCust.length ? topCust.map((c,i) => `
                 <div class="ao-card"><div class="ao-row"><span class="ao-name">${i+1}. ${c.name}</span><span class="ao-amount">₹${c.total}</span></div><div class="ao-sub">${c.phone} • ${c.count} orders</div></div>
             `).join('') : '<div class="empty-state">No customers yet</div>';
+        }
+
+        // === CUSTOMER STATS (Google sign-in users) ===
+        let signupChart;
+        async function fetchCustomerStats() {
+            try {
+                const res = await fetch(API_URL + '/customer-stats');
+                const data = await res.json();
+                if (!data.success) return;
+
+                document.getElementById('cu-total').textContent = data.total;
+                document.getElementById('cu-active-week').textContent = data.activeThisWeek;
+                document.getElementById('cu-new').textContent = data.newThisWeek;
+                document.getElementById('cu-active-month').textContent = data.activeThisMonth;
+                document.getElementById('cu-ordered').textContent = data.ordering;
+                document.getElementById('cu-never').textContent = data.neverOrdered;
+
+                // Sign-ups chart
+                if (data.signUpsByDate && data.signUpsByDate.length) {
+                    if (signupChart) signupChart.destroy();
+                    signupChart = new Chart(document.getElementById('signupChart'), {
+                        type: 'bar',
+                        data: {
+                            labels: data.signUpsByDate.map(d => d.date.slice(5)),
+                            datasets: [{ label: 'Sign-ups', data: data.signUpsByDate.map(d => d.count),
+                                backgroundColor: 'rgba(59,130,246,0.6)', borderRadius: 4, maxBarThickness: 24 }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                y: { ticks: { color: '#666', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+                                x: { ticks: { color: '#666', font: { size: 10 } }, grid: { display: false }, border: { display: false } }
+                            }
+                        }
+                    });
+                }
+            } catch (err) { console.error('Customer stats error:', err); }
         }
 
         // Auto-refresh from AWS every 15s
