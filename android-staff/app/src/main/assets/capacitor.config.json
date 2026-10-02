@@ -1,0 +1,12 @@
+{
+	"appId": "com.saiprasad.staff",
+	"appName": "Sai Prasad Staff",
+	"webDir": "staff",
+	"android": {
+		"allowMixedContent": true
+	},
+	"server": {
+		"url": "https://aaplaswad.store/staff/",
+		"cleartext": false
+	}
+}
