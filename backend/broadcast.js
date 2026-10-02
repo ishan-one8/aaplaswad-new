@@ -234,6 +234,114 @@ async function handOff(payload) {
     }));
 }
 
+// ── Scheduled broadcasts ──
+
+const SCHEDULE_KEY = 'scheduled_broadcasts';
+
+async function getScheduled() {
+    const res = await db.ddb.send(new db.GetCommand({
+        TableName: db.CONFIG_TABLE, Key: { configId: SCHEDULE_KEY }
+    }));
+    return (res.Item && res.Item.items) || [];
+}
+
+async function saveScheduled(items) {
+    await db.ddb.send(new db.PutCommand({
+        TableName: db.CONFIG_TABLE,
+        Item: { configId: SCHEDULE_KEY, items, updatedAt: db.nowIso() }
+    }));
+}
+
+async function scheduleBroadcast(body, scheduledBy) {
+    const title = String(body.title || '').trim();
+    const message = String(body.body || '').trim();
+    const audience = AUDIENCES[body.audience] ? body.audience : 'all';
+    const scheduledAt = body.scheduledAt;                     // ISO string in IST
+
+    if (!title) return { ok: false, code: 400, error: 'Give the notification a title' };
+    if (!message) return { ok: false, code: 400, error: 'Write a message' };
+    if (!scheduledAt) return { ok: false, code: 400, error: 'Pick a date and time' };
+    if (title.length > 60) return { ok: false, code: 400, error: 'Title must be under 60 characters' };
+    if (message.length > 180) return { ok: false, code: 400, error: 'Message must be under 180 characters' };
+
+    const scheduleDate = new Date(scheduledAt);
+    if (isNaN(scheduleDate.getTime())) return { ok: false, code: 400, error: 'Invalid date' };
+    if (scheduleDate.getTime() < Date.now() - 60000) {
+        return { ok: false, code: 400, error: 'Schedule time must be in the future' };
+    }
+
+    const id = crypto.randomBytes(8).toString('hex');
+    const entry = {
+        id,
+        title,
+        body: message,
+        audience,
+        audienceLabel: AUDIENCES[audience].label,
+        scheduledAt: scheduleDate.toISOString(),
+        scheduledBy,
+        createdAt: db.nowIso(),
+        status: 'pending'
+    };
+
+    const items = await getScheduled();
+    items.push(entry);
+    await saveScheduled(items);
+
+    return { ok: true, scheduled: entry };
+}
+
+async function deleteScheduled(id) {
+    const items = await getScheduled();
+    const filtered = items.filter(i => i.id !== id);
+    if (filtered.length === items.length) {
+        return { ok: false, code: 404, error: 'Scheduled notification not found' };
+    }
+    await saveScheduled(filtered);
+    return { ok: true, deleted: true };
+}
+
+// Called by the EventBridge cron every minute. Checks for due notifications
+// and sends them.
+async function checkScheduled() {
+    const items = await getScheduled();
+    const now = Date.now();
+    const due = items.filter(i => i.status === 'pending' && new Date(i.scheduledAt).getTime() <= now);
+
+    if (!due.length) return { checked: items.length, sent: 0 };
+
+    let sentCount = 0;
+    for (const item of due) {
+        try {
+            const result = await send({
+                title: item.title,
+                body: item.body,
+                audience: item.audience
+            }, item.scheduledBy || 'scheduler');
+
+            item.status = result.ok ? 'sent' : 'failed';
+            item.sentAt = db.nowIso();
+            item.delivered = result.delivered || 0;
+            item.error = result.ok ? null : result.error;
+            if (result.ok) sentCount++;
+        } catch (err) {
+            item.status = 'failed';
+            item.error = err.message;
+        }
+    }
+
+    await saveScheduled(items);
+
+    // Clean up sent/failed items older than 7 days
+    const cutoff = now - 7 * 86400000;
+    const cleaned = items.filter(i =>
+        i.status === 'pending' || new Date(i.sentAt || i.createdAt).getTime() > cutoff
+    );
+    if (cleaned.length < items.length) await saveScheduled(cleaned);
+
+    return { checked: items.length, sent: sentCount };
+}
+
 module.exports = {
-    subscribe, unsubscribe, send, counts, history, runBroadcastTask, AUDIENCES, SYNC_LIMIT
+    subscribe, unsubscribe, send, counts, history, runBroadcastTask, AUDIENCES, SYNC_LIMIT,
+    scheduleBroadcast, getScheduled, deleteScheduled, checkScheduled
 };

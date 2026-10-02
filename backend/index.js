@@ -257,6 +257,17 @@ function createOrderFromPayment(pending, razorpayOrderId, captured) {
 // ── Handler ──
 
 exports.handler = async (event) => {
+    // EventBridge cron — check and send scheduled notifications
+    if (event && event.source === 'aws.events') {
+        try {
+            const result = await broadcast.checkScheduled();
+            console.log('SCHEDULED_CHECK', JSON.stringify(result));
+        } catch (err) {
+            console.error('SCHEDULED_CHECK_FAILED', err);
+        }
+        return { ok: true };
+    }
+
     // Background work this function scheduled for itself — no HTTP involved
     if (event && event.__task === 'broadcast') {
         try {
@@ -651,19 +662,36 @@ exports.handler = async (event) => {
                 return fromResult(event, await admin.updateStaff(seg[2], body, payload && payload.sub));
             }
             if (method === 'GET' && path === '/admin/broadcast') {
-                const [audienceCounts, past] = await Promise.all([
-                    broadcast.counts(), broadcast.history()
+                const [audienceCounts, past, scheduled] = await Promise.all([
+                    broadcast.counts(), broadcast.history(), broadcast.getScheduled()
                 ]);
                 return respond(event, 200, {
                     success: true,
                     counts: audienceCounts,
                     history: past,
+                    scheduled: scheduled.filter(i => i.status === 'pending'),
                     audiences: broadcast.AUDIENCES,
                     pushConfigured: push.isConfigured()
                 });
             }
             if (method === 'POST' && path === '/admin/broadcast') {
                 return fromResult(event, await broadcast.send(body, actor));
+            }
+            if (method === 'GET' && path === '/admin/broadcast/schedule') {
+                const items = await broadcast.getScheduled();
+                return respond(event, 200, {
+                    success: true,
+                    scheduled: items.filter(i => i.status === 'pending'),
+                    past: items.filter(i => i.status !== 'pending').slice(0, 20)
+                });
+            }
+            if (method === 'POST' && path === '/admin/broadcast/schedule') {
+                return fromResult(event, await broadcast.scheduleBroadcast(body, actor));
+            }
+            if (method === 'DELETE' && path === '/admin/broadcast/schedule') {
+                const id = qs.id || (body && body.id);
+                if (!id) return respond(event, 400, { success: false, error: 'id is required' });
+                return fromResult(event, await broadcast.deleteScheduled(id));
             }
             if (method === 'GET' && path === '/admin/customers') {
                 return respond(event, 200, {

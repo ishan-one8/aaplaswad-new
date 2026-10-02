@@ -1356,6 +1356,27 @@ async function loadBroadcasts() {
             </div>`).join('')
         : emptyState('megaphone', 'No offers sent yet');
 
+    // Render scheduled notifications
+    const scheduled = data.scheduled || [];
+    $('scheduledTitle').style.display = scheduled.length ? '' : 'none';
+    $('scheduledList').innerHTML = scheduled.map(s => `
+        <div class="card">
+            <div class="order-top">
+                <span class="order-name">${esc(s.title)}</span>
+                <span class="badge pending">
+                    ${new Date(s.scheduledAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                </span>
+            </div>
+            <div class="order-meta">${esc(s.body)}</div>
+            <div class="row" style="margin-top:0.5rem">
+                <span class="label">${esc(s.audienceLabel || s.audience)}</span>
+                <button class="btn btn-sm btn-ghost" style="color:var(--red)" onclick="cancelScheduled('${s.id}')">
+                    <i data-ic="x"></i> Cancel
+                </button>
+            </div>
+        </div>
+    `).join('');
+
     updateBroadcastPreview();
 }
 
@@ -1389,6 +1410,49 @@ async function sendBroadcast() {
         toast(`Sent to ${result.delivered} ${result.delivered === 1 ? 'phone' : 'phones'}`, 'ok');
         $('bc-title').value = '';
         $('bc-body').value = '';
+        loadBroadcasts();
+    } catch (err) { toast(err.message, 'err'); }
+}
+
+async function scheduleBroadcast() {
+    const title = $('bc-title').value.trim();
+    const message = $('bc-body').value.trim();
+    const audience = $('bc-audience').value;
+    const scheduledAt = $('bc-schedule-time').value;
+
+    if (!title || !message) { toast('Add a title and a message', 'err'); return; }
+    if (!scheduledAt) { toast('Pick a date and time first', 'err'); return; }
+
+    const localDate = new Date(scheduledAt);
+    if (localDate.getTime() < Date.now()) { toast('Time must be in the future', 'err'); return; }
+
+    const audienceLabel = $('bc-audience').selectedOptions[0].textContent.trim();
+    const timeStr = localDate.toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+    });
+    if (!confirm(`Schedule "${title}" for ${timeStr}?\nAudience: ${audienceLabel}`)) return;
+
+    try {
+        await api('/admin/broadcast/schedule', {
+            method: 'POST',
+            body: JSON.stringify({
+                title, body: message, audience,
+                scheduledAt: localDate.toISOString()
+            })
+        });
+        toast('Notification scheduled ✓', 'ok');
+        $('bc-title').value = '';
+        $('bc-body').value = '';
+        $('bc-schedule-time').value = '';
+        loadBroadcasts();
+    } catch (err) { toast(err.message, 'err'); }
+}
+
+async function cancelScheduled(id) {
+    if (!confirm('Cancel this scheduled notification?')) return;
+    try {
+        await api('/admin/broadcast/schedule?id=' + id, { method: 'DELETE' });
+        toast('Cancelled', 'ok');
         loadBroadcasts();
     } catch (err) { toast(err.message, 'err'); }
 }
