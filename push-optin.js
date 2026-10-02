@@ -1,7 +1,7 @@
 /* ============================================
    SAI PRASAD — Customer offer notifications
-   Asks permission at the one moment a customer is clearly happy to hear
-   from us again: right after they place an order.
+   On Android: automatically requests permission and registers on app startup.
+   On Web: shows an opt-in banner on the first visit (not just after ordering).
    ============================================ */
 
 const SP_PUSH_API = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
@@ -83,6 +83,7 @@ async function spEnableOffers() {
     }
 
     // --- Web: Use Firebase Cloud Messaging ---
+    if (!SP_FIREBASE.webPushReady) return false;
     if (!('serviceWorker' in navigator) || !('Notification' in window)) return false;
 
     try {
@@ -120,10 +121,84 @@ async function spEnableOffers() {
     }
 }
 
-// Shows a small opt-in card. Only ever asked once — a second prompt after a
-// refusal is just nagging, and browsers block repeat prompts anyway.
+// ── Auto-register on app startup ──
+// For Android native: request permission immediately and silently register.
+// For Web: show a prominent opt-in banner at the top of the page.
+
+function spAutoRegisterOnStartup() {
+    if (!SP_FIREBASE.configured) return;
+    // Already registered — don't ask again
+    if (localStorage.getItem(SP_PUSH_ASKED_KEY) === 'granted') return;
+
+    const isNative = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+
+    if (isNative) {
+        // On Android, request permission immediately on app open.
+        // Android will show the system permission dialog automatically.
+        // Once granted, it stays granted forever — no need to ask again.
+        setTimeout(() => {
+            spEnableOffers().then(ok => {
+                if (ok) console.log('Push notifications enabled on startup');
+            }).catch(() => {});
+        }, 1500); // Small delay to let the app finish loading
+    } else {
+        // On web, we can't request permission without a user gesture,
+        // so show a banner at the top of the page instead.
+        // Only if the user hasn't declined before.
+        if (localStorage.getItem(SP_PUSH_ASKED_KEY) === 'declined') return;
+        if (!('Notification' in window) || Notification.permission !== 'default') return;
+
+        setTimeout(() => {
+            spShowStartupBanner();
+        }, 2000);
+    }
+}
+
+// A fixed banner at top of page for web users
+function spShowStartupBanner() {
+    if (!SP_FIREBASE.webPushReady) return;
+    if (document.getElementById('sp-push-startup')) return;
+
+    const bar = document.createElement('div');
+    bar.id = 'sp-push-startup';
+    bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;' +
+        'background:linear-gradient(135deg,#ea580c,#f59e0b);color:#fff;' +
+        'padding:0.65rem 1rem;display:flex;align-items:center;justify-content:center;' +
+        'gap:0.6rem;font-family:inherit;font-size:0.78rem;font-weight:600;' +
+        'box-shadow:0 2px 12px rgba(0,0,0,0.3);';
+    bar.innerHTML =
+        '<span>🔔 Get deals & offers on your phone!</span>' +
+        '<button id="sp-startup-yes" style="padding:0.4rem 0.8rem;border:2px solid #fff;border-radius:8px;' +
+            'background:transparent;color:#fff;font-weight:700;font-size:0.72rem;cursor:pointer;font-family:inherit;">Allow</button>' +
+        '<button id="sp-startup-no" style="padding:0.4rem 0.5rem;border:none;background:transparent;' +
+            'color:rgba(255,255,255,0.7);font-size:0.72rem;cursor:pointer;font-family:inherit;">✕</button>';
+
+    document.body.prepend(bar);
+
+    bar.querySelector('#sp-startup-yes').onclick = async () => {
+        const ok = await spEnableOffers();
+        bar.innerHTML = ok
+            ? '<span style="color:#fff">✅ You\'ll get our best offers!</span>'
+            : '<span style="color:#fff">No problem — you can enable this later.</span>';
+        setTimeout(() => bar.remove(), 2500);
+    };
+
+    bar.querySelector('#sp-startup-no').onclick = () => {
+        localStorage.setItem(SP_PUSH_ASKED_KEY, 'declined');
+        bar.remove();
+    };
+}
+
+// Shows a small opt-in card (kept for post-order flow as backup).
 function spShowOfferOptIn(container) {
     if (!SP_FIREBASE.configured) return;
+    const isNative = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+    // On native, we already asked on startup — just silently try again
+    if (isNative) {
+        spEnableOffers().catch(() => {});
+        return;
+    }
+    if (!SP_FIREBASE.webPushReady) return;
     if (!('Notification' in window)) return;
     if (Notification.permission !== 'default') return;
     if (localStorage.getItem(SP_PUSH_ASKED_KEY)) return;
@@ -158,4 +233,11 @@ function spShowOfferOptIn(container) {
         localStorage.setItem(SP_PUSH_ASKED_KEY, 'declined');
         card.remove();
     };
+}
+
+// ── Kickstart on page load ──
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', spAutoRegisterOnStartup);
+} else {
+    spAutoRegisterOnStartup();
 }
