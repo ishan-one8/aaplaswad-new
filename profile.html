@@ -378,16 +378,99 @@
 
         let user = JSON.parse(localStorage.getItem('sp_google_user') || 'null');
 
+        // Check if user data was passed from OAuth callback via URL hash
+        (function checkOAuthReturn() {
+            var hash = window.location.hash || '';
+            if (hash.indexOf('#sp_oauth=') === 0) {
+                try {
+                    var data = hash.substring('#sp_oauth='.length);
+                    var decoded = decodeURIComponent(escape(atob(data)));
+                    var oauthUser = JSON.parse(decoded);
+                    if (oauthUser && oauthUser.email) {
+                        user = oauthUser;
+                        localStorage.setItem('sp_google_user', JSON.stringify(user));
+                        // Clean up URL hash
+                        history.replaceState(null, '', window.location.pathname);
+                    }
+                } catch(e) { console.warn('OAuth return parse error', e); }
+            }
+        })();
+
         window.addEventListener('load', () => {
             if (user) {
                 showProfile(user);
                 return;
             }
 
-            // Render Google Sign-In button directly
+            // --- Native Capacitor App: use SocialLogin plugin ---
+            if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+                const holder = document.getElementById('g-signin-btn');
+                if (holder) {
+                    holder.innerHTML = '<button id="native-signin-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:280px;max-width:100%;margin:0 auto;padding:12px 20px;background:#fff;border:1px solid #ddd;border-radius:24px;font-size:0.95rem;font-weight:600;color:#333;cursor:pointer;font-family:inherit;">' +
+                        '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="">' +
+                        'Sign in with Google</button>';
+                    document.getElementById('native-signin-btn').onclick = async function() {
+                        this.disabled = true;
+                        this.textContent = 'Signing in...';
+                        try {
+                            const { SocialLogin } = window.Capacitor.Plugins;
+                            await SocialLogin.initialize({ google: { webClientId: GOOGLE_CLIENT_ID } });
+                            const result = await SocialLogin.login({ provider: 'google', options: {} });
+                            if (result && result.result) {
+                                let u = null;
+                                if (result.result.idToken) {
+                                    try {
+                                        const payload = JSON.parse(atob(result.result.idToken.split('.')[1]));
+                                        u = { name: payload.name || 'Customer', email: payload.email || '', picture: payload.picture || 'logo.png', googleId: payload.sub || '' };
+                                    } catch(e) {}
+                                }
+                                if (!u && result.result.profile) {
+                                    const p = result.result.profile;
+                                    u = { name: p.name || p.displayName || 'Customer', email: p.email || '', picture: p.imageUrl || p.photoUrl || 'logo.png', googleId: p.id || '' };
+                                }
+                                if (u) {
+                                    localStorage.setItem('sp_google_user', JSON.stringify(u));
+                                }
+                                if (typeof spExchangeGoogleCredential === 'function') {
+                                    await spExchangeGoogleCredential(result.result.idToken, result.result.accessToken);
+                                }
+                                sessionStorage.removeItem('sp_native_token_tried');
+                                window.location.reload();
+                                return;
+                            } else {
+                                console.warn('Sign-in returned no result:', result);
+                            }
+                        } catch(e) {
+                            console.error('Google Sign-In error:', e);
+                        }
+                        this.disabled = false;
+                        this.textContent = 'Sign in with Google';
+                    };
+                }
+                return;
+            }
+
+            // --- WebView (non-Capacitor): GSI is blocked, use OAuth redirect ---
+            if (typeof spIsWebView === 'function' && spIsWebView()) {
+                // Always show OAuth redirect button in WebView
+                const holder = document.getElementById('g-signin-btn');
+                if (holder) {
+                    holder.innerHTML = '<button id="oauth-redirect-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:280px;max-width:100%;margin:0 auto;padding:12px 20px;background:#fff;border:1px solid #ddd;border-radius:24px;font-size:0.95rem;font-weight:600;color:#333;cursor:pointer;font-family:inherit;">' +
+                        '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="">' +
+                        'Sign in with Google</button>';
+                    document.getElementById('oauth-redirect-btn').onclick = function() {
+                        if (typeof spStartOAuthRedirect === 'function') spStartOAuthRedirect();
+                    };
+                }
+                return;
+            }
+
+            // --- Normal browser: use GSI with fallback ---
+            let gsiLoaded = false;
             const waitForGoogle = setInterval(() => {
                 if (typeof google !== 'undefined' && google.accounts) {
                     clearInterval(waitForGoogle);
+                    gsiLoaded = true;
                     google.accounts.id.initialize({
                         client_id: GOOGLE_CLIENT_ID,
                         callback: handleCredential
@@ -398,6 +481,22 @@
                     );
                 }
             }, 100);
+
+            // Fallback: if GSI doesn't load in 4s, show OAuth redirect button
+            setTimeout(() => {
+                clearInterval(waitForGoogle);
+                if (!gsiLoaded) {
+                    const holder = document.getElementById('g-signin-btn');
+                    if (holder && !holder.querySelector('[data-rendered]')) {
+                        holder.innerHTML = '<button id="oauth-fallback-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:280px;max-width:100%;margin:0 auto;padding:12px 20px;background:#fff;border:1px solid #ddd;border-radius:24px;font-size:0.95rem;font-weight:600;color:#333;cursor:pointer;font-family:inherit;">' +
+                            '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="">' +
+                            'Sign in with Google</button>';
+                        document.getElementById('oauth-fallback-btn').onclick = function() {
+                            if (typeof spStartOAuthRedirect === 'function') spStartOAuthRedirect();
+                        };
+                    }
+                }
+            }, 4000);
         });
 
         function handleCredential(response) {
@@ -595,7 +694,45 @@
         }
 
         // Clears the stale session so the Google button reappears
-        function reSignIn() {
+        async function reSignIn() {
+            // On native app: trigger native Google login directly
+            if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+                try {
+                    const { SocialLogin } = window.Capacitor.Plugins;
+                    if (SocialLogin) {
+                        await SocialLogin.initialize({ google: { webClientId: GOOGLE_CLIENT_ID } });
+                        const result = await SocialLogin.login({ provider: 'google', options: {} });
+                        if (result && result.result) {
+                            // Extract user info
+                            let u = null;
+                            if (result.result.idToken) {
+                                try {
+                                    const payload = JSON.parse(atob(result.result.idToken.split('.')[1]));
+                                    u = { name: payload.name || 'Customer', email: payload.email || '', picture: payload.picture || 'logo.png', googleId: payload.sub || '' };
+                                } catch(e) {}
+                            }
+                            if (!u && result.result.profile) {
+                                const p = result.result.profile;
+                                u = { name: p.name || p.displayName || 'Customer', email: p.email || '', picture: p.imageUrl || p.photoUrl || 'logo.png', googleId: p.id || '' };
+                            }
+                            if (u) {
+                                localStorage.setItem('sp_google_user', JSON.stringify(u));
+                            }
+                            // Exchange for customer token
+                            if (typeof spExchangeGoogleCredential === 'function') {
+                                await spExchangeGoogleCredential(result.result.idToken, result.result.accessToken);
+                            }
+                            // Clear the session flag so token is fresh
+                            sessionStorage.removeItem('sp_native_token_tried');
+                            window.location.reload();
+                            return;
+                        }
+                    }
+                } catch(e) {
+                    console.error('Native reSignIn failed', e);
+                }
+            }
+            // Fallback: clear and reload
             localStorage.removeItem('sp_google_user');
             if (typeof spClearCustomerToken === 'function') spClearCustomerToken();
             window.location.reload();

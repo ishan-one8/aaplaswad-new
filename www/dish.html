@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0e0e0e">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Aapla Swad — Dish Details</title>
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="icon-192.png" type="image/png">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="theme-color" content="#ea580c">
     <meta name="description" content="View dish details and order from Aapla Swad — authentic Dal Bati, Zunka Bhakar, Chinese & Rolls delivered hot.">
     <meta name="robots" content="index, follow">
@@ -26,158 +26,277 @@
     <meta name="twitter:description" content="View dish details and order from Aapla Swad. Authentic home-style cooking delivered hot.">
     <meta name="twitter:image" content="https://aaplaswad.store/hero.png">
 
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="theme.css?v=1">
     <style>
-        :root { --orange:#ea580c; --gold:#f59e0b; --bg:#0e0e0e; --card:#161616; --border:rgba(255,255,255,0.06); }
+        /* ========== DISH — photo-led detail page ========== */
+        .dish-page .app { max-width: var(--wide); margin: 0 auto; padding-bottom: calc(112px + var(--safe-b)); }
 
-        /* Closed Overlay */
-        .closed-overlay { display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem; }
-        .closed-overlay.show { display:flex; }
-        .closed-icon { font-size:4rem; margin-bottom:1rem; animation:pulse-clock 2s ease-in-out infinite; }
-        @keyframes pulse-clock { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-        .closed-title { font-family:'Outfit',sans-serif; font-size:1.5rem; font-weight:800; color:#fafafa; margin-bottom:0.5rem; }
-        .closed-subtitle { font-size:0.85rem; color:#9ca3af; margin-bottom:0.3rem; line-height:1.5; }
-        .closed-time { font-size:1.1rem; font-weight:700; color:var(--gold); margin:0.8rem 0; background:rgba(245,158,11,0.1); padding:0.6rem 1.5rem; border-radius:12px; border:1px solid rgba(245,158,11,0.2); }
-        .closed-tomorrow { font-size:0.8rem; color:#6b7280; margin-bottom:1.5rem; }
-        .closed-dismiss { background:linear-gradient(135deg,var(--orange),#c2410c); color:#fff; border:none; font-size:0.85rem; font-weight:700; padding:0.75rem 2.5rem; border-radius:14px; cursor:pointer; font-family:'Manrope',sans-serif; }
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:var(--bg); color:#fafafa; font-family:'Manrope','Outfit',sans-serif; min-height:100dvh; }
-        .app { max-width:480px; margin:0 auto; padding-bottom:80px; }
+        .dish-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border-bottom: 1px solid var(--line);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .dish-nav-inner {
+            max-width: var(--wide); margin: 0 auto;
+            display: flex; align-items: center; gap: 10px;
+            padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 1rem 0.6rem;
+        }
+        .nav-title {
+            flex: 1; min-width: 0; text-align: center;
+            font-family: var(--font-display); font-size: 1.02rem; font-weight: 800; color: var(--text);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        /* Phones: nav floats over the photo until the page scrolls */
+        @media (max-width: 899px) {
+            .dish-nav:not(.is-scrolled) { background: transparent; border-bottom-color: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; }
+            .dish-nav:not(.is-scrolled) .nav-title { opacity: 0; transform: translateY(6px); }
+            .dish-nav:not(.is-scrolled) .icon-btn {
+                background: rgba(0, 0, 0, 0.35); border-color: rgba(255, 255, 255, 0.22); color: #fff; box-shadow: none;
+                backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            }
+            .dish-hero-wrap { margin-top: calc(-62px - env(safe-area-inset-top, 0px)); }
+        }
 
-        /* Back nav */
-        .dish-nav { position:sticky; top:0; z-index:100; background:rgba(14,14,14,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-bottom:1px solid var(--border); }
-        .dish-nav-inner { max-width:480px; margin:0 auto; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.6rem; }
-        .back-btn { background:none; border:none; color:#fafafa; font-size:1.2rem; cursor:pointer; padding:0.2rem; display:flex; align-items:center; }
-        .nav-title { font-size:0.82rem; font-weight:700; color:#fafafa; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .dish-hero-wrap { position: relative; overflow: hidden; height: min(62vh, 112vw); background: var(--surface-3); }
+        .dish-hero-wrap::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0) 26%, rgba(0,0,0,0) 72%, rgba(0,0,0,0.22));
+        }
+        .dish-hero {
+            width: 100%; height: 100%; object-fit: cover;
+            transform: translate3d(0, calc(var(--sy, 0) * 0.35px), 0) scale(1.04);
+            animation: heroIn 1.3s var(--ease-out) backwards;
+        }
+        @keyframes heroIn { from { opacity: 0; transform: scale(1.2); } }
 
-        /* Hero image */
-        .dish-hero { width:100%; height:auto; max-height:320px; object-fit:contain; background:#0e0e0e; }
+        .dish-content {
+            position: relative; z-index: 1;
+            margin-top: -30px; padding: 22px 16px 10px;
+            border-radius: 30px 30px 0 0;
+            background: var(--bg);
+            animation: sheetUp 0.9s var(--ease-out) 0.1s both;
+        }
+        .dish-content::before { content: ''; display: block; width: 40px; height: 4px; border-radius: 4px; background: var(--line-2); margin: -10px auto 16px; }
+        @keyframes sheetUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
 
-        /* Content */
-        .dish-content { padding:0.8rem 1rem; }
+        @media (min-width: 900px) {
+            .dish-page .app { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); column-gap: 44px; padding-left: 24px; padding-right: 24px; }
+            .dish-nav { grid-column: 1 / -1; margin: 0 -24px; }
+            .dish-hero-wrap { position: sticky; top: 92px; align-self: start; height: calc(100vh - 130px); max-height: 640px; margin-top: 24px; border-radius: 30px; box-shadow: var(--shadow-lg); }
+            .dish-hero { transform: none; }
+            .dish-content { margin-top: 0; padding: 30px 0; border-radius: 0; background: transparent; }
+            .dish-content::before { display: none; }
+        }
 
-        /* Tags */
-        .dish-tags { display:flex; gap:0.35rem; align-items:center; margin-bottom:0.4rem; flex-wrap:wrap; }
-        .tag-veg { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
-        .tag-nonveg { font-size:0.58rem; color:#ef4444; background:rgba(239,68,68,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:600; }
-        .tag-new { font-size:0.52rem; color:var(--orange); background:rgba(234,88,12,0.1); padding:0.1rem 0.35rem; border-radius:4px; font-weight:700; }
-        .tag-rating { font-size:0.58rem; color:var(--gold); }
+        .hotel-badge {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; margin-bottom: 14px;
+            border-radius: 18px;
+            background: var(--surface); border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+        }
+        .hotel-badge-icon { width: 40px; height: 40px; border-radius: 12px; object-fit: cover; }
+        .hotel-badge-name { font-size: 0.9rem; font-weight: 800; color: var(--text); }
+        .hotel-badge-sub { font-size: 0.7rem; font-weight: 600; color: var(--text-3); }
+        .hotel-badge-type { margin-left: auto; font-size: 0.62rem; font-weight: 900; letter-spacing: 0.05em; padding: 4px 8px; border-radius: 8px; white-space: nowrap; }
+        .hotel-badge-type.veg { color: var(--veg); background: var(--ok-soft); }
+        .hotel-badge-type.nonveg { color: var(--nonveg); background: var(--danger-soft); }
 
-        /* Name & Price */
-        .dish-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:0.5rem; margin-bottom:0.2rem; }
-        .dish-title { font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:0.15rem; }
-        .share-btn { display:flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#e5e5e5; cursor:pointer; flex-shrink:0; transition:all 0.2s; }
-        .share-btn:active { background:rgba(255,255,255,0.1); transform:scale(0.95); }
-        .dish-subtitle { font-size:0.68rem; color:#888; margin-bottom:0.5rem; }
-        .price-block { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.8rem; }
-        .p-old { font-size:0.72rem; color:#666; text-decoration:line-through; }
-        .p-now { font-size:1.3rem; font-weight:800; color:var(--gold); }
-        .p-off { font-size:0.58rem; color:#22c55e; background:rgba(34,197,94,0.1); padding:0.12rem 0.4rem; border-radius:5px; font-weight:700; }
+        .dish-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+        .tag-veg, .tag-nonveg, .tag-new, .tag-rating { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 99px; font-size: 0.68rem; font-weight: 800; }
+        .tag-veg { color: var(--veg); background: var(--ok-soft); }
+        .tag-nonveg { color: var(--nonveg); background: var(--danger-soft); }
+        .tag-new { color: #fff; background: var(--grad-hot); letter-spacing: 0.06em; }
+        .tag-rating { color: var(--text); background: var(--surface); border: 1px solid var(--line); }
 
-        /* Section headers */
-        .section-title { font-size:0.72rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.5rem; }
+        .dish-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .dish-title { font-family: var(--font-display); font-size: clamp(1.75rem, 7.4vw, 2.5rem); font-weight: 900; line-height: 1.06; letter-spacing: -0.03em; color: var(--text); }
+        .share-btn {
+            width: 44px; height: 44px; flex-shrink: 0;
+            display: grid; place-items: center;
+            border-radius: 14px;
+            background: var(--surface); border: 1px solid var(--line);
+            color: var(--text); box-shadow: var(--shadow-sm);
+            transition: transform 0.2s var(--ease-spring);
+        }
+        .share-btn:active { transform: scale(0.9); }
+        .dish-subtitle { font-size: 0.84rem; line-height: 1.5; color: var(--text-2); margin: 8px 0 14px; }
 
-        /* Includes */
-        .includes-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.7rem; margin-bottom:0.8rem; }
-        .include-item { display:flex; align-items:center; gap:0.5rem; padding:0.4rem 0; border-bottom:1px solid rgba(255,255,255,0.03); }
-        .include-item:last-child { border-bottom:none; }
-        .include-emoji { font-size:1.1rem; width:28px; text-align:center; flex-shrink:0; }
-        .include-text { font-size:0.75rem; font-weight:600; color:#e5e5e5; }
-        .include-sub { font-size:0.58rem; color:#888; margin-top:0.05rem; }
+        .price-block { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+        .p-now { font-family: var(--font-display); font-size: 2.1rem; font-weight: 900; letter-spacing: -0.02em; color: var(--text); }
+        .p-old { order: 1; font-size: 0.98rem; color: var(--text-3); text-decoration: line-through; }
+        .p-off { order: 2; padding: 5px 9px; border-radius: 9px; background: var(--grad-hot); color: #fff; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.03em; }
 
-        /* Hotel Name Badge */
-        .hotel-badge { display:flex; align-items:center; gap:0.4rem; padding:0.5rem 0.65rem; background:var(--card); border:1px solid var(--border); border-radius:10px; margin-bottom:0.6rem; }
-        .hotel-badge-icon { width:32px; height:32px; border-radius:8px; object-fit:cover; }
-        .hotel-badge-name { font-size:0.78rem; font-weight:700; color:#fafafa; }
-        .hotel-badge-sub { font-size:0.52rem; color:#888; }
-        .hotel-badge-type { font-size:0.5rem; font-weight:700; padding:0.1rem 0.35rem; border-radius:4px; margin-left:auto; }
-        .hotel-badge-type.veg { color:#22c55e; background:rgba(34,197,94,0.1); }
-        .hotel-badge-type.nonveg { color:#ef4444; background:rgba(239,68,68,0.1); }
+        .section-title { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+        .includes-card { padding: 4px 14px; margin-bottom: 24px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+        .include-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px dashed var(--line-2); animation: rise 0.6s var(--ease-out) both; }
+        .include-item:last-child { border-bottom: 0; }
+        .include-item:nth-child(1) { animation-delay: 0.25s; }
+        .include-item:nth-child(2) { animation-delay: 0.32s; }
+        .include-item:nth-child(3) { animation-delay: 0.39s; }
+        .include-item:nth-child(4) { animation-delay: 0.46s; }
+        .include-item:nth-child(5) { animation-delay: 0.53s; }
+        .include-item:nth-child(6) { animation-delay: 0.6s; }
+        .include-item:nth-child(n+7) { animation-delay: 0.67s; }
+        .include-emoji { width: 42px; height: 42px; border-radius: 14px; flex-shrink: 0; display: grid; place-items: center; font-size: 1.3rem; background: var(--surface-2); }
+        .include-text { font-size: 0.92rem; font-weight: 800; color: var(--text); }
+        .include-sub { font-size: 0.75rem; color: var(--text-3); margin-top: 1px; }
+        .divider { display: none; }
 
-        /* Review Carousel */
-        .review-carousel-wrap { position:relative; margin-bottom:0.8rem; overflow:hidden; }
-        .review-carousel { display:flex; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); }
-        .review-slide { min-width:100%; padding:0 2px; box-sizing:border-box; }
-        .review-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:0.75rem; }
-        .review-header { display:flex; align-items:center; gap:0.4rem; margin-bottom:0.3rem; }
-        .review-avatar { width:32px; height:32px; border-radius:50%; background:rgba(245,158,11,0.15); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:var(--gold); flex-shrink:0; }
-        .review-name { font-size:0.72rem; font-weight:700; color:#e5e5e5; }
-        .review-date { font-size:0.52rem; color:#666; margin-left:auto; }
-        .review-stars { font-size:0.7rem; color:var(--gold); margin-bottom:0.2rem; }
-        .review-text { font-size:0.7rem; color:#bbb; line-height:1.5; }
-        .review-dots { display:flex; justify-content:center; gap:6px; margin-top:0.5rem; }
-        .review-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.12); transition:all 0.3s; cursor:pointer; }
-        .review-dot.active { background:var(--gold); width:18px; border-radius:4px; }
+        .review-carousel-wrap { position: relative; overflow: hidden; margin-bottom: 10px; }
+        .review-carousel { display: flex; transition: transform 0.6s var(--ease-out); }
+        .review-slide { min-width: 100%; padding: 0 2px; }
+        .review-card { padding: 16px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+        .review-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .review-avatar { width: 38px; height: 38px; border-radius: 13px; flex-shrink: 0; display: grid; place-items: center; background: var(--grad-brand); color: #fff; font-size: 0.8rem; font-weight: 800; }
+        .review-name { font-size: 0.88rem; font-weight: 800; color: var(--text); }
+        .review-date { font-size: 0.7rem; color: var(--text-3); }
+        .review-stars { font-size: 0.72rem; margin-bottom: 6px; }
+        .review-text { font-size: 0.86rem; line-height: 1.55; color: var(--text-2); }
+        .review-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+        .review-dot { width: 7px; height: 7px; border-radius: 99px; background: var(--line-2); cursor: pointer; transition: all 0.35s var(--ease-out); }
+        .review-dot.active { width: 22px; background: var(--brand); }
 
-        /* Order button (fixed) */
-        .order-bar { position:fixed; bottom:0; left:0; right:0; background:rgba(14,14,14,0.95); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--border); padding:0.6rem 1rem; z-index:100; }
-        .order-bar-inner { max-width:480px; margin:0 auto; display:flex; align-items:center; gap:0.6rem; }
-        .ob-price { flex:1; }
-        .ob-price-now { font-size:1rem; font-weight:800; color:var(--gold); }
-        .ob-price-old { font-size:0.6rem; color:#666; text-decoration:line-through; margin-left:0.3rem; }
-        .ob-btn { padding:0.7rem 1.5rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; transition:transform 0.15s; display:flex; align-items:center; gap:0.3rem; }
-        .ob-btn:active { transform:scale(0.97); }
+        /* Floating add-to-cart bar */
+        .order-bar {
+            position: fixed; z-index: 100;
+            left: 12px; right: 12px; bottom: calc(12px + var(--safe-b));
+            max-width: 560px; margin: 0 auto;
+            padding: 10px 10px 10px 18px;
+            border-radius: 22px;
+            background: var(--glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-lg);
+            animation: barIn 0.8s var(--ease-spring) 0.45s both;
+        }
+        @keyframes barIn { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
+        .order-bar-inner { display: flex; align-items: center; gap: 12px; }
+        .ob-price { flex: 1; display: flex; flex-direction: column; }
+        .ob-price-now { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; color: var(--text); }
+        .ob-price-old { font-size: 0.78rem; color: var(--text-3); text-decoration: line-through; }
+        .ob-btn {
+            position: relative; overflow: hidden;
+            display: flex; align-items: center; gap: 6px;
+            height: 52px; padding: 0 22px;
+            border: 0; border-radius: 16px;
+            background: var(--grad-brand); color: #fff;
+            font-size: 0.96rem; font-weight: 800;
+            box-shadow: var(--shadow-brand);
+            transition: transform 0.2s var(--ease-spring);
+        }
+        .ob-btn:active { transform: scale(0.96); }
 
-        /* Divider */
-        .divider { height:6px; background:rgba(255,255,255,0.02); margin:0 -1rem 0.8rem; }
+        /* Bottom sheet: added + suggestions */
+        .bs-overlay { position: fixed; inset: 0; z-index: 200; background: var(--scrim); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .bs-overlay.show { opacity: 1; pointer-events: auto; }
+        .bs-sheet {
+            position: fixed; left: 0; right: 0; bottom: 0; z-index: 201;
+            max-width: 640px; max-height: 86vh; margin: 0 auto; overflow-y: auto;
+            padding-bottom: var(--safe-b);
+            border-radius: 30px 30px 0 0;
+            background: var(--surface);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(105%);
+            transition: transform 0.6s var(--ease-out);
+        }
+        .bs-sheet.show { transform: none; }
+        .bs-handle { width: 44px; height: 5px; border-radius: 5px; background: var(--line-2); margin: 10px auto 0; }
+        .bs-inner { padding: 14px 16px 20px; }
+        .added-confirm { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 16px; border-radius: 18px; background: var(--brand-soft); }
+        .added-check { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center; background: var(--surface); font-size: 1.2rem; box-shadow: var(--shadow-sm); }
+        .bs-sheet.show .added-check { animation: pop 0.6s var(--ease-spring) 0.2s both; }
+        .added-info { flex: 1; }
+        .added-name { font-size: 0.92rem; font-weight: 800; color: var(--brand-ink); }
+        .added-sub { font-size: 0.76rem; color: var(--text-2); }
+        .sug-title { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+        .sug-scroll { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px 16px; padding: 2px 16px 8px; }
+        .sug-scroll::-webkit-scrollbar { display: none; }
+        .sug-card { flex-shrink: 0; width: 150px; overflow: hidden; border-radius: 18px; background: var(--surface-2); border: 1.5px solid var(--line); cursor: pointer; transition: transform 0.2s var(--ease-spring), border-color 0.2s ease; }
+        .sug-card.in-cart { border-color: var(--brand); }
+        .sug-img { width: 100%; height: 96px; object-fit: cover; }
+        .sug-body { padding: 8px 10px 10px; }
+        .sug-name { font-size: 0.8rem; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sug-desc { font-size: 0.66rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 2px 0 4px; }
+        .sug-price-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+        .sug-price { font-size: 0.86rem; font-weight: 800; color: var(--text); }
+        .sug-old { font-size: 0.68rem; color: var(--text-3); text-decoration: line-through; }
+        .sug-add-btn { position: relative; overflow: hidden; width: 100%; height: 34px; border-radius: 10px; background: var(--grad-brand); border: 0; color: #fff; font-size: 0.74rem; font-weight: 900; letter-spacing: 0.04em; box-shadow: 0 6px 16px rgba(241, 90, 10, 0.3); }
+        .sug-add-btn.added { background: var(--brand-soft); color: var(--brand-ink); box-shadow: none; }
+        .bs-cart-summary { display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-bottom: 12px; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); }
+        .bs-cart-count { font-size: 0.86rem; font-weight: 800; color: var(--text); }
+        .bs-cart-total { margin-left: auto; font-family: var(--font-display); font-size: 1.15rem; font-weight: 900; color: var(--text); }
+        .bs-go-cart {
+            position: relative; overflow: hidden;
+            width: 100%; height: 54px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            border: 0; border-radius: 16px;
+            background: var(--grad-brand); color: #fff;
+            font-size: 0.98rem; font-weight: 800;
+            box-shadow: var(--shadow-brand);
+        }
 
-        /* Bottom Sheet Overlay */
-        .bs-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:200; opacity:0; pointer-events:none; transition:opacity 0.3s; }
-        .bs-overlay.show { opacity:1; pointer-events:auto; }
-        .bs-sheet { position:fixed; bottom:0; left:0; right:0; z-index:201; background:#1a1a1a; border-radius:20px 20px 0 0; transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); max-height:85vh; overflow-y:auto; }
-        .bs-sheet.show { transform:translateY(0); }
-        .bs-handle { width:36px; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0.6rem auto 0; }
-        .bs-inner { padding:0.8rem 1rem 1.2rem; max-width:480px; margin:0 auto; }
-
-        /* Added confirmation */
-        .added-confirm { display:flex; align-items:center; gap:0.5rem; padding:0.6rem 0.7rem; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.15); border-radius:12px; margin-bottom:0.7rem; }
-        .added-check { width:36px; height:36px; border-radius:50%; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
-        .added-info { flex:1; }
-        .added-name { font-size:0.78rem; font-weight:700; color:#22c55e; }
-        .added-sub { font-size:0.58rem; color:#888; }
-
-        /* Suggestions */
-        .sug-title { font-size:0.68rem; font-weight:700; color:#9ca3af; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.4rem; }
-        .sug-scroll { display:flex; gap:0.5rem; overflow-x:auto; padding-bottom:0.3rem; scrollbar-width:none; margin-bottom:0.7rem; }
-        .sug-scroll::-webkit-scrollbar { display:none; }
-        .sug-card { min-width:140px; max-width:160px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden; flex-shrink:0; cursor:pointer; transition:border-color 0.2s; }
-        .sug-card:active { border-color:rgba(234,88,12,0.3); }
-        .sug-card.in-cart { border-color:rgba(34,197,94,0.3); }
-        .sug-img { width:100%; height:85px; object-fit:cover; }
-        .sug-body { padding:0.4rem 0.5rem 0.5rem; }
-        .sug-name { font-size:0.68rem; font-weight:700; color:#fafafa; margin-bottom:0.1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .sug-desc { font-size:0.5rem; color:#888; margin-bottom:0.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-        .sug-price-row { display:flex; align-items:center; gap:0.25rem; margin-bottom:0.3rem; }
-        .sug-price { font-size:0.72rem; font-weight:800; color:var(--gold); }
-        .sug-old { font-size:0.5rem; color:#666; text-decoration:line-through; }
-        .sug-add-btn { width:100%; padding:0.3rem; background:rgba(234,88,12,0.1); border:1.5px solid rgba(234,88,12,0.25); color:#ea580c; border-radius:6px; font-size:0.62rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.15s; }
-        .sug-add-btn:active { transform:scale(0.95); background:rgba(234,88,12,0.2); }
-        .sug-add-btn.added { background:rgba(34,197,94,0.1); border-color:rgba(34,197,94,0.25); color:#22c55e; }
-
-        /* Cart summary in sheet */
-        .bs-cart-summary { display:flex; align-items:center; gap:0.5rem; padding:0.55rem 0.65rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; margin-bottom:0.6rem; }
-        .bs-cart-count { font-size:0.72rem; font-weight:700; color:#fafafa; }
-        .bs-cart-total { font-size:0.82rem; font-weight:800; color:var(--gold); margin-left:auto; }
-        .bs-go-cart { width:100%; padding:0.75rem; background:linear-gradient(135deg, var(--orange), #c2410c); color:white; border:none; border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:0.4rem; transition:transform 0.15s; }
-        .bs-go-cart:active { transform:scale(0.97); }
+        /* Closed notice */
+        .closed-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            padding: 24px; align-items: center; justify-content: center; text-align: center;
+            background: var(--scrim);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        }
+        .closed-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+        .closed-card { width: 100%; max-width: 360px; padding: 28px 22px 22px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-lg); animation: rise 0.55s var(--ease-spring); }
+        .closed-icon { display: inline-block; font-size: 3.4rem; margin-bottom: 10px; animation: pulse-clock 2s ease-in-out infinite; }
+        @keyframes pulse-clock { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .closed-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 900; color: var(--text); margin-bottom: 6px; }
+        .closed-subtitle { font-size: 0.86rem; line-height: 1.5; color: var(--text-2); }
+        .closed-time { display: inline-block; margin: 14px 0 6px; padding: 8px 16px; border-radius: 12px; background: var(--brand-soft); color: var(--brand-ink); font-size: 0.95rem; font-weight: 800; }
+        .closed-tomorrow { font-size: 0.8rem; color: var(--text-3); margin-bottom: 18px; }
+        .closed-dismiss { width: 100%; height: 50px; border: 0; border-radius: 15px; background: var(--grad-brand); color: #fff; font-size: 0.95rem; font-weight: 800; box-shadow: var(--shadow-brand); }
+        /* Line icons instead of emoji */
+        .section-title .ic, .sug-title .ic { width: 15px; height: 15px; color: var(--brand); vertical-align: -3px; margin-right: 2px; }
+        .include-emoji { background: var(--brand-soft); }
+        .include-emoji .ic { width: 20px; height: 20px; color: var(--brand); }
+        .include-item:nth-child(3n+2) .include-emoji { background: var(--ok-soft); }
+        .include-item:nth-child(3n+2) .include-emoji .ic { color: var(--ok); }
+        .include-item:nth-child(3n) .include-emoji { background: var(--warn-soft); }
+        .include-item:nth-child(3n) .include-emoji .ic { color: var(--warn); }
+        .tag-veg::before, .tag-nonveg::before, .hotel-badge-type::before { content: ''; width: 12px; height: 12px; flex-shrink: 0; background: var(--mark-veg) center/contain no-repeat; }
+        .tag-nonveg::before, .hotel-badge-type.nonveg::before { background-image: var(--mark-nonveg); }
+        .hotel-badge-type { display: inline-flex; align-items: center; gap: 5px; }
+        .tag-rating .ic { width: 13px; height: 13px; }
+        .review-stars.stars { display: block; margin-bottom: 8px; }
+        .added-check .ic { width: 22px; height: 22px; color: var(--brand); stroke-width: 3; }
+        .bs-cart-count .ic, .bs-go-cart .ic { width: 18px; height: 18px; vertical-align: -3px; }
+        .closed-icon .ic { width: 58px; height: 58px; color: var(--brand); }
     </style>
+    <script src="theme.js?v=1"></script>
     <script src="i18n.js"></script>
 </head>
-<body>
+<body class="dish-page">
     <div class="app">
-        <!-- Nav -->
-        <nav class="dish-nav">
+        <!-- Nav: floats over the photo on phones -->
+        <nav class="dish-nav" data-scroll-header>
             <div class="dish-nav-inner">
-                <button class="back-btn" onclick="history.back()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                <button class="icon-btn back-btn" onclick="if (document.referrer.indexOf(location.origin) === 0) { history.back(); } else { location.href = 'index.html'; }" aria-label="Go back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
                 <span class="nav-title" id="navTitle">Loading...</span>
-                <img src="logo.png" alt="Aapla Swad" style="width:28px;height:28px;border-radius:6px;">
+                <a href="order.html" class="icon-btn" aria-label="Go to cart"><i class="ic" data-ic="cart"></i></a>
             </div>
         </nav>
 
         <!-- Hero Image -->
-        <img src="" alt="" class="dish-hero" id="dishHero">
+        <div class="dish-hero-wrap" data-parallax>
+            <img src="" alt="" class="dish-hero" id="dishHero">
+        </div>
 
         <div class="dish-content">
             <!-- Hotel Badge -->
@@ -189,7 +308,7 @@
             <!-- Title & Share -->
             <div class="dish-title-row">
                 <h1 class="dish-title" id="dishTitle">Loading...</h1>
-                <button class="share-btn" onclick="shareDish()" title="Share">
+                <button class="share-btn" onclick="shareDish()" title="Share" aria-label="Share this dish">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 </button>
             </div>
@@ -203,13 +322,13 @@
             </div>
 
             <!-- What's Included -->
-            <div class="section-title">🍽️ What's Included</div>
+            <div class="section-title"><i class="ic" data-ic="bowl"></i> What's Included</div>
             <div class="includes-card" id="includesCard"></div>
 
             <div class="divider"></div>
 
             <!-- Customer Reviews (Rotating Carousel) -->
-            <div class="section-title">⭐ Customer Reviews</div>
+            <div class="section-title"><i class="ic" data-ic="star"></i> Customer Reviews</div>
             <div class="review-carousel-wrap">
                 <div class="review-carousel" id="reviewCarousel"></div>
                 <div class="review-dots" id="reviewDots"></div>
@@ -237,11 +356,11 @@
         <div class="bs-handle"></div>
         <div class="bs-inner">
             <div class="added-confirm" id="addedConfirm"></div>
-            <div class="sug-title">🍛 Also try these — Add more?</div>
+            <div class="sug-title"><i class="ic" data-ic="sparkles"></i> Also try these — Add more?</div>
             <div class="sug-scroll" id="sugScroll"></div>
             <div class="bs-cart-summary" id="bsCartSummary"></div>
             <button class="bs-go-cart" onclick="goToCart()">
-                🛒 Go to Cart & Order
+                <i class="ic" data-ic="cart"></i> Go to Cart & Order
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
         </div>
@@ -249,12 +368,14 @@
 
     <!-- Closed Overlay -->
     <div class="closed-overlay" id="closedOverlay">
-        <div class="closed-icon">🕐</div>
+        <div class="closed-card">
+        <div class="closed-icon"><i class="ic" data-ic="clock"></i></div>
         <div class="closed-title">We're Closed Right Now</div>
         <div class="closed-subtitle" id="closedMessage">We are closed right now. Please check back during opening hours.</div>
-        <div class="closed-time" id="closedTime">🕐 Orders open at 10:00</div>
-        <div class="closed-tomorrow">Please order tomorrow! 🙏</div>
+        <div class="closed-time" id="closedTime">Orders open at 10:00</div>
+        <div class="closed-tomorrow">Please order tomorrow!</div>
         <button class="closed-dismiss" onclick="document.getElementById('closedOverlay').classList.remove('show')">OK, Got it</button>
+        </div>
     </div>
 
     <script>
@@ -334,14 +455,14 @@
         const msgEl = document.getElementById('closedMessage');
         const timeEl = document.getElementById('closedTime');
         if (msgEl) msgEl.textContent = customMsg || SHOP_MESSAGE || 'We are closed right now. Please check back during opening hours.';
-        if (timeEl) timeEl.textContent = customTime || ('🕐 Orders open at ' + SHOP_OPEN_TIME);
+        if (timeEl) timeEl.textContent = customTime || ('Orders open at ' + SHOP_OPEN_TIME);
         overlay.classList.add('show');
     }
 
     const MENU = {
         'dal-bati': {
             name: 'Normal Dal Batti', shortName: 'Dal Batti', price: 80, oldPrice: 150,
-            discount: '47% OFF', image: 'hero.png', category: 'veg',
+            discount: '47% OFF', image: 'hero.jpg', category: 'veg',
             includesList: [
                 { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Crispy wood-fire baked dough balls' },
                 { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion' },
@@ -359,9 +480,9 @@
         },
         'zunka-bhakar': {
             name: 'Zunka Bhakar Thali', shortName: 'Zunka Bhakar', price: 117, oldPrice: 250,
-            discount: '53% OFF', image: 'zunka.png', category: 'veg',
+            discount: '53% OFF', image: 'zunka.jpg', category: 'veg',
             includesList: [
-                { emoji: '🫓', name: 'Bhakri (3 pcs)', desc: 'Crispy jowar/bajra flatbread' },
+                { emoji: '🫓', name: 'Bhakri (2 pcs)', desc: 'Crispy jowar/bajra flatbread' },
                 { emoji: '🍛', name: 'Zunka', desc: 'Spiced besan curry with onion & garlic' },
                 { emoji: '🧅', name: 'Onion', desc: 'Fresh sliced raw onion rings' },
                 { emoji: '🌶️', name: 'Green Chili', desc: 'Spicy fried green chilies' },
@@ -375,7 +496,7 @@
         },
         'bharit-bhakar': {
             name: 'Bharit Bhakar Thali', shortName: 'Bharit Bhakar', price: 121, oldPrice: 200,
-            discount: '40% OFF', image: 'bharit.png', category: 'veg',
+            discount: '40% OFF', image: 'bharit.jpg', category: 'veg',
             includesList: [
                 { emoji: '🍆', name: 'Bharit (Vangyacha Bharit)', desc: 'Smoky roasted eggplant mash with masala' },
                 { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
@@ -392,7 +513,7 @@
         },
         'bombil-thali': {
             name: 'Bombil Thali', shortName: 'Bombil', price: 130, oldPrice: 350,
-            discount: '63% OFF', image: 'bombil.png', category: 'nonveg',
+            discount: '63% OFF', image: 'bombil.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🐟', name: 'Bombil Fry (6 pcs)', desc: 'Golden crispy fried Bombay duck fish' },
                 { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Spicy red Maharashtrian fish curry' },
@@ -409,7 +530,7 @@
         },
         'zinga-thali': {
             name: 'Zinga Thali', shortName: 'Zinga', price: 1, oldPrice: 125,
-            discount: 'TEST', image: 'zinga.png', category: 'nonveg',
+            discount: 'TEST', image: 'zinga.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🦐', name: 'Zinga Chatni', desc: 'Spicy prawn chutney with Maharashtrian masala' },
                 { emoji: '🫓', name: 'Bhakar (2 pcs)', desc: 'Crispy bajra/jowar flatbread' },
@@ -424,7 +545,7 @@
         },
         'chicken-thali': {
             name: 'Chicken Thali', shortName: 'Chicken', price: 151, oldPrice: 350,
-            discount: '57% OFF', image: 'chicken.png', category: 'nonveg',
+            discount: '57% OFF', image: 'chicken.jpg', category: 'nonveg',
             includesList: [
                 { emoji: '🍗', name: 'Chicken Pieces (4 pcs)', desc: 'Tender spiced chicken curry pieces' },
                 { emoji: '🍛', name: 'Rassa (Curry)', desc: 'Rich Maharashtrian chicken gravy' },
@@ -441,7 +562,7 @@
         },
         'special-dal-batti': {
             name: 'Special Dal Batti Thali', shortName: 'Spl Dal Batti', price: 120, oldPrice: 220,
-            discount: '45% OFF', image: 'special-dal-batti.png', category: 'veg',
+            discount: '45% OFF', image: 'special-dal-batti.jpg', category: 'veg',
             includesList: [
                 { emoji: '🫓', name: 'Batti (8 pcs)', desc: 'Double portion! 8 golden baked batti' },
                 { emoji: '🥘', name: 'Rich Dal', desc: 'Creamy five-lentil dal with tadka' },
@@ -457,7 +578,7 @@
         },
         'rice-plate': {
             name: 'Rice Plate', shortName: 'Rice Plate', price: 130, oldPrice: 220,
-            discount: '41% OFF', image: 'rice-plate.png', category: 'veg',
+            discount: '41% OFF', image: 'rice-plate.jpg', category: 'veg',
             hotel: 'Aapla Swad Hotel',
             includesList: [
                 { emoji: '🍛', name: '2 Bhaji', desc: 'Two seasonal vegetable curries' },
@@ -669,6 +790,540 @@
             discount: '31% OFF', image: 'assets/rolls/paneer-noodles-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
             includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧀', name: 'Paneer + Noodles', desc: 'Paneer and noodles mix filling' }],
             reviews: [{ name: 'Anita J.', stars: 5, text: 'Premium roll with paneer and noodles. Worth every rupee!', date: '2 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Biryani & Rice =====
+        'chicken-biryani': {
+            name: 'Chicken Biryani', shortName: 'Chicken Biryani', price: 150, oldPrice: 280,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Tender chicken pieces' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Basmati rice with saffron' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Rahul M.', stars: 5, text: 'Best biryani in town at this price! 🔥', date: '1 day ago' }]
+        },
+        'egg-biryani': {
+            name: 'Egg Biryani', shortName: 'Egg Biryani', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Boiled Eggs', desc: 'Perfectly boiled eggs' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Spiced basmati rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Priya S.', stars: 4, text: 'Good egg biryani, generous portion!', date: '2 days ago' }]
+        },
+        'chicken-rice': {
+            name: 'Chicken Rice', shortName: 'Chicken Rice', price: 170, oldPrice: 300,
+            discount: '43% OFF', image: 'assets/nonveg/chicken-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Spiced chicken chunks' }, { emoji: '🍚', name: 'Rice', desc: 'Flavoured rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Anil K.', stars: 5, text: 'Simple and filling chicken rice!', date: '3 days ago' }]
+        },
+        'mutton-biryani': {
+            name: 'Mutton Biryani', shortName: 'Mutton Biryani', price: 220, oldPrice: 400,
+            discount: '45% OFF', image: 'assets/nonveg/mutton-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍖', name: 'Mutton on Bone', desc: 'Tender mutton pieces' }, { emoji: '🍚', name: 'Saffron Rice', desc: 'Aromatic basmati with saffron' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Vikram D.', stars: 5, text: 'Mutton is so tender, amazing biryani! 🤤', date: '1 day ago' }]
+        },
+        'fish-biryani': {
+            name: 'Fish Biryani', shortName: 'Fish Biryani', price: 200, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/fish-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Fish Pieces', desc: 'Fresh fish chunks' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Spiced rice with curry leaves' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sachin P.', stars: 4, text: 'Fresh fish and great masala in the rice!', date: '2 days ago' }]
+        },
+        'chicken-schezwan-rice': {
+            name: 'Chicken Schezwan Rice', shortName: 'Chk Schezwan Rice', price: 180, oldPrice: 320,
+            discount: '44% OFF', image: 'assets/nonveg/chicken-schezwan-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Chicken pieces' }, { emoji: '🌶️', name: 'Schezwan Rice', desc: 'Spicy schezwan fried rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sanjay R.', stars: 5, text: 'Spicy and flavourful! Love the schezwan kick!', date: '1 day ago' }]
+        },
+        'chicken-tpal-rice': {
+            name: 'Chicken T-Pal Rice', shortName: 'Chk T-Pal Rice', price: 220, oldPrice: 400,
+            discount: '45% OFF', image: 'assets/nonveg/chicken-tpal-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Chicken pieces' }, { emoji: '🍚', name: 'Triple Rice Combo', desc: 'Mixed rice platter' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Manoj T.', stars: 5, text: 'Triple combo is value for money!', date: '2 days ago' }]
+        },
+        'egg-rice': {
+            name: 'Egg Rice', shortName: 'Egg Rice', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Scrambled Egg', desc: 'Fluffy scrambled eggs' }, { emoji: '🍚', name: 'Fried Rice', desc: 'Wok-tossed rice with veggies' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Amit G.', stars: 4, text: 'Nice light egg rice, good portion!', date: '3 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Curry & Masala =====
+        'chicken-masala': {
+            name: 'Chicken Masala', shortName: 'Chicken Masala', price: 160, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Juicy chicken in masala' }, { emoji: '🍛', name: 'Spicy Gravy', desc: 'Rich masala gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ganesh B.', stars: 5, text: 'Masala is perfect! Great taste!', date: '1 day ago' }]
+        },
+        'butter-chicken': {
+            name: 'Butter Chicken', shortName: 'Butter Chicken', price: 180, oldPrice: 350,
+            discount: '49% OFF', image: 'assets/nonveg/butter-chicken.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Tikka', desc: 'Tandoori chicken pieces' }, { emoji: '🧈', name: 'Butter Gravy', desc: 'Creamy tomato butter sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Neha K.', stars: 5, text: 'Butter chicken is rich and creamy! 😍', date: '1 day ago' }]
+        },
+        'fish-curry': {
+            name: 'Fish Curry', shortName: 'Fish Curry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/fish-curry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Fish Pieces', desc: 'Fresh fish in curry' }, { emoji: '🍛', name: 'Spicy Curry', desc: 'Tangy curry gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sunil M.', stars: 4, text: 'Fish is fresh and curry is tangy!', date: '2 days ago' }]
+        },
+        'egg-curry': {
+            name: 'Egg Curry', shortName: 'Egg Curry', price: 140, oldPrice: 250,
+            discount: '44% OFF', image: 'assets/nonveg/egg-curry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Boiled Eggs', desc: 'Eggs in curry gravy' }, { emoji: '🍛', name: 'Onion Tomato Gravy', desc: 'Rich onion tomato base' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Pooja D.', stars: 5, text: 'Simple and delicious egg curry!', date: '3 days ago' }]
+        },
+        'egg-masala': {
+            name: 'Egg Masala', shortName: 'Egg Masala', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Eggs', desc: 'Eggs in thick masala' }, { emoji: '🌶️', name: 'Spicy Masala', desc: 'Thick spicy masala gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Kiran V.', stars: 4, text: 'Masala is thick and tasty!', date: '2 days ago' }]
+        },
+        'anda-bhurji': {
+            name: 'Anda Bhurji', shortName: 'Anda Bhurji', price: 109, oldPrice: 200,
+            discount: '46% OFF', image: 'assets/nonveg/anda-bhurji.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Scrambled Eggs', desc: 'Fluffy spiced scrambled eggs' }, { emoji: '🧅', name: 'Onion & Tomato', desc: 'Diced onion, tomato, chili' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ravi S.', stars: 5, text: 'Best anda bhurji! Spicy and tasty! 🔥', date: '1 day ago' }]
+        },
+        'boil-keema-masala': {
+            name: 'Boil Keema Masala', shortName: 'Keema Masala', price: 130, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/nonveg/boil-keema-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥩', name: 'Minced Meat', desc: 'Finely minced keema' }, { emoji: '🌶️', name: 'Spicy Masala', desc: 'Rich spicy masala' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ajay P.', stars: 4, text: 'Good keema masala, nice spice level!', date: '2 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Starters =====
+        'chicken-kantaki': {
+            name: 'Chicken Kantaki', shortName: 'Chicken Kantaki', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-kantaki.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Crispy Chicken', desc: 'Golden-brown fried chicken' }, { emoji: '🌶️', name: 'Spicy Coating', desc: 'Crunchy spice coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Tushar G.', stars: 5, text: 'Crispy outside, juicy inside! Best starter!', date: '1 day ago' }]
+        },
+        'chicken-tikka': {
+            name: 'Chicken Tikka', shortName: 'Chicken Tikka', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-tikka.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Tandoori Chicken', desc: 'Charred chicken pieces' }, { emoji: '🥣', name: 'Yogurt Marinade', desc: 'Tandoori spice marinade' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Deepak R.', stars: 5, text: 'Smoky tikka flavour! Restaurant quality!', date: '1 day ago' }]
+        },
+        'chicken-chilli-nv': {
+            name: 'Chicken Chilli', shortName: 'Chicken Chilli', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-chilli-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Crispy chicken chunks' }, { emoji: '🫑', name: 'Bell Peppers', desc: 'Tossed with peppers & chilli sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Suresh T.', stars: 5, text: 'Indo-Chinese done right! Spicy & crunchy!', date: '2 days ago' }]
+        },
+        'chicken-sukka': {
+            name: 'Chicken Sukka', shortName: 'Chicken Sukka', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-sukka.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Dry Chicken', desc: 'Tender chicken in dry masala' }, { emoji: '🥥', name: 'Coconut Masala', desc: 'Roasted coconut spice blend' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ajay M.', stars: 5, text: 'Authentic Mangalorean sukka! Perfect!', date: '1 day ago' }]
+        },
+        'chicken-fry': {
+            name: 'Chicken Fry', shortName: 'Chicken Fry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Fried Chicken', desc: 'Crispy pan-fried pieces' }, { emoji: '🌶️', name: 'Spice Masala', desc: 'Indian spice coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Kiran D.', stars: 5, text: 'Best chicken fry in town!', date: '3 days ago' }]
+        },
+        'fish-kantaki': {
+            name: 'Fish Kantaki', shortName: 'Fish Kantaki', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/nonveg/fish-kantaki.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Crispy Fish', desc: 'Deep-fried with spice coating' }, { emoji: '🌶️', name: 'Spice Crust', desc: 'Crunchy masala coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Swati P.', stars: 5, text: 'Crispy outside, juicy inside!', date: '2 days ago' }]
+        },
+        'fish-fry': {
+            name: 'Fish Fry', shortName: 'Fish Fry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/fish-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Pan-Fried Fish', desc: 'Whole fish fried golden' }, { emoji: '🌶️', name: 'Red Masala', desc: 'Spicy masala coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Neha K.', stars: 5, text: 'Amazing fish fry! So fresh!', date: '1 day ago' }]
+        },
+        'fish-butter-fry': {
+            name: 'Fish Butter Fry', shortName: 'Fish Butter Fry', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/fish-butter-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Butter Fish', desc: 'Fish fried in garlic butter' }, { emoji: '🧈', name: 'Garlic Butter', desc: 'Rich butter glaze' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Rohit S.', stars: 5, text: 'Butter makes everything better!', date: '3 days ago' }]
+        },
+        'chicken-butter-fry': {
+            name: 'Chicken Butter Fry', shortName: 'Chk Butter Fry', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-butter-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Butter Chicken', desc: 'Chicken fried in garlic butter' }, { emoji: '🧈', name: 'Garlic Butter', desc: 'Rich butter glaze' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Priya J.', stars: 5, text: 'Buttery and delicious!', date: '2 days ago' }]
+        },
+        'chicken-65': {
+            name: 'Chicken 65', shortName: 'Chicken 65', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-65.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Spicy Chicken', desc: 'Deep-fried spicy chicken bites' }, { emoji: '🌿', name: 'Curry Leaves', desc: 'Garnished with curry leaves' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Anil R.', stars: 5, text: 'Best 65 I have ever had!', date: '1 day ago' }]
+        },
+        'chicken-manchurian-nv': {
+            name: 'Chicken Manchurian', shortName: 'Chk Manchurian', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-manchurian-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Balls', desc: 'Fried chicken in manchurian sauce' }, { emoji: '🥫', name: 'Manchurian Sauce', desc: 'Tangy soy-chilli sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Vishal M.', stars: 5, text: 'Non-veg manchurian is amazing!', date: '2 days ago' }]
+        },
+        'chicken-noodles-nv': {
+            name: 'Chicken Noodles', shortName: 'Chk Noodles', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/nonveg/chicken-noodles-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍜', name: 'Noodles', desc: 'Stir-fried hakka noodles' }, { emoji: '🍗', name: 'Chicken', desc: 'Tender chicken pieces' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sneha T.', stars: 5, text: 'Loaded with chicken! Yummy noodles!', date: '3 days ago' }]
+        },
+        'chicken-ukkad': {
+            name: 'Chicken Ukkad', shortName: 'Chicken Ukkad', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-ukkad.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Boiled Chicken', desc: 'Tender boiled chicken' }, { emoji: '🥣', name: 'Spicy Broth', desc: 'Flavourful spice broth' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ganesh P.', stars: 5, text: 'Perfect comfort food!', date: '1 day ago' }]
+        },
+        'mutton-ukkad': {
+            name: 'Mutton Ukkad', shortName: 'Mutton Ukkad', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/mutton-ukkad.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍖', name: 'Boiled Mutton', desc: 'Tender mutton on bone' }, { emoji: '🥣', name: 'Spicy Broth', desc: 'Rich spice broth' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Manoj K.', stars: 5, text: 'Rich and flavourful!', date: '2 days ago' }]
+        },
+        'egg-omelet': {
+            name: 'Egg Omelet', shortName: 'Egg Omelet', price: 99, oldPrice: 180,
+            discount: '45% OFF', image: 'assets/nonveg/egg-omelet.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Fluffy Omelet', desc: 'Golden masala omelet' }, { emoji: '🧅', name: 'Onion & Chilli', desc: 'With chopped onion & green chilli' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pooja R.', stars: 5, text: 'Simple and delicious!', date: '1 day ago' }]
+        },
+        'aloo-paratha': {
+            name: 'Aloo Paratha', shortName: 'Aloo Paratha', price: 90, oldPrice: 170,
+            discount: '47% OFF', image: 'assets/paratha/aloo-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Aloo Paratha', desc: 'Potato stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Sneha P.', stars: 5, text: 'Perfect aloo paratha with curd!', date: '1 day ago' }]
+        },
+        'methi-paratha': {
+            name: 'Fenugreek Paratha', shortName: 'Methi Paratha', price: 100, oldPrice: 190,
+            discount: '47% OFF', image: 'assets/paratha/methi-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Methi Paratha', desc: 'Fenugreek stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Kavita R.', stars: 5, text: 'Healthy and tasty methi paratha!', date: '2 days ago' }]
+        },
+        'paneer-paratha': {
+            name: 'Paneer Paratha', shortName: 'Paneer Paratha', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/paratha/paneer-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Paneer Paratha', desc: 'Paneer stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Ravi K.', stars: 5, text: 'Loaded with paneer! Amazing!', date: '1 day ago' }]
+        },
+        'tawa-paratha': {
+            name: 'Tawa Paratha', shortName: 'Tawa Paratha', price: 60, oldPrice: 110,
+            discount: '45% OFF', image: 'assets/paratha/tawa-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Tawa Paratha', desc: 'Flaky layered tawa paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Amit D.', stars: 5, text: 'Crispy flaky layers! Love it!', date: '3 days ago' }]
+        },
+        'gobhi-paratha': {
+            name: 'Gobhi Paratha', shortName: 'Gobhi Paratha', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/paratha/gobhi-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Gobhi Paratha', desc: 'Cauliflower stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Priyanka S.', stars: 5, text: 'Best gobhi paratha ever!', date: '2 days ago' }]
+        },
+        'steam-rice': {
+            name: 'Steam Rice', shortName: 'Steam Rice', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/rice/steam-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Steam Rice', desc: 'Fluffy steamed basmati rice' }],
+            reviews: [{ name: 'Rajesh M.', stars: 5, text: 'Perfectly cooked fluffy rice!', date: '1 day ago' }]
+        },
+        'jira-rice': {
+            name: 'Jira Rice', shortName: 'Jira Rice', price: 120, oldPrice: 220,
+            discount: '45% OFF', image: 'assets/rice/jira-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Jira Rice', desc: 'Cumin tempered basmati rice' }, { emoji: '🌿', name: 'Coriander', desc: 'Fresh coriander garnish' }],
+            reviews: [{ name: 'Sunita K.', stars: 5, text: 'Aromatic and delicious!', date: '2 days ago' }]
+        },
+        'veg-pulav': {
+            name: 'Veg Pulav', shortName: 'Veg Pulav', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/veg-pulav.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Veg Pulav', desc: 'Basmati rice with mixed vegetables' }, { emoji: '🥕', name: 'Vegetables', desc: 'Carrots, peas, beans & potatoes' }],
+            reviews: [{ name: 'Meena D.', stars: 5, text: 'Full of vegetables, tasty pulav!', date: '1 day ago' }]
+        },
+        'veg-biryani': {
+            name: 'Veg Biryani', shortName: 'Veg Biryani', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/veg-biryani.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Veg Biryani', desc: 'Layered saffron rice with vegetables' }, { emoji: '🥛', name: 'Raita', desc: 'Fresh curd raita' }],
+            reviews: [{ name: 'Anil P.', stars: 5, text: 'Amazing veg biryani with great flavour!', date: '3 days ago' }]
+        },
+        'dal-khichdi': {
+            name: 'Dal Khichdi', shortName: 'Dal Khichdi', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/dal-khichdi.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Dal Khichdi', desc: 'Lentil rice with ghee' }, { emoji: '🧈', name: 'Ghee', desc: 'Generous ghee topping' }],
+            reviews: [{ name: 'Divya R.', stars: 5, text: 'Comfort food at its best!', date: '2 days ago' }]
+        },
+        'fry-rice-sahyadri': {
+            name: 'Fry Rice', shortName: 'Fry Rice', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/fry-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Fry Rice', desc: 'Fried rice with mixed vegetables' }, { emoji: '🧅', name: 'Spring Onion', desc: 'Fresh spring onion garnish' }],
+            reviews: [{ name: 'Vikram S.', stars: 5, text: 'Perfectly fried, not greasy!', date: '1 day ago' }]
+        },
+        'lasan-jira-rice': {
+            name: 'Lasan Jira Rice', shortName: 'Lasan Jira Rice', price: 130, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/rice/lasan-jira-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Lasan Jira Rice', desc: 'Garlic cumin flavoured rice' }, { emoji: '🧄', name: 'Fried Garlic', desc: 'Crispy fried garlic slices' }],
+            reviews: [{ name: 'Nisha T.', stars: 5, text: 'Garlic lovers paradise!', date: '2 days ago' }]
+        },
+        'paneer-kadhai': {
+            name: 'Paneer Kadhai', shortName: 'Paneer Kadhai', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-kadhai.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Kadhai', desc: 'Paneer in spicy kadhai masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rahul K.', stars: 5, text: 'Authentic kadhai flavour!', date: '1 day ago' }]
+        },
+        'paneer-tikka-masala-sahyadri': {
+            name: 'Paneer Tikka Masala', shortName: 'Paneer Tikka Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-tikka-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Tikka Masala', desc: 'Grilled paneer in creamy tikka gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sneha P.', stars: 5, text: 'Best tikka masala in town!', date: '2 days ago' }]
+        },
+        'paneer-masala-sahyadri': {
+            name: 'Paneer Masala', shortName: 'Paneer Masala', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/vegcurry/paneer-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Masala', desc: 'Paneer in rich masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Amit J.', stars: 5, text: 'Rich and flavourful!', date: '1 day ago' }]
+        },
+        'paneer-butter-masala-sahyadri': {
+            name: 'Paneer Butter Masala', shortName: 'Paneer Butter Masala', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-butter-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Butter Masala', desc: 'Paneer in creamy tomato-butter gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pooja V.', stars: 5, text: 'Creamy and delicious!', date: '3 days ago' }]
+        },
+        'kaju-paneer-masala': {
+            name: 'Kaju Paneer Masala', shortName: 'Kaju Paneer Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/kaju-paneer-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Kaju Paneer Masala', desc: 'Paneer & cashew in rich gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sanjay M.', stars: 5, text: 'Premium taste with cashews!', date: '2 days ago' }]
+        },
+        'kaju-kari': {
+            name: 'Kaju Kari', shortName: 'Kaju Kari', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/kaju-kari.jpg', category: 'veg',
+            includesList: [{ emoji: '🥜', name: 'Kaju Kari', desc: 'Cashew nut curry in creamy gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Deepa N.', stars: 5, text: 'Rich and creamy kaju curry!', date: '1 day ago' }]
+        },
+        'paneer-mirch-masala': {
+            name: 'Paneer Mirch Masala', shortName: 'Paneer Mirch Masala', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-mirch-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Mirch Masala', desc: 'Paneer with green chillies in masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kiran D.', stars: 5, text: 'Spicy and flavourful!', date: '2 days ago' }]
+        },
+        'paneer-bhurji-sahyadri': {
+            name: 'Paneer Bhurji', shortName: 'Paneer Bhurji', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-bhurji.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Bhurji', desc: 'Scrambled paneer with spices' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ravi S.', stars: 5, text: 'Amazing bhurji, perfectly spiced!', date: '1 day ago' }]
+        },
+        'matar-paneer': {
+            name: 'Matar Paneer', shortName: 'Matar Paneer', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/matar-paneer.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Matar Paneer', desc: 'Paneer & peas in gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Priya R.', stars: 5, text: 'Classic matar paneer done right!', date: '2 days ago' }]
+        },
+        'palak-paneer-sahyadri': {
+            name: 'Palak Paneer', shortName: 'Palak Paneer', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/palak-paneer.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Palak Paneer', desc: 'Paneer in spinach puree' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anita G.', stars: 5, text: 'Healthy and delicious!', date: '3 days ago' }]
+        },
+        'lasun-palak': {
+            name: 'Lasun Palak', shortName: 'Lasun Palak', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/lasun-palak.jpg', category: 'veg',
+            includesList: [{ emoji: '🥬', name: 'Lasun Palak', desc: 'Garlic spinach curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Suresh T.', stars: 5, text: 'Garlic and spinach perfection!', date: '1 day ago' }]
+        },
+        'dudh-shev-bhaji': {
+            name: 'Dudh Shev Bhaji', shortName: 'Dudh Shev Bhaji', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/dudh-shev-bhaji.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Dudh Shev Bhaji', desc: 'Milk-based sev curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Manisha K.', stars: 5, text: 'Unique and tasty!', date: '2 days ago' }]
+        },
+        'fenugreek-kofta': {
+            name: 'Fenugreek Kofta', shortName: 'Fenugreek Kofta', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/fenugreek-kofta.jpg', category: 'veg',
+            includesList: [{ emoji: '🧆', name: 'Fenugreek Kofta', desc: 'Methi kofta in rich gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kavita D.', stars: 5, text: 'Soft kofta balls in amazing gravy!', date: '1 day ago' }]
+        },
+        'dal-methi': {
+            name: 'Dal Methi', shortName: 'Dal Methi', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Methi', desc: 'Lentil dal with fenugreek' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Vijay L.', stars: 5, text: 'Comforting and healthy!', date: '2 days ago' }]
+        },
+        'dal-shevga': {
+            name: 'Dal Shevga', shortName: 'Dal Shevga', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-shevga.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Shevga', desc: 'Lentil dal with drumstick' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rekha M.', stars: 5, text: 'Homestyle dal with drumstick!', date: '3 days ago' }]
+        },
+        'mushroom-masala': {
+            name: 'Mushroom Masala', shortName: 'Mushroom Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/mushroom-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍄', name: 'Mushroom Masala', desc: 'Mushrooms in spicy masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Aarav S.', stars: 5, text: 'Rich mushroom flavour!', date: '1 day ago' }]
+        },
+        'baigan-masala': {
+            name: 'Baigan Masala', shortName: 'Baigan Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Masala', desc: 'Eggplant in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Meena D.', stars: 5, text: 'Perfect brinjal curry!', date: '2 days ago' }]
+        },
+        'aalu-mater': {
+            name: 'Aalu Mater', shortName: 'Aalu Mater', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-mater.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Mater', desc: 'Potato & peas curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Tushar P.', stars: 5, text: 'Classic homestyle taste!', date: '1 day ago' }]
+        },
+        'baigan-bharta': {
+            name: 'Baigan Bharta', shortName: 'Baigan Bharta', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-bharta.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Bharta', desc: 'Smoky roasted mashed eggplant' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Leela K.', stars: 5, text: 'Smoky and delicious!', date: '2 days ago' }]
+        },
+        'baigan-fry': {
+            name: 'Baigan Fry', shortName: 'Baigan Fry', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Fry', desc: 'Crispy fried eggplant slices' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ganesh V.', stars: 5, text: 'Crispy and perfect!', date: '1 day ago' }]
+        },
+        'shevga-masala': {
+            name: 'Shevga Masala', shortName: 'Shevga Masala', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/shevga-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌿', name: 'Shevga Masala', desc: 'Drumstick in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sunita R.', stars: 5, text: 'Love the drumstick masala!', date: '3 days ago' }]
+        },
+        'plain-palak': {
+            name: 'Plain Palak', shortName: 'Plain Palak', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/plain-palak.jpg', category: 'veg',
+            includesList: [{ emoji: '🥬', name: 'Plain Palak', desc: 'Pure spinach curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Neha J.', stars: 5, text: 'Healthy and tasty!', date: '2 days ago' }]
+        },
+        'mix-veg': {
+            name: 'Mix Veg', shortName: 'Mix Veg', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/mix-veg.jpg', category: 'veg',
+            includesList: [{ emoji: '🥕', name: 'Mix Veg', desc: 'Mixed vegetables in gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Vikram T.', stars: 5, text: 'Colourful and flavourful!', date: '1 day ago' }]
+        },
+        'shev-bhaji': {
+            name: 'Shev Bhaji', shortName: 'Shev Bhaji', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/shev-bhaji.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Shev Bhaji', desc: 'Crispy sev in spicy curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anil M.', stars: 5, text: 'Maharashtrian classic!', date: '2 days ago' }]
+        },
+        'matki-masala': {
+            name: 'Matki Masala', shortName: 'Matki Masala', price: 90, oldPrice: 170,
+            discount: '47% OFF', image: 'assets/vegcurry/matki-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Matki Masala', desc: 'Moth bean sprouts curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sagar K.', stars: 5, text: 'Great value for money!', date: '1 day ago' }]
+        },
+        'bhendi-masala': {
+            name: 'Bhendi Masala', shortName: 'Bhendi Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/bhendi-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Bhendi Masala', desc: 'Okra in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pallavi S.', stars: 5, text: 'Perfectly spiced bhendi!', date: '2 days ago' }]
+        },
+        'bhendi-fry': {
+            name: 'Bhendi Fry', shortName: 'Bhendi Fry', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/bhendi-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Bhendi Fry', desc: 'Crispy fried okra' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Dipak G.', stars: 5, text: 'Crunchy and tasty!', date: '1 day ago' }]
+        },
+        'methi-masala': {
+            name: 'Methi Masala', shortName: 'Methi Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/methi-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌿', name: 'Methi Masala', desc: 'Fenugreek leaves in masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Asha B.', stars: 5, text: 'Fresh methi flavour!', date: '3 days ago' }]
+        },
+        'lasun-methi': {
+            name: 'Lasun Methi', shortName: 'Lasun Methi', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/lasun-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🧄', name: 'Lasun Methi', desc: 'Garlic fenugreek curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Manoj P.', stars: 5, text: 'Garlic methi combo is amazing!', date: '2 days ago' }]
+        },
+        'rassa-fry': {
+            name: 'Rassa Fry', shortName: 'Rassa Fry', price: 99, oldPrice: 190,
+            discount: '48% OFF', image: 'assets/vegcurry/rassa-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🍲', name: 'Rassa Fry', desc: 'Thin spicy Maharashtrian rassa' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Yogesh D.', stars: 5, text: 'Spicy and affordable!', date: '1 day ago' }]
+        },
+        'pitthal': {
+            name: 'Pitthal', shortName: 'Pitthal', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/pitthal.jpg', category: 'veg',
+            includesList: [{ emoji: '🟡', name: 'Pitthal', desc: 'Gram flour besan curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Shobha T.', stars: 5, text: 'Authentic Maharashtrian taste!', date: '2 days ago' }]
+        },
+        'chana-masala': {
+            name: 'Chana Masala', shortName: 'Chana Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/chana-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Chana Masala', desc: 'Chickpeas in spicy gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Harish L.', stars: 5, text: 'Protein packed and tasty!', date: '1 day ago' }]
+        },
+        'soyabeen-masala': {
+            name: 'Soyabeen Masala', shortName: 'Soyabeen Masala', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/soyabeen-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Soyabeen Masala', desc: 'Soya chunks in masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rohit N.', stars: 5, text: 'High protein veg option!', date: '2 days ago' }]
+        },
+        'soyabeen-fry': {
+            name: 'Soyabeen Fry', shortName: 'Soyabeen Fry', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/soyabeen-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Soyabeen Fry', desc: 'Crispy fried soya chunks' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Tanvi R.', stars: 5, text: 'Crispy soya perfection!', date: '1 day ago' }]
+        },
+        'veg-kadhai': {
+            name: 'Veg Kadhai', shortName: 'Veg Kadhai', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/vegcurry/veg-kadhai.jpg', category: 'veg',
+            includesList: [{ emoji: '🥘', name: 'Veg Kadhai', desc: 'Mixed veg in kadhai masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Swati K.', stars: 5, text: 'Best veg kadhai in town!', date: '2 days ago' }]
+        },
+        'dal-kolhapuri': {
+            name: 'Dal Kolhapuri', shortName: 'Dal Kolhapuri', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-kolhapuri.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Kolhapuri', desc: 'Spicy Kolhapuri style dal' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ajay K.', stars: 5, text: 'Fiery Kolhapuri dal!', date: '1 day ago' }]
+        },
+        'dal-tadka': {
+            name: 'Dal Tadka', shortName: 'Dal Tadka', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-tadka.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Tadka', desc: 'Lentil dal with ghee tadka' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Priya S.', stars: 5, text: 'Best tadka dal ever!', date: '2 days ago' }]
+        },
+        'dal-fry': {
+            name: 'Dal Fry', shortName: 'Dal Fry', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/dal-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Fry', desc: 'Fried lentil dal with masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kiran R.', stars: 5, text: 'Perfect comfort food!', date: '1 day ago' }]
+        },
+        'jira-dal': {
+            name: 'Jira Dal', shortName: 'Jira Dal', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/jira-dal.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Jira Dal', desc: 'Cumin tempered lentil dal' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Deepa M.', stars: 5, text: 'Aromatic cumin flavour!', date: '3 days ago' }]
+        },
+        'tomato-chatni': {
+            name: 'Tomato Chatni', shortName: 'Tomato Chatni', price: 124, oldPrice: 230,
+            discount: '46% OFF', image: 'assets/vegcurry/tomato-chatni.jpg', category: 'veg',
+            includesList: [{ emoji: '🍅', name: 'Tomato Chatni', desc: 'Spicy tomato chutney' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Lata J.', stars: 5, text: 'Tangy and spicy!', date: '1 day ago' }]
+        },
+        'tomato-masala': {
+            name: 'Tomato Masala', shortName: 'Tomato Masala', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/tomato-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍅', name: 'Tomato Masala', desc: 'Tomato in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ramesh V.', stars: 5, text: 'Rich tomato gravy!', date: '2 days ago' }]
+        },
+        'aalu-gaebi': {
+            name: 'Aalu Gaebi', shortName: 'Aalu Gaebi', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-gaebi.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Gaebi', desc: 'Potato & cauliflower curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Nita G.', stars: 5, text: 'Classic aloo gobi!', date: '1 day ago' }]
+        },
+        'veg-kolhapuri': {
+            name: 'Veg Kolhapuri', shortName: 'Veg Kolhapuri', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/veg-kolhapuri.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Veg Kolhapuri', desc: 'Fiery Kolhapuri veg curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Suresh B.', stars: 5, text: 'Spicy Kolhapuri blast!', date: '2 days ago' }]
+        },
+        'aalu-methi': {
+            name: 'Aalu Methi', shortName: 'Aalu Methi', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Methi', desc: 'Potato with fenugreek' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kavita P.', stars: 5, text: 'Healthy and homestyle!', date: '1 day ago' }]
+        },
+        'shev-tomato': {
+            name: 'Shev Tomato', shortName: 'Shev Tomato', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/shev-tomato.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Shev Tomato', desc: 'Sev in tomato gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pramod T.', stars: 5, text: 'Unique Maharashtrian combo!', date: '3 days ago' }]
+        },
+        'veg-maratha': {
+            name: 'Veg Maratha', shortName: 'Veg Maratha', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/veg-maratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🥘', name: 'Veg Maratha', desc: 'Traditional Maratha veg curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anita D.', stars: 5, text: 'Authentic Maratha flavour!', date: '2 days ago' }]
         }
     };
 
@@ -727,10 +1382,21 @@
         }
     }
 
+    // Line icon for each thing on the plate (the emoji in MENU stay as data only)
+    function includeIcon(name) {
+        const n = name.toLowerCase();
+        if (/chil|thecha|spicy|schezwan/.test(n)) return 'flame';
+        if (/ghee|sauce|dip|pickle|aachar|lonch|chutney|chatni/.test(n)) return 'droplet';
+        if (/sweet|churma|ladoo/.test(n)) return 'sparkles';
+        if (/batti|bati|bhakri|bhakar|bhakari|chapati|roll|coating|bread/.test(n)) return 'wheat';
+        if (/onion|lemon|limbu|kanda|veg|pepper|capsicum|salad/.test(n)) return 'leaf';
+        return 'bowl';
+    }
+
     function renderDish() {
         const isVeg = dish.category === 'veg';
-        const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Maratha Hotel');
-        const hotelSubMap = { 'Aapla Swad Hotel': 'Pure Veg • Home-style Cooking', 'Maratha Hotel': 'Non-Veg Speciality • Maharashtrian', 'Shriyan Chinese': 'Indo-Chinese • Veg', 'Mauli Veg Rol': 'Veg Rolls • 2 pcs each' };
+        const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Hotel Sahyadri');
+        const hotelSubMap = { 'Aapla Swad Hotel': 'Pure Veg • Home-style Cooking', 'Hotel Sahyadri': 'Non-Veg Speciality • Maharashtrian', 'Shriyan Chinese': 'Indo-Chinese • Veg', 'Mauli Veg Rol': 'Veg Rolls • 2 pcs each' };
         const hotelSub = hotelSubMap[hotelName] || (isVeg ? 'Pure Veg' : 'Non-Veg Speciality');
 
         document.title = hotelName + ' — ' + dish.name;
@@ -740,25 +1406,23 @@
 
         // Hotel Badge
         document.getElementById('hotelBadge').innerHTML = `
-            <img src="logo.png" alt="${hotelName}" class="hotel-badge-icon">
+            <img src="icon-192.png" alt="${hotelName}" class="hotel-badge-icon">
             <div>
                 <div class="hotel-badge-name">${hotelName}</div>
                 <div class="hotel-badge-sub">${hotelSub}</div>
             </div>
-            <span class="hotel-badge-type ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>
+            <span class="hotel-badge-type ${isVeg ? 'veg' : 'nonveg'}">${isVeg ? 'VEG' : 'NON-VEG'}</span>
         `;
 
         // Tags
-        let tagsHTML = `<span class="${isVeg ? 'tag-veg' : 'tag-nonveg'}">${isVeg ? '● VEG' : '● NON-VEG'}</span>`;
-        tagsHTML += `<span class="tag-rating">⭐ ${isVeg ? '4.9' : '4.8'} (${Math.floor(Math.random()*500+200)} reviews)</span>`;
+        let tagsHTML = `<span class="${isVeg ? 'tag-veg' : 'tag-nonveg'}">${isVeg ? 'VEG' : 'NON-VEG'}</span>`;
+        tagsHTML += `<span class="tag-rating"><i class="ic" data-ic="star"></i> ${isVeg ? '4.9' : '4.8'} · ${dish.reviews.length} review${dish.reviews.length === 1 ? '' : 's'}</span>`;
         if (itemKey !== 'dal-bati') tagsHTML += '<span class="tag-new">NEW</span>';
         document.getElementById('dishTags').innerHTML = tagsHTML;
 
         // Title
         document.getElementById('dishTitle').textContent = dish.name;
-        document.getElementById('dishSubtitle').textContent = isVeg
-            ? 'Aapla Swad Hotel • Authentic home-style cooking • Served hot & fresh'
-            : 'Maratha Hotel • Maharashtrian non-veg speciality • Served hot & fresh';
+        document.getElementById('dishSubtitle').textContent = hotelName + ' • ' + hotelSub + ' • Served hot & fresh';
 
         // Price
         document.getElementById('pOld').textContent = '₹' + dish.oldPrice;
@@ -772,7 +1436,7 @@
         dish.includesList.forEach(inc => {
             incHTML += `
             <div class="include-item">
-                <span class="include-emoji">${inc.emoji}</span>
+                <span class="include-emoji"><i class="ic" data-ic="${includeIcon(inc.name)}"></i></span>
                 <div>
                     <div class="include-text">${inc.name}</div>
                     <div class="include-sub">${inc.desc}</div>
@@ -796,7 +1460,7 @@
                             <div class="review-date">${rev.date}</div>
                         </div>
                     </div>
-                    <div class="review-stars">${'⭐'.repeat(rev.stars)}</div>
+                    <div class="review-stars stars" style="--n:${rev.stars}" role="img" aria-label="${rev.stars} out of 5 stars"></div>
                     <div class="review-text">"${rev.text}"</div>
                 </div>
             </div>`;
@@ -881,8 +1545,8 @@
         // Check if this is a Chinese item and Chinese hours are closed (3 PM - 10 PM)
         if (dish.hotel === 'Shriyan Chinese' && !isChineseOpenLocal()) {
             showClosedOverlay(
-                '🥡 Shriyan Chinese is available only from 3:00 PM to 10:00 PM. Please come back later!',
-                '🕐 Opens at 3:00 PM'
+                'Shriyan Chinese is available only from 3:00 PM to 10:00 PM. Please come back later!',
+                'Opens at 3:00 PM'
             );
             return;
         }
@@ -890,8 +1554,8 @@
         // Check if this is a Rolls item and Rolls hours are closed (5 PM - 10 PM)
         if (dish.hotel === 'Mauli Veg Rol' && !isRollsOpenLocal()) {
             showClosedOverlay(
-                '🌯 Mauli Veg Rol is available only from 5:00 PM to 10:00 PM. Please come back later!',
-                '🕐 Opens at 5:00 PM'
+                'Mauli Veg Rol is available only from 5:00 PM to 10:00 PM. Please come back later!',
+                'Opens at 5:00 PM'
             );
             return;
         }
@@ -903,7 +1567,7 @@
         // Show confirmation
         const isVeg = dish.category === 'veg';
         document.getElementById('addedConfirm').innerHTML = `
-            <div class="added-check">✅</div>
+            <div class="added-check"><i class="ic" data-ic="check"></i></div>
             <div class="added-info">
                 <div class="added-name">${dish.shortName} added to cart!</div>
                 <div class="added-sub">₹${dish.price} × ${preCart[itemKey]} = ₹${dish.price * preCart[itemKey]}</div>
@@ -942,7 +1606,7 @@
         const obBtn = document.getElementById('obBtn');
         obBtn.innerHTML = '✓ Added — View Cart';
         obBtn.onclick = goToCart;
-        obBtn.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+        obBtn.style.background = 'linear-gradient(135deg, #ff7a18, #c2410c)';
 
         // Show sheet
         document.getElementById('bsOverlay').classList.add('show');
@@ -984,7 +1648,7 @@
 
         document.getElementById('bsCartSummary').innerHTML = `
             <div>
-                <div class="bs-cart-count">🛒 ${totalItems} item${totalItems > 1 ? 's' : ''}</div>
+                <div class="bs-cart-count"><i class="ic" data-ic="cart"></i> ${totalItems} item${totalItems > 1 ? 's' : ''}</div>
                 <div style="font-size:0.52rem;color:#888;">${itemNames}</div>
             </div>
             <span class="bs-cart-total">₹${totalPrice}</span>

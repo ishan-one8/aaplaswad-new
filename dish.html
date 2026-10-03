@@ -790,6 +790,540 @@
             discount: '31% OFF', image: 'assets/rolls/paneer-noodles-mix-roll.jpg', category: 'veg', hotel: 'Mauli Veg Rol',
             includesList: [{ emoji: '🌯', name: '2 Rolls', desc: 'Freshly made crispy rolls' }, { emoji: '🧀', name: 'Paneer + Noodles', desc: 'Paneer and noodles mix filling' }],
             reviews: [{ name: 'Anita J.', stars: 5, text: 'Premium roll with paneer and noodles. Worth every rupee!', date: '2 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Biryani & Rice =====
+        'chicken-biryani': {
+            name: 'Chicken Biryani', shortName: 'Chicken Biryani', price: 150, oldPrice: 280,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Tender chicken pieces' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Basmati rice with saffron' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Rahul M.', stars: 5, text: 'Best biryani in town at this price! 🔥', date: '1 day ago' }]
+        },
+        'egg-biryani': {
+            name: 'Egg Biryani', shortName: 'Egg Biryani', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Boiled Eggs', desc: 'Perfectly boiled eggs' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Spiced basmati rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Priya S.', stars: 4, text: 'Good egg biryani, generous portion!', date: '2 days ago' }]
+        },
+        'chicken-rice': {
+            name: 'Chicken Rice', shortName: 'Chicken Rice', price: 170, oldPrice: 300,
+            discount: '43% OFF', image: 'assets/nonveg/chicken-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Spiced chicken chunks' }, { emoji: '🍚', name: 'Rice', desc: 'Flavoured rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Anil K.', stars: 5, text: 'Simple and filling chicken rice!', date: '3 days ago' }]
+        },
+        'mutton-biryani': {
+            name: 'Mutton Biryani', shortName: 'Mutton Biryani', price: 220, oldPrice: 400,
+            discount: '45% OFF', image: 'assets/nonveg/mutton-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍖', name: 'Mutton on Bone', desc: 'Tender mutton pieces' }, { emoji: '🍚', name: 'Saffron Rice', desc: 'Aromatic basmati with saffron' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Vikram D.', stars: 5, text: 'Mutton is so tender, amazing biryani! 🤤', date: '1 day ago' }]
+        },
+        'fish-biryani': {
+            name: 'Fish Biryani', shortName: 'Fish Biryani', price: 200, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/fish-biryani.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Fish Pieces', desc: 'Fresh fish chunks' }, { emoji: '🍚', name: 'Aromatic Rice', desc: 'Spiced rice with curry leaves' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sachin P.', stars: 4, text: 'Fresh fish and great masala in the rice!', date: '2 days ago' }]
+        },
+        'chicken-schezwan-rice': {
+            name: 'Chicken Schezwan Rice', shortName: 'Chk Schezwan Rice', price: 180, oldPrice: 320,
+            discount: '44% OFF', image: 'assets/nonveg/chicken-schezwan-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Chicken pieces' }, { emoji: '🌶️', name: 'Schezwan Rice', desc: 'Spicy schezwan fried rice' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sanjay R.', stars: 5, text: 'Spicy and flavourful! Love the schezwan kick!', date: '1 day ago' }]
+        },
+        'chicken-tpal-rice': {
+            name: 'Chicken T-Pal Rice', shortName: 'Chk T-Pal Rice', price: 220, oldPrice: 400,
+            discount: '45% OFF', image: 'assets/nonveg/chicken-tpal-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken', desc: 'Chicken pieces' }, { emoji: '🍚', name: 'Triple Rice Combo', desc: 'Mixed rice platter' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Manoj T.', stars: 5, text: 'Triple combo is value for money!', date: '2 days ago' }]
+        },
+        'egg-rice': {
+            name: 'Egg Rice', shortName: 'Egg Rice', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-rice.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Scrambled Egg', desc: 'Fluffy scrambled eggs' }, { emoji: '🍚', name: 'Fried Rice', desc: 'Wok-tossed rice with veggies' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Amit G.', stars: 4, text: 'Nice light egg rice, good portion!', date: '3 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Curry & Masala =====
+        'chicken-masala': {
+            name: 'Chicken Masala', shortName: 'Chicken Masala', price: 160, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Juicy chicken in masala' }, { emoji: '🍛', name: 'Spicy Gravy', desc: 'Rich masala gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ganesh B.', stars: 5, text: 'Masala is perfect! Great taste!', date: '1 day ago' }]
+        },
+        'butter-chicken': {
+            name: 'Butter Chicken', shortName: 'Butter Chicken', price: 180, oldPrice: 350,
+            discount: '49% OFF', image: 'assets/nonveg/butter-chicken.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Tikka', desc: 'Tandoori chicken pieces' }, { emoji: '🧈', name: 'Butter Gravy', desc: 'Creamy tomato butter sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Neha K.', stars: 5, text: 'Butter chicken is rich and creamy! 😍', date: '1 day ago' }]
+        },
+        'fish-curry': {
+            name: 'Fish Curry', shortName: 'Fish Curry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/fish-curry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Fish Pieces', desc: 'Fresh fish in curry' }, { emoji: '🍛', name: 'Spicy Curry', desc: 'Tangy curry gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sunil M.', stars: 4, text: 'Fish is fresh and curry is tangy!', date: '2 days ago' }]
+        },
+        'egg-curry': {
+            name: 'Egg Curry', shortName: 'Egg Curry', price: 140, oldPrice: 250,
+            discount: '44% OFF', image: 'assets/nonveg/egg-curry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Boiled Eggs', desc: 'Eggs in curry gravy' }, { emoji: '🍛', name: 'Onion Tomato Gravy', desc: 'Rich onion tomato base' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Pooja D.', stars: 5, text: 'Simple and delicious egg curry!', date: '3 days ago' }]
+        },
+        'egg-masala': {
+            name: 'Egg Masala', shortName: 'Egg Masala', price: 150, oldPrice: 270,
+            discount: '44% OFF', image: 'assets/nonveg/egg-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Eggs', desc: 'Eggs in thick masala' }, { emoji: '🌶️', name: 'Spicy Masala', desc: 'Thick spicy masala gravy' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Kiran V.', stars: 4, text: 'Masala is thick and tasty!', date: '2 days ago' }]
+        },
+        'anda-bhurji': {
+            name: 'Anda Bhurji', shortName: 'Anda Bhurji', price: 109, oldPrice: 200,
+            discount: '46% OFF', image: 'assets/nonveg/anda-bhurji.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Scrambled Eggs', desc: 'Fluffy spiced scrambled eggs' }, { emoji: '🧅', name: 'Onion & Tomato', desc: 'Diced onion, tomato, chili' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ravi S.', stars: 5, text: 'Best anda bhurji! Spicy and tasty! 🔥', date: '1 day ago' }]
+        },
+        'boil-keema-masala': {
+            name: 'Boil Keema Masala', shortName: 'Keema Masala', price: 130, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/nonveg/boil-keema-masala.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥩', name: 'Minced Meat', desc: 'Finely minced keema' }, { emoji: '🌶️', name: 'Spicy Masala', desc: 'Rich spicy masala' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ajay P.', stars: 4, text: 'Good keema masala, nice spice level!', date: '2 days ago' }]
+        },
+
+        // ===== Hotel Sahyadri — Starters =====
+        'chicken-kantaki': {
+            name: 'Chicken Kantaki', shortName: 'Chicken Kantaki', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-kantaki.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Crispy Chicken', desc: 'Golden-brown fried chicken' }, { emoji: '🌶️', name: 'Spicy Coating', desc: 'Crunchy spice coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Tushar G.', stars: 5, text: 'Crispy outside, juicy inside! Best starter!', date: '1 day ago' }]
+        },
+        'chicken-tikka': {
+            name: 'Chicken Tikka', shortName: 'Chicken Tikka', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-tikka.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Tandoori Chicken', desc: 'Charred chicken pieces' }, { emoji: '🥣', name: 'Yogurt Marinade', desc: 'Tandoori spice marinade' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Deepak R.', stars: 5, text: 'Smoky tikka flavour! Restaurant quality!', date: '1 day ago' }]
+        },
+        'chicken-chilli-nv': {
+            name: 'Chicken Chilli', shortName: 'Chicken Chilli', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-chilli-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Pieces', desc: 'Crispy chicken chunks' }, { emoji: '🫑', name: 'Bell Peppers', desc: 'Tossed with peppers & chilli sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Suresh T.', stars: 5, text: 'Indo-Chinese done right! Spicy & crunchy!', date: '2 days ago' }]
+        },
+        'chicken-sukka': {
+            name: 'Chicken Sukka', shortName: 'Chicken Sukka', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-sukka.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Dry Chicken', desc: 'Tender chicken in dry masala' }, { emoji: '🥥', name: 'Coconut Masala', desc: 'Roasted coconut spice blend' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ajay M.', stars: 5, text: 'Authentic Mangalorean sukka! Perfect!', date: '1 day ago' }]
+        },
+        'chicken-fry': {
+            name: 'Chicken Fry', shortName: 'Chicken Fry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Fried Chicken', desc: 'Crispy pan-fried pieces' }, { emoji: '🌶️', name: 'Spice Masala', desc: 'Indian spice coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Kiran D.', stars: 5, text: 'Best chicken fry in town!', date: '3 days ago' }]
+        },
+        'fish-kantaki': {
+            name: 'Fish Kantaki', shortName: 'Fish Kantaki', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/nonveg/fish-kantaki.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Crispy Fish', desc: 'Deep-fried with spice coating' }, { emoji: '🌶️', name: 'Spice Crust', desc: 'Crunchy masala coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Swati P.', stars: 5, text: 'Crispy outside, juicy inside!', date: '2 days ago' }]
+        },
+        'fish-fry': {
+            name: 'Fish Fry', shortName: 'Fish Fry', price: 170, oldPrice: 320,
+            discount: '47% OFF', image: 'assets/nonveg/fish-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Pan-Fried Fish', desc: 'Whole fish fried golden' }, { emoji: '🌶️', name: 'Red Masala', desc: 'Spicy masala coating' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Neha K.', stars: 5, text: 'Amazing fish fry! So fresh!', date: '1 day ago' }]
+        },
+        'fish-butter-fry': {
+            name: 'Fish Butter Fry', shortName: 'Fish Butter Fry', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/fish-butter-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🐟', name: 'Butter Fish', desc: 'Fish fried in garlic butter' }, { emoji: '🧈', name: 'Garlic Butter', desc: 'Rich butter glaze' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Rohit S.', stars: 5, text: 'Butter makes everything better!', date: '3 days ago' }]
+        },
+        'chicken-butter-fry': {
+            name: 'Chicken Butter Fry', shortName: 'Chk Butter Fry', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-butter-fry.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Butter Chicken', desc: 'Chicken fried in garlic butter' }, { emoji: '🧈', name: 'Garlic Butter', desc: 'Rich butter glaze' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Priya J.', stars: 5, text: 'Buttery and delicious!', date: '2 days ago' }]
+        },
+        'chicken-65': {
+            name: 'Chicken 65', shortName: 'Chicken 65', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-65.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Spicy Chicken', desc: 'Deep-fried spicy chicken bites' }, { emoji: '🌿', name: 'Curry Leaves', desc: 'Garnished with curry leaves' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Anil R.', stars: 5, text: 'Best 65 I have ever had!', date: '1 day ago' }]
+        },
+        'chicken-manchurian-nv': {
+            name: 'Chicken Manchurian', shortName: 'Chk Manchurian', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/nonveg/chicken-manchurian-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Chicken Balls', desc: 'Fried chicken in manchurian sauce' }, { emoji: '🥫', name: 'Manchurian Sauce', desc: 'Tangy soy-chilli sauce' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Vishal M.', stars: 5, text: 'Non-veg manchurian is amazing!', date: '2 days ago' }]
+        },
+        'chicken-noodles-nv': {
+            name: 'Chicken Noodles', shortName: 'Chk Noodles', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/nonveg/chicken-noodles-nv.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍜', name: 'Noodles', desc: 'Stir-fried hakka noodles' }, { emoji: '🍗', name: 'Chicken', desc: 'Tender chicken pieces' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Sneha T.', stars: 5, text: 'Loaded with chicken! Yummy noodles!', date: '3 days ago' }]
+        },
+        'chicken-ukkad': {
+            name: 'Chicken Ukkad', shortName: 'Chicken Ukkad', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/nonveg/chicken-ukkad.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍗', name: 'Boiled Chicken', desc: 'Tender boiled chicken' }, { emoji: '🥣', name: 'Spicy Broth', desc: 'Flavourful spice broth' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Ganesh P.', stars: 5, text: 'Perfect comfort food!', date: '1 day ago' }]
+        },
+        'mutton-ukkad': {
+            name: 'Mutton Ukkad', shortName: 'Mutton Ukkad', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/nonveg/mutton-ukkad.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🍖', name: 'Boiled Mutton', desc: 'Tender mutton on bone' }, { emoji: '🥣', name: 'Spicy Broth', desc: 'Rich spice broth' }, { emoji: '🧅', name: 'Onion & Lemon', desc: 'Fresh sliced onion & lemon wedge' }],
+            reviews: [{ name: 'Manoj K.', stars: 5, text: 'Rich and flavourful!', date: '2 days ago' }]
+        },
+        'egg-omelet': {
+            name: 'Egg Omelet', shortName: 'Egg Omelet', price: 99, oldPrice: 180,
+            discount: '45% OFF', image: 'assets/nonveg/egg-omelet.jpg', category: 'nonveg',
+            includesList: [{ emoji: '🥚', name: 'Fluffy Omelet', desc: 'Golden masala omelet' }, { emoji: '🧅', name: 'Onion & Chilli', desc: 'With chopped onion & green chilli' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pooja R.', stars: 5, text: 'Simple and delicious!', date: '1 day ago' }]
+        },
+        'aloo-paratha': {
+            name: 'Aloo Paratha', shortName: 'Aloo Paratha', price: 90, oldPrice: 170,
+            discount: '47% OFF', image: 'assets/paratha/aloo-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Aloo Paratha', desc: 'Potato stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Sneha P.', stars: 5, text: 'Perfect aloo paratha with curd!', date: '1 day ago' }]
+        },
+        'methi-paratha': {
+            name: 'Fenugreek Paratha', shortName: 'Methi Paratha', price: 100, oldPrice: 190,
+            discount: '47% OFF', image: 'assets/paratha/methi-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Methi Paratha', desc: 'Fenugreek stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Kavita R.', stars: 5, text: 'Healthy and tasty methi paratha!', date: '2 days ago' }]
+        },
+        'paneer-paratha': {
+            name: 'Paneer Paratha', shortName: 'Paneer Paratha', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/paratha/paneer-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Paneer Paratha', desc: 'Paneer stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Ravi K.', stars: 5, text: 'Loaded with paneer! Amazing!', date: '1 day ago' }]
+        },
+        'tawa-paratha': {
+            name: 'Tawa Paratha', shortName: 'Tawa Paratha', price: 60, oldPrice: 110,
+            discount: '45% OFF', image: 'assets/paratha/tawa-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Tawa Paratha', desc: 'Flaky layered tawa paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Amit D.', stars: 5, text: 'Crispy flaky layers! Love it!', date: '3 days ago' }]
+        },
+        'gobhi-paratha': {
+            name: 'Gobhi Paratha', shortName: 'Gobhi Paratha', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/paratha/gobhi-paratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🫓', name: '1 Gobhi Paratha', desc: 'Cauliflower stuffed golden paratha' }, { emoji: '🥛', name: 'Curd', desc: 'Fresh creamy curd' }],
+            reviews: [{ name: 'Priyanka S.', stars: 5, text: 'Best gobhi paratha ever!', date: '2 days ago' }]
+        },
+        'steam-rice': {
+            name: 'Steam Rice', shortName: 'Steam Rice', price: 110, oldPrice: 210,
+            discount: '48% OFF', image: 'assets/rice/steam-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Steam Rice', desc: 'Fluffy steamed basmati rice' }],
+            reviews: [{ name: 'Rajesh M.', stars: 5, text: 'Perfectly cooked fluffy rice!', date: '1 day ago' }]
+        },
+        'jira-rice': {
+            name: 'Jira Rice', shortName: 'Jira Rice', price: 120, oldPrice: 220,
+            discount: '45% OFF', image: 'assets/rice/jira-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Jira Rice', desc: 'Cumin tempered basmati rice' }, { emoji: '🌿', name: 'Coriander', desc: 'Fresh coriander garnish' }],
+            reviews: [{ name: 'Sunita K.', stars: 5, text: 'Aromatic and delicious!', date: '2 days ago' }]
+        },
+        'veg-pulav': {
+            name: 'Veg Pulav', shortName: 'Veg Pulav', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/veg-pulav.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Veg Pulav', desc: 'Basmati rice with mixed vegetables' }, { emoji: '🥕', name: 'Vegetables', desc: 'Carrots, peas, beans & potatoes' }],
+            reviews: [{ name: 'Meena D.', stars: 5, text: 'Full of vegetables, tasty pulav!', date: '1 day ago' }]
+        },
+        'veg-biryani': {
+            name: 'Veg Biryani', shortName: 'Veg Biryani', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/veg-biryani.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Veg Biryani', desc: 'Layered saffron rice with vegetables' }, { emoji: '🥛', name: 'Raita', desc: 'Fresh curd raita' }],
+            reviews: [{ name: 'Anil P.', stars: 5, text: 'Amazing veg biryani with great flavour!', date: '3 days ago' }]
+        },
+        'dal-khichdi': {
+            name: 'Dal Khichdi', shortName: 'Dal Khichdi', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/dal-khichdi.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Dal Khichdi', desc: 'Lentil rice with ghee' }, { emoji: '🧈', name: 'Ghee', desc: 'Generous ghee topping' }],
+            reviews: [{ name: 'Divya R.', stars: 5, text: 'Comfort food at its best!', date: '2 days ago' }]
+        },
+        'fry-rice-sahyadri': {
+            name: 'Fry Rice', shortName: 'Fry Rice', price: 140, oldPrice: 260,
+            discount: '46% OFF', image: 'assets/rice/fry-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Fry Rice', desc: 'Fried rice with mixed vegetables' }, { emoji: '🧅', name: 'Spring Onion', desc: 'Fresh spring onion garnish' }],
+            reviews: [{ name: 'Vikram S.', stars: 5, text: 'Perfectly fried, not greasy!', date: '1 day ago' }]
+        },
+        'lasan-jira-rice': {
+            name: 'Lasan Jira Rice', shortName: 'Lasan Jira Rice', price: 130, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/rice/lasan-jira-rice.jpg', category: 'veg',
+            includesList: [{ emoji: '🍚', name: 'Lasan Jira Rice', desc: 'Garlic cumin flavoured rice' }, { emoji: '🧄', name: 'Fried Garlic', desc: 'Crispy fried garlic slices' }],
+            reviews: [{ name: 'Nisha T.', stars: 5, text: 'Garlic lovers paradise!', date: '2 days ago' }]
+        },
+        'paneer-kadhai': {
+            name: 'Paneer Kadhai', shortName: 'Paneer Kadhai', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-kadhai.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Kadhai', desc: 'Paneer in spicy kadhai masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rahul K.', stars: 5, text: 'Authentic kadhai flavour!', date: '1 day ago' }]
+        },
+        'paneer-tikka-masala-sahyadri': {
+            name: 'Paneer Tikka Masala', shortName: 'Paneer Tikka Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-tikka-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Tikka Masala', desc: 'Grilled paneer in creamy tikka gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sneha P.', stars: 5, text: 'Best tikka masala in town!', date: '2 days ago' }]
+        },
+        'paneer-masala-sahyadri': {
+            name: 'Paneer Masala', shortName: 'Paneer Masala', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/vegcurry/paneer-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Masala', desc: 'Paneer in rich masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Amit J.', stars: 5, text: 'Rich and flavourful!', date: '1 day ago' }]
+        },
+        'paneer-butter-masala-sahyadri': {
+            name: 'Paneer Butter Masala', shortName: 'Paneer Butter Masala', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-butter-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Butter Masala', desc: 'Paneer in creamy tomato-butter gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pooja V.', stars: 5, text: 'Creamy and delicious!', date: '3 days ago' }]
+        },
+        'kaju-paneer-masala': {
+            name: 'Kaju Paneer Masala', shortName: 'Kaju Paneer Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/kaju-paneer-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Kaju Paneer Masala', desc: 'Paneer & cashew in rich gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sanjay M.', stars: 5, text: 'Premium taste with cashews!', date: '2 days ago' }]
+        },
+        'kaju-kari': {
+            name: 'Kaju Kari', shortName: 'Kaju Kari', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/kaju-kari.jpg', category: 'veg',
+            includesList: [{ emoji: '🥜', name: 'Kaju Kari', desc: 'Cashew nut curry in creamy gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Deepa N.', stars: 5, text: 'Rich and creamy kaju curry!', date: '1 day ago' }]
+        },
+        'paneer-mirch-masala': {
+            name: 'Paneer Mirch Masala', shortName: 'Paneer Mirch Masala', price: 189, oldPrice: 350,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-mirch-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Mirch Masala', desc: 'Paneer with green chillies in masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kiran D.', stars: 5, text: 'Spicy and flavourful!', date: '2 days ago' }]
+        },
+        'paneer-bhurji-sahyadri': {
+            name: 'Paneer Bhurji', shortName: 'Paneer Bhurji', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/paneer-bhurji.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Paneer Bhurji', desc: 'Scrambled paneer with spices' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ravi S.', stars: 5, text: 'Amazing bhurji, perfectly spiced!', date: '1 day ago' }]
+        },
+        'matar-paneer': {
+            name: 'Matar Paneer', shortName: 'Matar Paneer', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/matar-paneer.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Matar Paneer', desc: 'Paneer & peas in gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Priya R.', stars: 5, text: 'Classic matar paneer done right!', date: '2 days ago' }]
+        },
+        'palak-paneer-sahyadri': {
+            name: 'Palak Paneer', shortName: 'Palak Paneer', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/palak-paneer.jpg', category: 'veg',
+            includesList: [{ emoji: '🧀', name: 'Palak Paneer', desc: 'Paneer in spinach puree' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anita G.', stars: 5, text: 'Healthy and delicious!', date: '3 days ago' }]
+        },
+        'lasun-palak': {
+            name: 'Lasun Palak', shortName: 'Lasun Palak', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/lasun-palak.jpg', category: 'veg',
+            includesList: [{ emoji: '🥬', name: 'Lasun Palak', desc: 'Garlic spinach curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Suresh T.', stars: 5, text: 'Garlic and spinach perfection!', date: '1 day ago' }]
+        },
+        'dudh-shev-bhaji': {
+            name: 'Dudh Shev Bhaji', shortName: 'Dudh Shev Bhaji', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/dudh-shev-bhaji.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Dudh Shev Bhaji', desc: 'Milk-based sev curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Manisha K.', stars: 5, text: 'Unique and tasty!', date: '2 days ago' }]
+        },
+        'fenugreek-kofta': {
+            name: 'Fenugreek Kofta', shortName: 'Fenugreek Kofta', price: 179, oldPrice: 330,
+            discount: '46% OFF', image: 'assets/vegcurry/fenugreek-kofta.jpg', category: 'veg',
+            includesList: [{ emoji: '🧆', name: 'Fenugreek Kofta', desc: 'Methi kofta in rich gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kavita D.', stars: 5, text: 'Soft kofta balls in amazing gravy!', date: '1 day ago' }]
+        },
+        'dal-methi': {
+            name: 'Dal Methi', shortName: 'Dal Methi', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Methi', desc: 'Lentil dal with fenugreek' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Vijay L.', stars: 5, text: 'Comforting and healthy!', date: '2 days ago' }]
+        },
+        'dal-shevga': {
+            name: 'Dal Shevga', shortName: 'Dal Shevga', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-shevga.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Shevga', desc: 'Lentil dal with drumstick' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rekha M.', stars: 5, text: 'Homestyle dal with drumstick!', date: '3 days ago' }]
+        },
+        'mushroom-masala': {
+            name: 'Mushroom Masala', shortName: 'Mushroom Masala', price: 199, oldPrice: 370,
+            discount: '46% OFF', image: 'assets/vegcurry/mushroom-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍄', name: 'Mushroom Masala', desc: 'Mushrooms in spicy masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Aarav S.', stars: 5, text: 'Rich mushroom flavour!', date: '1 day ago' }]
+        },
+        'baigan-masala': {
+            name: 'Baigan Masala', shortName: 'Baigan Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Masala', desc: 'Eggplant in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Meena D.', stars: 5, text: 'Perfect brinjal curry!', date: '2 days ago' }]
+        },
+        'aalu-mater': {
+            name: 'Aalu Mater', shortName: 'Aalu Mater', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-mater.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Mater', desc: 'Potato & peas curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Tushar P.', stars: 5, text: 'Classic homestyle taste!', date: '1 day ago' }]
+        },
+        'baigan-bharta': {
+            name: 'Baigan Bharta', shortName: 'Baigan Bharta', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-bharta.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Bharta', desc: 'Smoky roasted mashed eggplant' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Leela K.', stars: 5, text: 'Smoky and delicious!', date: '2 days ago' }]
+        },
+        'baigan-fry': {
+            name: 'Baigan Fry', shortName: 'Baigan Fry', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/baigan-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🍆', name: 'Baigan Fry', desc: 'Crispy fried eggplant slices' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ganesh V.', stars: 5, text: 'Crispy and perfect!', date: '1 day ago' }]
+        },
+        'shevga-masala': {
+            name: 'Shevga Masala', shortName: 'Shevga Masala', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/shevga-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌿', name: 'Shevga Masala', desc: 'Drumstick in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sunita R.', stars: 5, text: 'Love the drumstick masala!', date: '3 days ago' }]
+        },
+        'plain-palak': {
+            name: 'Plain Palak', shortName: 'Plain Palak', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/plain-palak.jpg', category: 'veg',
+            includesList: [{ emoji: '🥬', name: 'Plain Palak', desc: 'Pure spinach curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Neha J.', stars: 5, text: 'Healthy and tasty!', date: '2 days ago' }]
+        },
+        'mix-veg': {
+            name: 'Mix Veg', shortName: 'Mix Veg', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/mix-veg.jpg', category: 'veg',
+            includesList: [{ emoji: '🥕', name: 'Mix Veg', desc: 'Mixed vegetables in gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Vikram T.', stars: 5, text: 'Colourful and flavourful!', date: '1 day ago' }]
+        },
+        'shev-bhaji': {
+            name: 'Shev Bhaji', shortName: 'Shev Bhaji', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/shev-bhaji.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Shev Bhaji', desc: 'Crispy sev in spicy curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anil M.', stars: 5, text: 'Maharashtrian classic!', date: '2 days ago' }]
+        },
+        'matki-masala': {
+            name: 'Matki Masala', shortName: 'Matki Masala', price: 90, oldPrice: 170,
+            discount: '47% OFF', image: 'assets/vegcurry/matki-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Matki Masala', desc: 'Moth bean sprouts curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Sagar K.', stars: 5, text: 'Great value for money!', date: '1 day ago' }]
+        },
+        'bhendi-masala': {
+            name: 'Bhendi Masala', shortName: 'Bhendi Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/bhendi-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Bhendi Masala', desc: 'Okra in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pallavi S.', stars: 5, text: 'Perfectly spiced bhendi!', date: '2 days ago' }]
+        },
+        'bhendi-fry': {
+            name: 'Bhendi Fry', shortName: 'Bhendi Fry', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/bhendi-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Bhendi Fry', desc: 'Crispy fried okra' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Dipak G.', stars: 5, text: 'Crunchy and tasty!', date: '1 day ago' }]
+        },
+        'methi-masala': {
+            name: 'Methi Masala', shortName: 'Methi Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/methi-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🌿', name: 'Methi Masala', desc: 'Fenugreek leaves in masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Asha B.', stars: 5, text: 'Fresh methi flavour!', date: '3 days ago' }]
+        },
+        'lasun-methi': {
+            name: 'Lasun Methi', shortName: 'Lasun Methi', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/lasun-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🧄', name: 'Lasun Methi', desc: 'Garlic fenugreek curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Manoj P.', stars: 5, text: 'Garlic methi combo is amazing!', date: '2 days ago' }]
+        },
+        'rassa-fry': {
+            name: 'Rassa Fry', shortName: 'Rassa Fry', price: 99, oldPrice: 190,
+            discount: '48% OFF', image: 'assets/vegcurry/rassa-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🍲', name: 'Rassa Fry', desc: 'Thin spicy Maharashtrian rassa' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Yogesh D.', stars: 5, text: 'Spicy and affordable!', date: '1 day ago' }]
+        },
+        'pitthal': {
+            name: 'Pitthal', shortName: 'Pitthal', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/pitthal.jpg', category: 'veg',
+            includesList: [{ emoji: '🟡', name: 'Pitthal', desc: 'Gram flour besan curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Shobha T.', stars: 5, text: 'Authentic Maharashtrian taste!', date: '2 days ago' }]
+        },
+        'chana-masala': {
+            name: 'Chana Masala', shortName: 'Chana Masala', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/chana-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Chana Masala', desc: 'Chickpeas in spicy gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Harish L.', stars: 5, text: 'Protein packed and tasty!', date: '1 day ago' }]
+        },
+        'soyabeen-masala': {
+            name: 'Soyabeen Masala', shortName: 'Soyabeen Masala', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/soyabeen-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Soyabeen Masala', desc: 'Soya chunks in masala gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Rohit N.', stars: 5, text: 'High protein veg option!', date: '2 days ago' }]
+        },
+        'soyabeen-fry': {
+            name: 'Soyabeen Fry', shortName: 'Soyabeen Fry', price: 139, oldPrice: 260,
+            discount: '47% OFF', image: 'assets/vegcurry/soyabeen-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Soyabeen Fry', desc: 'Crispy fried soya chunks' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Tanvi R.', stars: 5, text: 'Crispy soya perfection!', date: '1 day ago' }]
+        },
+        'veg-kadhai': {
+            name: 'Veg Kadhai', shortName: 'Veg Kadhai', price: 169, oldPrice: 310,
+            discount: '45% OFF', image: 'assets/vegcurry/veg-kadhai.jpg', category: 'veg',
+            includesList: [{ emoji: '🥘', name: 'Veg Kadhai', desc: 'Mixed veg in kadhai masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Swati K.', stars: 5, text: 'Best veg kadhai in town!', date: '2 days ago' }]
+        },
+        'dal-kolhapuri': {
+            name: 'Dal Kolhapuri', shortName: 'Dal Kolhapuri', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-kolhapuri.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Kolhapuri', desc: 'Spicy Kolhapuri style dal' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ajay K.', stars: 5, text: 'Fiery Kolhapuri dal!', date: '1 day ago' }]
+        },
+        'dal-tadka': {
+            name: 'Dal Tadka', shortName: 'Dal Tadka', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/dal-tadka.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Tadka', desc: 'Lentil dal with ghee tadka' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Priya S.', stars: 5, text: 'Best tadka dal ever!', date: '2 days ago' }]
+        },
+        'dal-fry': {
+            name: 'Dal Fry', shortName: 'Dal Fry', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/dal-fry.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Dal Fry', desc: 'Fried lentil dal with masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kiran R.', stars: 5, text: 'Perfect comfort food!', date: '1 day ago' }]
+        },
+        'jira-dal': {
+            name: 'Jira Dal', shortName: 'Jira Dal', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/jira-dal.jpg', category: 'veg',
+            includesList: [{ emoji: '🫘', name: 'Jira Dal', desc: 'Cumin tempered lentil dal' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Deepa M.', stars: 5, text: 'Aromatic cumin flavour!', date: '3 days ago' }]
+        },
+        'tomato-chatni': {
+            name: 'Tomato Chatni', shortName: 'Tomato Chatni', price: 124, oldPrice: 230,
+            discount: '46% OFF', image: 'assets/vegcurry/tomato-chatni.jpg', category: 'veg',
+            includesList: [{ emoji: '🍅', name: 'Tomato Chatni', desc: 'Spicy tomato chutney' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Lata J.', stars: 5, text: 'Tangy and spicy!', date: '1 day ago' }]
+        },
+        'tomato-masala': {
+            name: 'Tomato Masala', shortName: 'Tomato Masala', price: 129, oldPrice: 240,
+            discount: '46% OFF', image: 'assets/vegcurry/tomato-masala.jpg', category: 'veg',
+            includesList: [{ emoji: '🍅', name: 'Tomato Masala', desc: 'Tomato in spicy masala' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Ramesh V.', stars: 5, text: 'Rich tomato gravy!', date: '2 days ago' }]
+        },
+        'aalu-gaebi': {
+            name: 'Aalu Gaebi', shortName: 'Aalu Gaebi', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-gaebi.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Gaebi', desc: 'Potato & cauliflower curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Nita G.', stars: 5, text: 'Classic aloo gobi!', date: '1 day ago' }]
+        },
+        'veg-kolhapuri': {
+            name: 'Veg Kolhapuri', shortName: 'Veg Kolhapuri', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/veg-kolhapuri.jpg', category: 'veg',
+            includesList: [{ emoji: '🌶️', name: 'Veg Kolhapuri', desc: 'Fiery Kolhapuri veg curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Suresh B.', stars: 5, text: 'Spicy Kolhapuri blast!', date: '2 days ago' }]
+        },
+        'aalu-methi': {
+            name: 'Aalu Methi', shortName: 'Aalu Methi', price: 149, oldPrice: 280,
+            discount: '47% OFF', image: 'assets/vegcurry/aalu-methi.jpg', category: 'veg',
+            includesList: [{ emoji: '🥔', name: 'Aalu Methi', desc: 'Potato with fenugreek' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Kavita P.', stars: 5, text: 'Healthy and homestyle!', date: '1 day ago' }]
+        },
+        'shev-tomato': {
+            name: 'Shev Tomato', shortName: 'Shev Tomato', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/shev-tomato.jpg', category: 'veg',
+            includesList: [{ emoji: '🍜', name: 'Shev Tomato', desc: 'Sev in tomato gravy' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Pramod T.', stars: 5, text: 'Unique Maharashtrian combo!', date: '3 days ago' }]
+        },
+        'veg-maratha': {
+            name: 'Veg Maratha', shortName: 'Veg Maratha', price: 159, oldPrice: 300,
+            discount: '47% OFF', image: 'assets/vegcurry/veg-maratha.jpg', category: 'veg',
+            includesList: [{ emoji: '🥘', name: 'Veg Maratha', desc: 'Traditional Maratha veg curry' }, { emoji: '🧅', name: 'Onion', desc: 'Sliced onion' }, { emoji: '🍋', name: 'Lemon', desc: 'Fresh lemon wedge' }],
+            reviews: [{ name: 'Anita D.', stars: 5, text: 'Authentic Maratha flavour!', date: '2 days ago' }]
         }
     };
 
@@ -861,8 +1395,8 @@
 
     function renderDish() {
         const isVeg = dish.category === 'veg';
-        const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Maratha Hotel');
-        const hotelSubMap = { 'Aapla Swad Hotel': 'Pure Veg • Home-style Cooking', 'Maratha Hotel': 'Non-Veg Speciality • Maharashtrian', 'Shriyan Chinese': 'Indo-Chinese • Veg', 'Mauli Veg Rol': 'Veg Rolls • 2 pcs each' };
+        const hotelName = dish.hotel || (isVeg ? 'Aapla Swad Hotel' : 'Hotel Sahyadri');
+        const hotelSubMap = { 'Aapla Swad Hotel': 'Pure Veg • Home-style Cooking', 'Hotel Sahyadri': 'Non-Veg Speciality • Maharashtrian', 'Shriyan Chinese': 'Indo-Chinese • Veg', 'Mauli Veg Rol': 'Veg Rolls • 2 pcs each' };
         const hotelSub = hotelSubMap[hotelName] || (isVeg ? 'Pure Veg' : 'Non-Veg Speciality');
 
         document.title = hotelName + ' — ' + dish.name;

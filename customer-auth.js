@@ -68,6 +68,9 @@ function spLoadGoogleScript() {
 // Anyone who signed in before tokens existed has a Google session on this
 // device but nothing the server will accept. Ask Google for a fresh credential
 // quietly — they are already signed in, so this usually needs no interaction.
+//
+// IMPORTANT: This must NEVER show a login dialog. The user should only see
+// the "Sign in with Google" button when they explicitly navigate to it.
 async function spEnsureCustomerToken(onReady) {
     if (spCustomerToken()) return true;
 
@@ -75,13 +78,18 @@ async function spEnsureCustomerToken(onReady) {
     if (!user || !user.email) return false;          // guest — nothing to prove
 
     // --- Native App flow ---
+    // Try SocialLogin.login() at most ONCE per app session to get a token.
+    // After the first attempt (success or failure), skip silently.
     if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+        if (sessionStorage.getItem('sp_native_token_tried')) {
+            return false;  // Already tried this session — don't show picker again
+        }
+        sessionStorage.setItem('sp_native_token_tried', '1');
         try {
             const { SocialLogin } = window.Capacitor.Plugins;
             if (SocialLogin) {
                 await SocialLogin.initialize({ google: { webClientId: SP_GOOGLE_CLIENT_ID } });
                 const result = await SocialLogin.login({ provider: 'google', options: {} });
-                // Try idToken first (requires SHA-1 registration)
                 if (result && result.result && result.result.idToken) {
                     const token = await spExchangeGoogleCredential(result.result.idToken);
                     if (token) {
@@ -89,7 +97,6 @@ async function spEnsureCustomerToken(onReady) {
                         return true;
                     }
                 }
-                // Fallback: use accessToken (works on all Android devices)
                 if (result && result.result && result.result.accessToken) {
                     const token = await spExchangeGoogleCredential(null, result.result.accessToken);
                     if (token) {
@@ -99,15 +106,12 @@ async function spEnsureCustomerToken(onReady) {
                 }
             }
         } catch (e) {
-            console.error('Native auto-login failed', e);
+            console.error('Native token exchange failed', e);
         }
-        
-        // If native token exchange failed, clear user so they have a fresh start
-        localStorage.removeItem('sp_google_user');
         return false;
     }
 
-    // --- Web flow ---
+    // --- Web flow: try silent GSI auto-select (no UI shown) ---
     const loaded = await spLoadGoogleScript();
     if (!loaded) return false;
 
@@ -151,4 +155,51 @@ function spLocalOrders() {
     } catch (err) {
         return [];
     }
+}
+
+// ========== WebView Detection ==========
+// Google Sign-In (GSI/GIS) is blocked in WebViews by Google's policy.
+// Detect WebView so we can use OAuth redirect flow instead.
+function spIsWebView() {
+    var ua = navigator.userAgent || '';
+    // Android WebView markers
+    if (/wv|WebView/.test(ua)) return true;
+    // Android browser without Chrome (older WebViews)
+    if (ua.includes('Android') && !ua.includes('Chrome/')) return true;
+    // Capacitor WebView
+    if (window.Capacitor && window.Capacitor.isNativePlatform &&
+        window.Capacitor.isNativePlatform()) return true;
+    // Facebook/Instagram in-app browsers
+    if (/FBAN|FBAV|Instagram/.test(ua)) return true;
+    return false;
+}
+
+// Check if native SocialLogin Capacitor plugin is available
+function spHasNativeSocialLogin() {
+    try {
+        return !!(window.Capacitor && window.Capacitor.Plugins &&
+                  window.Capacitor.Plugins.SocialLogin);
+    } catch (e) {
+        return false;
+    }
+}
+
+// ========== OAuth Redirect Flow (WebView Fallback) ==========
+// Opens Google OAuth 2.0 implicit grant in the same window.
+// This works in WebViews where GSI is blocked.
+function spStartOAuthRedirect() {
+    // Save current page URL so oauth-callback.html can redirect back
+    // Use localStorage because sessionStorage is lost during cross-origin navigation in WebViews
+    localStorage.setItem('sp_oauth_return', window.location.href);
+
+    var redirectUri = window.location.origin + '/oauth-callback.html';
+    var params = [
+        'client_id=' + encodeURIComponent(SP_GOOGLE_CLIENT_ID),
+        'redirect_uri=' + encodeURIComponent(redirectUri),
+        'response_type=token',
+        'scope=' + encodeURIComponent('openid email profile'),
+        'include_granted_scopes=true',
+        'prompt=select_account'
+    ];
+    window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.join('&');
 }

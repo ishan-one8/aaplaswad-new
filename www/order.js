@@ -290,7 +290,7 @@ const FALLBACK_MENU = {
         extras: {}, extrasLabels: {}
     },
 
-    // ===== Maratha Hotel — Biryani & Rice =====
+    // ===== Hotel Sahyadri — Biryani & Rice =====
     'chicken-biryani': {
         name: 'Chicken Biryani', shortName: 'Chicken Biryani', price: 150, oldPrice: 280,
         discount: '46% OFF', image: 'assets/nonveg/chicken-biryani.jpg', category: 'nonveg',
@@ -340,7 +340,7 @@ const FALLBACK_MENU = {
         extras: {}, extrasLabels: {}
     },
 
-    // ===== Maratha Hotel — Curry & Masala =====
+    // ===== Hotel Sahyadri — Curry & Masala =====
     'chicken-masala': {
         name: 'Chicken Masala', shortName: 'Chicken Masala', price: 160, oldPrice: 300,
         discount: '47% OFF', image: 'assets/nonveg/chicken-masala.jpg', category: 'nonveg',
@@ -384,7 +384,7 @@ const FALLBACK_MENU = {
         extras: {}, extrasLabels: {}
     },
 
-    // ===== Maratha Hotel — Starters =====
+    // ===== Hotel Sahyadri — Starters =====
     'chicken-kantaki': {
         name: 'Chicken Kantaki', shortName: 'Chicken Kantaki', price: 199, oldPrice: 370,
         discount: '46% OFF', image: 'assets/nonveg/chicken-kantaki.jpg', category: 'nonveg',
@@ -401,6 +401,490 @@ const FALLBACK_MENU = {
         name: 'Chicken Chilli', shortName: 'Chicken Chilli', price: 189, oldPrice: 350,
         discount: '46% OFF', image: 'assets/nonveg/chicken-chilli-nv.jpg', category: 'nonveg',
         includes: 'chicken pieces • bell peppers • chilli sauce • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-sukka': {
+        name: 'Chicken Sukka', shortName: 'Chicken Sukka', price: 170, oldPrice: 320,
+        discount: '47% OFF', image: 'assets/nonveg/chicken-sukka.jpg', category: 'nonveg',
+        includes: 'dry chicken • coconut masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-fry': {
+        name: 'Chicken Fry', shortName: 'Chicken Fry', price: 170, oldPrice: 320,
+        discount: '47% OFF', image: 'assets/nonveg/chicken-fry.jpg', category: 'nonveg',
+        includes: 'fried chicken pieces • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fish-kantaki': {
+        name: 'Fish Kantaki', shortName: 'Fish Kantaki', price: 169, oldPrice: 310,
+        discount: '45% OFF', image: 'assets/nonveg/fish-kantaki.jpg', category: 'nonveg',
+        includes: 'crispy fried fish • spice coating • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fish-fry': {
+        name: 'Fish Fry', shortName: 'Fish Fry', price: 170, oldPrice: 320,
+        discount: '47% OFF', image: 'assets/nonveg/fish-fry.jpg', category: 'nonveg',
+        includes: 'pan-fried fish • masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fish-butter-fry': {
+        name: 'Fish Butter Fry', shortName: 'Fish Butter Fry', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/nonveg/fish-butter-fry.jpg', category: 'nonveg',
+        includes: 'butter fried fish • garlic • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-butter-fry': {
+        name: 'Chicken Butter Fry', shortName: 'Chk Butter Fry', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-butter-fry.jpg', category: 'nonveg',
+        includes: 'butter fried chicken • garlic • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-65': {
+        name: 'Chicken 65', shortName: 'Chicken 65', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-65.jpg', category: 'nonveg',
+        includes: 'spicy deep-fried chicken • curry leaves • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-manchurian-nv': {
+        name: 'Chicken Manchurian', shortName: 'Chk Manchurian', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-manchurian-nv.jpg', category: 'nonveg',
+        includes: 'chicken balls • manchurian sauce • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-noodles-nv': {
+        name: 'Chicken Noodles', shortName: 'Chk Noodles', price: 169, oldPrice: 310,
+        discount: '45% OFF', image: 'assets/nonveg/chicken-noodles-nv.jpg', category: 'nonveg',
+        includes: 'stir-fried noodles • chicken • veggies • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-ukkad': {
+        name: 'Chicken Ukkad', shortName: 'Chicken Ukkad', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/nonveg/chicken-ukkad.jpg', category: 'nonveg',
+        includes: 'boiled chicken • spicy broth • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'mutton-ukkad': {
+        name: 'Mutton Ukkad', shortName: 'Mutton Ukkad', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/nonveg/mutton-ukkad.jpg', category: 'nonveg',
+        includes: 'boiled mutton • spicy broth • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'egg-omelet': {
+        name: 'Egg Omelet', shortName: 'Egg Omelet', price: 99, oldPrice: 180,
+        discount: '45% OFF', image: 'assets/nonveg/egg-omelet.jpg', category: 'nonveg',
+        includes: 'fluffy omelet • onion • green chilli • lemon',
+        extras: {}, extrasLabels: {}
+    },
+
+    // ===== Hotel Sahyadri — Paratha =====
+    'aloo-paratha': {
+        name: 'Aloo Paratha', shortName: 'Aloo Paratha', price: 90, oldPrice: 170,
+        discount: '47% OFF', image: 'assets/paratha/aloo-paratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: '1 aloo paratha • curd',
+        extras: {}, extrasLabels: {}
+    },
+    'methi-paratha': {
+        name: 'Fenugreek Paratha', shortName: 'Methi Paratha', price: 100, oldPrice: 190,
+        discount: '47% OFF', image: 'assets/paratha/methi-paratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: '1 methi paratha • curd',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-paratha': {
+        name: 'Paneer Paratha', shortName: 'Paneer Paratha', price: 110, oldPrice: 210,
+        discount: '48% OFF', image: 'assets/paratha/paneer-paratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: '1 paneer paratha • curd',
+        extras: {}, extrasLabels: {}
+    },
+    'tawa-paratha': {
+        name: 'Tawa Paratha', shortName: 'Tawa Paratha', price: 60, oldPrice: 110,
+        discount: '45% OFF', image: 'assets/paratha/tawa-paratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: '1 tawa paratha • curd',
+        extras: {}, extrasLabels: {}
+    },
+    'gobhi-paratha': {
+        name: 'Gobhi Paratha', shortName: 'Gobhi Paratha', price: 110, oldPrice: 210,
+        discount: '48% OFF', image: 'assets/paratha/gobhi-paratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: '1 gobhi paratha • curd',
+        extras: {}, extrasLabels: {}
+    },
+
+    // ===== Hotel Sahyadri — Rice =====
+    'steam-rice': {
+        name: 'Steam Rice', shortName: 'Steam Rice', price: 110, oldPrice: 210,
+        discount: '48% OFF', image: 'assets/rice/steam-rice.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'fluffy steamed basmati rice',
+        extras: {}, extrasLabels: {}
+    },
+    'jira-rice': {
+        name: 'Jira Rice', shortName: 'Jira Rice', price: 120, oldPrice: 220,
+        discount: '45% OFF', image: 'assets/rice/jira-rice.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'cumin tempered basmati rice • coriander',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-pulav': {
+        name: 'Veg Pulav', shortName: 'Veg Pulav', price: 140, oldPrice: 260,
+        discount: '46% OFF', image: 'assets/rice/veg-pulav.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'basmati rice • mixed vegetables • spices',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-biryani': {
+        name: 'Veg Biryani', shortName: 'Veg Biryani', price: 140, oldPrice: 260,
+        discount: '46% OFF', image: 'assets/rice/veg-biryani.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'layered saffron rice • mixed vegetables • raita',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-khichdi': {
+        name: 'Dal Khichdi', shortName: 'Dal Khichdi', price: 140, oldPrice: 260,
+        discount: '46% OFF', image: 'assets/rice/dal-khichdi.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'lentil rice • ghee • coriander',
+        extras: {}, extrasLabels: {}
+    },
+    'fry-rice-sahyadri': {
+        name: 'Fry Rice', shortName: 'Fry Rice', price: 140, oldPrice: 260,
+        discount: '46% OFF', image: 'assets/rice/fry-rice.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'fried rice • mixed vegetables • spring onion',
+        extras: {}, extrasLabels: {}
+    },
+    'lasan-jira-rice': {
+        name: 'Lasan Jira Rice', shortName: 'Lasan Jira Rice', price: 130, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/rice/lasan-jira-rice.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'garlic cumin rice • fried garlic • coriander',
+        extras: {}, extrasLabels: {}
+    },
+
+    // ===== Hotel Sahyadri — Veg Curry =====
+    'paneer-kadhai': {
+        name: 'Paneer Kadhai', shortName: 'Paneer Kadhai', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/vegcurry/paneer-kadhai.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer kadhai • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-tikka-masala-sahyadri': {
+        name: 'Paneer Tikka Masala', shortName: 'Paneer Tikka Masala', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/vegcurry/paneer-tikka-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer tikka masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-masala-sahyadri': {
+        name: 'Paneer Masala', shortName: 'Paneer Masala', price: 169, oldPrice: 310,
+        discount: '45% OFF', image: 'assets/vegcurry/paneer-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-butter-masala-sahyadri': {
+        name: 'Paneer Butter Masala', shortName: 'Paneer Butter Masala', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/vegcurry/paneer-butter-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer butter masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'kaju-paneer-masala': {
+        name: 'Kaju Paneer Masala', shortName: 'Kaju Paneer Masala', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/vegcurry/kaju-paneer-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'kaju paneer masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'kaju-kari': {
+        name: 'Kaju Kari', shortName: 'Kaju Kari', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/vegcurry/kaju-kari.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'kaju kari • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-mirch-masala': {
+        name: 'Paneer Mirch Masala', shortName: 'Paneer Mirch Masala', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/vegcurry/paneer-mirch-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer mirch masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-bhurji-sahyadri': {
+        name: 'Paneer Bhurji', shortName: 'Paneer Bhurji', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/vegcurry/paneer-bhurji.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'paneer bhurji • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'matar-paneer': {
+        name: 'Matar Paneer', shortName: 'Matar Paneer', price: 179, oldPrice: 330,
+        discount: '46% OFF', image: 'assets/vegcurry/matar-paneer.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'matar paneer • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'palak-paneer-sahyadri': {
+        name: 'Palak Paneer', shortName: 'Palak Paneer', price: 179, oldPrice: 330,
+        discount: '46% OFF', image: 'assets/vegcurry/palak-paneer.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'palak paneer • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'lasun-palak': {
+        name: 'Lasun Palak', shortName: 'Lasun Palak', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/lasun-palak.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'lasun palak • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dudh-shev-bhaji': {
+        name: 'Dudh Shev Bhaji', shortName: 'Dudh Shev Bhaji', price: 179, oldPrice: 330,
+        discount: '46% OFF', image: 'assets/vegcurry/dudh-shev-bhaji.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dudh shev bhaji • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fenugreek-kofta': {
+        name: 'Fenugreek Kofta', shortName: 'Fenugreek Kofta', price: 179, oldPrice: 330,
+        discount: '46% OFF', image: 'assets/vegcurry/fenugreek-kofta.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'fenugreek kofta • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-methi': {
+        name: 'Dal Methi', shortName: 'Dal Methi', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/dal-methi.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dal methi • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-shevga': {
+        name: 'Dal Shevga', shortName: 'Dal Shevga', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/dal-shevga.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dal shevga • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'mushroom-masala': {
+        name: 'Mushroom Masala', shortName: 'Mushroom Masala', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/vegcurry/mushroom-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'mushroom masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'baigan-masala': {
+        name: 'Baigan Masala', shortName: 'Baigan Masala', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/baigan-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'baigan masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'aalu-mater': {
+        name: 'Aalu Mater', shortName: 'Aalu Mater', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/aalu-mater.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'aalu mater • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'baigan-bharta': {
+        name: 'Baigan Bharta', shortName: 'Baigan Bharta', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/baigan-bharta.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'baigan bharta • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'baigan-fry': {
+        name: 'Baigan Fry', shortName: 'Baigan Fry', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/baigan-fry.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'baigan fry • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'shevga-masala': {
+        name: 'Shevga Masala', shortName: 'Shevga Masala', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/shevga-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'shevga masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'plain-palak': {
+        name: 'Plain Palak', shortName: 'Plain Palak', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/plain-palak.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'plain palak • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'mix-veg': {
+        name: 'Mix Veg', shortName: 'Mix Veg', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/mix-veg.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'mix veg • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'shev-bhaji': {
+        name: 'Shev Bhaji', shortName: 'Shev Bhaji', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/shev-bhaji.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'shev bhaji • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'matki-masala': {
+        name: 'Matki Masala', shortName: 'Matki Masala', price: 90, oldPrice: 170,
+        discount: '47% OFF', image: 'assets/vegcurry/matki-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'matki masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'bhendi-masala': {
+        name: 'Bhendi Masala', shortName: 'Bhendi Masala', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/bhendi-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'bhendi masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'bhendi-fry': {
+        name: 'Bhendi Fry', shortName: 'Bhendi Fry', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/bhendi-fry.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'bhendi fry • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'methi-masala': {
+        name: 'Methi Masala', shortName: 'Methi Masala', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/methi-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'methi masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'lasun-methi': {
+        name: 'Lasun Methi', shortName: 'Lasun Methi', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/lasun-methi.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'lasun methi • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'rassa-fry': {
+        name: 'Rassa Fry', shortName: 'Rassa Fry', price: 99, oldPrice: 190,
+        discount: '48% OFF', image: 'assets/vegcurry/rassa-fry.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'rassa fry • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'pitthal': {
+        name: 'Pitthal', shortName: 'Pitthal', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/pitthal.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'pitthal • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chana-masala': {
+        name: 'Chana Masala', shortName: 'Chana Masala', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/chana-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'chana masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'soyabeen-masala': {
+        name: 'Soyabeen Masala', shortName: 'Soyabeen Masala', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/soyabeen-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'soyabeen masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'soyabeen-fry': {
+        name: 'Soyabeen Fry', shortName: 'Soyabeen Fry', price: 139, oldPrice: 260,
+        discount: '47% OFF', image: 'assets/vegcurry/soyabeen-fry.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'soyabeen fry • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-kadhai': {
+        name: 'Veg Kadhai', shortName: 'Veg Kadhai', price: 169, oldPrice: 310,
+        discount: '45% OFF', image: 'assets/vegcurry/veg-kadhai.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'veg kadhai • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-kolhapuri': {
+        name: 'Dal Kolhapuri', shortName: 'Dal Kolhapuri', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/dal-kolhapuri.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dal kolhapuri • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-tadka': {
+        name: 'Dal Tadka', shortName: 'Dal Tadka', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/dal-tadka.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dal tadka • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'dal-fry': {
+        name: 'Dal Fry', shortName: 'Dal Fry', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/dal-fry.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'dal fry • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'jira-dal': {
+        name: 'Jira Dal', shortName: 'Jira Dal', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/jira-dal.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'jira dal • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'tomato-chatni': {
+        name: 'Tomato Chatni', shortName: 'Tomato Chatni', price: 124, oldPrice: 230,
+        discount: '46% OFF', image: 'assets/vegcurry/tomato-chatni.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'tomato chatni • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'tomato-masala': {
+        name: 'Tomato Masala', shortName: 'Tomato Masala', price: 129, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/vegcurry/tomato-masala.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'tomato masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'aalu-gaebi': {
+        name: 'Aalu Gaebi', shortName: 'Aalu Gaebi', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/aalu-gaebi.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'aalu gaebi • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-kolhapuri': {
+        name: 'Veg Kolhapuri', shortName: 'Veg Kolhapuri', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/veg-kolhapuri.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'veg kolhapuri • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'aalu-methi': {
+        name: 'Aalu Methi', shortName: 'Aalu Methi', price: 149, oldPrice: 280,
+        discount: '47% OFF', image: 'assets/vegcurry/aalu-methi.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'aalu methi • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'shev-tomato': {
+        name: 'Shev Tomato', shortName: 'Shev Tomato', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/shev-tomato.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'shev tomato • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-maratha': {
+        name: 'Veg Maratha', shortName: 'Veg Maratha', price: 159, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/vegcurry/veg-maratha.jpg', category: 'veg',
+        hotel: 'Hotel Sahyadri',
+        includes: 'veg maratha • onion • lemon',
         extras: {}, extrasLabels: {}
     }
 };
@@ -920,15 +1404,15 @@ function renderFullMenu(container) {
     const hotels = {};
     Object.keys(MENU).forEach(key => {
         const item = MENU[key];
-        const hotel = item.hotel || (item.category === 'nonveg' ? 'Maratha Hotel' : 'Aapla Swad Hotel');
+        const hotel = item.hotel || (item.category === 'nonveg' ? 'Hotel Sahyadri' : 'Aapla Swad Hotel');
         if (!hotels[hotel]) hotels[hotel] = { veg: [], nonveg: [] };
         if (item.category === 'nonveg') hotels[hotel].nonveg.push(key);
         else hotels[hotel].veg.push(key);
     });
 
     // Define hotel display order and styling
-    const hotelOrder = ['Aapla Swad Hotel', 'Shriyan Chinese', 'Mauli Veg Rol', 'Maratha Hotel'];
-    const hotelIcons = { 'Aapla Swad Hotel': 'home', 'Shriyan Chinese': 'takeout', 'Mauli Veg Rol': 'wrap', 'Maratha Hotel': 'flame' };
+    const hotelOrder = ['Aapla Swad Hotel', 'Shriyan Chinese', 'Mauli Veg Rol', 'Hotel Sahyadri'];
+    const hotelIcons = { 'Aapla Swad Hotel': 'home', 'Shriyan Chinese': 'takeout', 'Mauli Veg Rol': 'wrap', 'Hotel Sahyadri': 'flame' };
 
     hotelOrder.forEach(hotelName => {
         const hotelData = hotels[hotelName];

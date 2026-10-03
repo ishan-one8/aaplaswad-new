@@ -23,6 +23,22 @@
         },
         {
           "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saiprasad.dalbati",
+            "certificate_hash": "98d3c236cbb77a0e298ed0e61b17dce401087ac8"
+          }
+        },
+        {
+          "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.saiprasad.dalbati",
+            "certificate_hash": "b31b4f9bc1c2ec2f0dec59029a2aa9baa06ec10a"
+          }
+        },
+        {
+          "client_id": "861754401920-c1gc6di0ne4cfurikkbnj3tv2obb8fu4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

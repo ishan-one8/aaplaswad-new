@@ -18,10 +18,54 @@ public class MainActivity extends BridgeActivity {
     private static final int LOCATION_PERMISSION_REQUEST = 1001;
     private String pendingGeolocationOrigin;
     private GeolocationPermissions.Callback pendingGeolocationCallback;
+    private String pendingOAuthData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handleDeepLink(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleDeepLink(intent);
+    }
+
+    private void handleDeepLink(Intent intent) {
+        if (intent == null || intent.getData() == null) return;
+        Uri uri = intent.getData();
+        String scheme = uri.getScheme();
+        String data = null;
+
+        // Custom scheme: saiprasad://login?data=<base64>
+        if ("saiprasad".equals(scheme)) {
+            data = uri.getQueryParameter("data");
+        }
+        // HTTPS deep link: https://aaplaswad.store/profile.html#sp_oauth=<base64>
+        else if ("https".equals(scheme) && uri.toString().contains("sp_oauth=")) {
+            String fragment = uri.getFragment();
+            if (fragment != null && fragment.startsWith("sp_oauth=")) {
+                data = fragment.substring("sp_oauth=".length());
+            }
+        }
+
+        if (data != null && !data.isEmpty()) {
+            pendingOAuthData = data;
+            // Inject the OAuth data into the WebView after it loads
+            final String oauthData = data;
+            this.bridge.getWebView().post(() -> {
+                String js = "try { " +
+                    "var d = decodeURIComponent(escape(atob('" + oauthData + "')));" +
+                    "var u = JSON.parse(d);" +
+                    "if(u && u.email) {" +
+                    "  localStorage.setItem('sp_google_user', JSON.stringify(u));" +
+                    "  window.location.reload();" +
+                    "}" +
+                    "} catch(e) { console.error('OAuth inject error', e); }";
+                bridge.getWebView().evaluateJavascript(js, null);
+            });
+        }
     }
 
     @Override
