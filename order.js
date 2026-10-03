@@ -288,6 +288,120 @@ const FALLBACK_MENU = {
         hotel: 'Mauli Veg Rol',
         includes: '2 rolls • paneer + noodles mix filling • chutney',
         extras: {}, extrasLabels: {}
+    },
+
+    // ===== Maratha Hotel — Biryani & Rice =====
+    'chicken-biryani': {
+        name: 'Chicken Biryani', shortName: 'Chicken Biryani', price: 150, oldPrice: 280,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-biryani.jpg', category: 'nonveg',
+        includes: 'aromatic rice • chicken • fried onions • mint • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'egg-biryani': {
+        name: 'Egg Biryani', shortName: 'Egg Biryani', price: 150, oldPrice: 270,
+        discount: '44% OFF', image: 'assets/nonveg/egg-biryani.jpg', category: 'nonveg',
+        includes: 'aromatic rice • boiled eggs • fried onions • mint • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-rice': {
+        name: 'Chicken Rice', shortName: 'Chicken Rice', price: 170, oldPrice: 300,
+        discount: '43% OFF', image: 'assets/nonveg/chicken-rice.jpg', category: 'nonveg',
+        includes: 'rice • chicken pieces • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'mutton-biryani': {
+        name: 'Mutton Biryani', shortName: 'Mutton Biryani', price: 220, oldPrice: 400,
+        discount: '45% OFF', image: 'assets/nonveg/mutton-biryani.jpg', category: 'nonveg',
+        includes: 'aromatic rice • mutton on bone • saffron • fried onions • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fish-biryani': {
+        name: 'Fish Biryani', shortName: 'Fish Biryani', price: 200, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/nonveg/fish-biryani.jpg', category: 'nonveg',
+        includes: 'aromatic rice • fish pieces • curry leaves • fried onions • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-schezwan-rice': {
+        name: 'Chicken Schezwan Rice', shortName: 'Chk Schezwan Rice', price: 180, oldPrice: 320,
+        discount: '44% OFF', image: 'assets/nonveg/chicken-schezwan-rice.jpg', category: 'nonveg',
+        includes: 'fried rice • chicken • schezwan sauce • bell peppers • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-tpal-rice': {
+        name: 'Chicken T-Pal Rice', shortName: 'Chk T-Pal Rice', price: 220, oldPrice: 400,
+        discount: '45% OFF', image: 'assets/nonveg/chicken-tpal-rice.jpg', category: 'nonveg',
+        includes: 'triple rice combo • chicken • mixed rice • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'egg-rice': {
+        name: 'Egg Rice', shortName: 'Egg Rice', price: 150, oldPrice: 270,
+        discount: '44% OFF', image: 'assets/nonveg/egg-rice.jpg', category: 'nonveg',
+        includes: 'fried rice • scrambled egg • vegetables • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+
+    // ===== Maratha Hotel — Curry & Masala =====
+    'chicken-masala': {
+        name: 'Chicken Masala', shortName: 'Chicken Masala', price: 160, oldPrice: 300,
+        discount: '47% OFF', image: 'assets/nonveg/chicken-masala.jpg', category: 'nonveg',
+        includes: 'chicken pieces • spicy masala gravy • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'butter-chicken': {
+        name: 'Butter Chicken', shortName: 'Butter Chicken', price: 180, oldPrice: 350,
+        discount: '49% OFF', image: 'assets/nonveg/butter-chicken.jpg', category: 'nonveg',
+        includes: 'chicken tikka • creamy tomato butter gravy • cream • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'fish-curry': {
+        name: 'Fish Curry', shortName: 'Fish Curry', price: 170, oldPrice: 320,
+        discount: '47% OFF', image: 'assets/nonveg/fish-curry.jpg', category: 'nonveg',
+        includes: 'fish pieces • spicy curry gravy • curry leaves • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'egg-curry': {
+        name: 'Egg Curry', shortName: 'Egg Curry', price: 140, oldPrice: 250,
+        discount: '44% OFF', image: 'assets/nonveg/egg-curry.jpg', category: 'nonveg',
+        includes: 'boiled eggs • onion tomato gravy • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'egg-masala': {
+        name: 'Egg Masala', shortName: 'Egg Masala', price: 150, oldPrice: 270,
+        discount: '44% OFF', image: 'assets/nonveg/egg-masala.jpg', category: 'nonveg',
+        includes: 'eggs • thick spicy masala gravy • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'anda-bhurji': {
+        name: 'Anda Bhurji', shortName: 'Anda Bhurji', price: 109, oldPrice: 200,
+        discount: '46% OFF', image: 'assets/nonveg/anda-bhurji.jpg', category: 'nonveg',
+        includes: 'scrambled eggs • onion • tomato • green chili • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'boil-keema-masala': {
+        name: 'Boil Keema Masala', shortName: 'Keema Masala', price: 130, oldPrice: 240,
+        discount: '46% OFF', image: 'assets/nonveg/boil-keema-masala.jpg', category: 'nonveg',
+        includes: 'minced meat • spicy masala • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+
+    // ===== Maratha Hotel — Starters =====
+    'chicken-kantaki': {
+        name: 'Chicken Kantaki', shortName: 'Chicken Kantaki', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-kantaki.jpg', category: 'nonveg',
+        includes: 'crispy fried chicken • spices • crunchy coating • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-tikka': {
+        name: 'Chicken Tikka', shortName: 'Chicken Tikka', price: 199, oldPrice: 370,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-tikka.jpg', category: 'nonveg',
+        includes: 'tandoori chicken pieces • yogurt marinade • spices • onion • lemon',
+        extras: {}, extrasLabels: {}
+    },
+    'chicken-chilli-nv': {
+        name: 'Chicken Chilli', shortName: 'Chicken Chilli', price: 189, oldPrice: 350,
+        discount: '46% OFF', image: 'assets/nonveg/chicken-chilli-nv.jpg', category: 'nonveg',
+        includes: 'chicken pieces • bell peppers • chilli sauce • onion • lemon',
+        extras: {}, extrasLabels: {}
     }
 };
 
