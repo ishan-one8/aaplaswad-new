@@ -893,6 +893,195 @@ const FALLBACK_MENU = {
         hotel: 'Indiano Food Junction',
         includes: '2 piece malai burger • creamy sauce',
         extras: {}, extrasLabels: {}
+    },
+    'cheese-burger': {
+        name: 'Cheese Burger (2 Pcs)', shortName: 'Cheese Burger', price: 170, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/burger/cheese-burger.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece cheese burger • melted cheese',
+        extras: {}, extrasLabels: {}
+    },
+    'chiji-burger': {
+        name: 'Chiji Burger (2 Pcs)', shortName: 'Chiji Burger', price: 180, oldPrice: 360,
+        discount: '50% OFF', image: 'assets/burger/chiji-burger.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece chiji burger • spicy & cheesy',
+        extras: {}, extrasLabels: {}
+    },
+    'kfc-crunchy-burger': {
+        name: 'KFC Style Crunchy (2 Pcs)', shortName: 'KFC Crunchy', price: 199, oldPrice: 400,
+        discount: '50% OFF', image: 'assets/burger/kfc-crunchy-burger.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece KFC style crunchy burger',
+        extras: {}, extrasLabels: {}
+    },
+    'chij-sandwich': {
+        name: 'Chij Sandwich (2 Pcs)', shortName: 'Chij Sandwich', price: 139, oldPrice: 280,
+        discount: '50% OFF', image: 'assets/sandwich/chij-sandwich.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece chij cheese sandwich',
+        extras: {}, extrasLabels: {}
+    },
+    'chij-corn-sandwich': {
+        name: 'Chij Corn Sandwich (2 Pcs)', shortName: 'Chij Corn Sandwich', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/sandwich/chij-corn-sandwich.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece chij corn sandwich • cheese & corn',
+        extras: {}, extrasLabels: {}
+    },
+    'chocolate-sandwich': {
+        name: 'Chocolate Sandwich (2 Pcs)', shortName: 'Chocolate Sandwich', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/sandwich/chocolate-sandwich.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece chocolate sandwich • melted chocolate',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-tikka-sandwich': {
+        name: 'Paneer Tikka Sandwich (2 Pcs)', shortName: 'Paneer Tikka Sandwich', price: 179, oldPrice: 360,
+        discount: '50% OFF', image: 'assets/sandwich/paneer-tikka-sandwich.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece paneer tikka sandwich',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-steam-momos': {
+        name: 'Mix Veg Steam Momos', shortName: 'Steam Momos', price: 119, oldPrice: 240,
+        discount: '50% OFF', image: 'assets/momos/veg-steam-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'steamed mix veg momos • red chutney',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-fry-momos': {
+        name: 'Veg Fry Momos', shortName: 'Fry Momos', price: 139, oldPrice: 280,
+        discount: '50% OFF', image: 'assets/momos/veg-fry-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'crispy fried veg momos • red chutney',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-peri-peri-momos': {
+        name: 'Veg Peri Peri Momos', shortName: 'Peri Peri Momos', price: 149, oldPrice: 300,
+        discount: '50% OFF', image: 'assets/momos/veg-peri-peri-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'spicy peri peri coated momos',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-kurkure-momos': {
+        name: 'Veg Kurkure Momos', shortName: 'Kurkure Momos', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/momos/veg-kurkure-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'extra crunchy kurkure coated momos',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-afghani-momos': {
+        name: 'Veg Afghani Momos', shortName: 'Afghani Momos', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/momos/veg-afghani-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'creamy afghani sauce momos',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-makhani-momos': {
+        name: 'Veg Makhani Momos', shortName: 'Makhani Momos', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/momos/veg-makhani-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'butter makhani gravy momos',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-steam-momos': {
+        name: 'Paneer Steam Momos', shortName: 'Paneer Steam', price: 119, oldPrice: 240,
+        discount: '50% OFF', image: 'assets/momos/paneer-steam-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'steamed paneer momos • red chutney',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-fry-momos': {
+        name: 'Paneer Fry Momos', shortName: 'Paneer Fry', price: 139, oldPrice: 280,
+        discount: '50% OFF', image: 'assets/momos/paneer-fry-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'crispy fried paneer momos',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-peri-peri-momos': {
+        name: 'Paneer Peri Peri Momos', shortName: 'Paneer Peri Peri', price: 149, oldPrice: 300,
+        discount: '50% OFF', image: 'assets/momos/paneer-peri-peri-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'spicy peri peri paneer momos',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-kurkure-momos': {
+        name: 'Paneer Kurkure Momos', shortName: 'Paneer Kurkure', price: 159, oldPrice: 320,
+        discount: '50% OFF', image: 'assets/momos/paneer-kurkure-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'crunchy kurkure paneer momos',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-afghani-momos': {
+        name: 'Paneer Afghani Momos', shortName: 'Paneer Afghani', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/momos/paneer-afghani-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'creamy afghani paneer momos',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-makhani-momos': {
+        name: 'Paneer Makhani Momos', shortName: 'Paneer Makhani', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/momos/paneer-makhani-momos.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'butter makhani paneer momos',
+        extras: {}, extrasLabels: {}
+    },
+    'veg-momos-cheese-bowl': {
+        name: 'Mix Veg Momos Cheese Bowl', shortName: 'Veg Cheese Bowl', price: 159, oldPrice: 320,
+        discount: '50% OFF', image: 'assets/momos/veg-momos-cheese-bowl.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'veg momos in melted cheese bowl',
+        extras: {}, extrasLabels: {}
+    },
+    'paneer-momos-cheese-bowl': {
+        name: 'Paneer Momos Cheese Bowl', shortName: 'Paneer Cheese Bowl', price: 159, oldPrice: 320,
+        discount: '50% OFF', image: 'assets/momos/paneer-momos-cheese-bowl.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: 'paneer momos in melted cheese bowl',
+        extras: {}, extrasLabels: {}
+    },
+    'mini-pizza-combo': {
+        name: '2 Mini Pizza', shortName: 'Mini Pizza', price: 139, oldPrice: 280,
+        discount: '50% OFF', image: 'assets/pizza/mini-pizza-combo.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 mini veg pizzas • cheesy',
+        extras: {}, extrasLabels: {}
+    },
+    'mini-corn-pizza': {
+        name: '2 Corn Pizza', shortName: 'Corn Pizza', price: 169, oldPrice: 340,
+        discount: '50% OFF', image: 'assets/pizza/mini-corn-pizza.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 mini corn & cheese pizzas',
+        extras: {}, extrasLabels: {}
+    },
+    'mixveg-malaipaneer-pizza': {
+        name: '1 Mix Veg + 1 Malai Paneer Pizza', shortName: 'Mix Veg + Malai Paneer', price: 179, oldPrice: 360,
+        discount: '50% OFF', image: 'assets/pizza/mixveg-malaipaneer-pizza.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '1 mix veg + 1 malai paneer pizza',
+        extras: {}, extrasLabels: {}
+    },
+    'malai-paneer-pizza': {
+        name: '2 Malai Paneer Pizza', shortName: 'Malai Paneer Pizza', price: 199, oldPrice: 400,
+        discount: '50% OFF', image: 'assets/pizza/malai-paneer-pizza.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 mini malai paneer pizzas',
+        extras: {}, extrasLabels: {}
+    },
+    'tandoor-paneer-pizza': {
+        name: '2 Tandoor Paneer Pizza', shortName: 'Tandoor Paneer Pizza', price: 199, oldPrice: 400,
+        discount: '50% OFF', image: 'assets/pizza/tandoor-paneer-pizza.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 mini tandoori paneer pizzas',
+        extras: {}, extrasLabels: {}
+    },
+    'advance-range-pizza': {
+        name: '2 Advance Range Pizza', shortName: 'Advance Pizza', price: 199, oldPrice: 400,
+        discount: '50% OFF', image: 'assets/pizza/advance-range-pizza.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 large premium loaded pizzas',
+        extras: {}, extrasLabels: {}
     }
 };
 
