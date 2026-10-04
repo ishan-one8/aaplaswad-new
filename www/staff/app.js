@@ -1012,7 +1012,8 @@ function renderMenu() {
                 <div class="pr">${item.available === false ? 'Sold out' : 'Available'}${item.category === 'nonveg' ? ' · non-veg' : ''}</div>
             </div>
             <input class="price" type="number" inputmode="numeric" value="${item.price}"
-                   onchange="savePrice('${key}', this.value)">
+                   id="price-${key}">
+            <button class="save-btn" id="savebtn-${key}" onclick="confirmSavePrice('${key}')">Save</button>
             <label class="toggle">
                 <input type="checkbox" ${item.available !== false ? 'checked' : ''}
                        onchange="saveAvailability('${key}', this.checked)">
@@ -1021,16 +1022,35 @@ function renderMenu() {
         </div>`).join('');
 }
 
+async function confirmSavePrice(key) {
+    const input = $('price-' + key);
+    const newPrice = parseInt(input.value, 10);
+    const oldPrice = state.menu[key].price;
+    if (!isFinite(newPrice) || newPrice < 0) { toast('Enter a valid price', 'err'); return; }
+    if (newPrice === oldPrice) { toast('Price is the same', ''); return; }
+    const name = state.menu[key].name;
+    const ok = confirm(`Change "${name}" price from ₹${oldPrice} to ₹${newPrice}?`);
+    if (!ok) { input.value = oldPrice; return; }
+    await savePrice(key, newPrice);
+}
+
 async function savePrice(key, value) {
     const price = parseInt(value, 10);
     if (!isFinite(price) || price < 0) { toast('Enter a valid price', 'err'); return; }
+    const btn = $('savebtn-' + key);
     try {
+        if (btn) { btn.textContent = '…'; btn.disabled = true; }
         await api('/admin/menu/' + encodeURIComponent(key), {
             method: 'PATCH', body: JSON.stringify({ price })
         });
         state.menu[key].price = price;
+        if (btn) { btn.textContent = '✓ Saved'; btn.classList.add('saved'); }
         toast('Price updated', 'ok');
-    } catch (err) { toast(err.message, 'err'); }
+        setTimeout(() => { if (btn) { btn.textContent = 'Save'; btn.classList.remove('saved'); btn.disabled = false; } }, 2000);
+    } catch (err) {
+        if (btn) { btn.textContent = 'Save'; btn.disabled = false; }
+        toast(err.message, 'err');
+    }
 }
 
 async function saveAvailability(key, available) {
@@ -1356,6 +1376,27 @@ async function loadBroadcasts() {
             </div>`).join('')
         : emptyState('megaphone', 'No offers sent yet');
 
+    // Render scheduled notifications
+    const scheduled = data.scheduled || [];
+    $('scheduledTitle').style.display = scheduled.length ? '' : 'none';
+    $('scheduledList').innerHTML = scheduled.map(s => `
+        <div class="card">
+            <div class="order-top">
+                <span class="order-name">${esc(s.title)}</span>
+                <span class="badge pending">
+                    ${new Date(s.scheduledAt).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                </span>
+            </div>
+            <div class="order-meta">${esc(s.body)}</div>
+            <div class="row" style="margin-top:0.5rem">
+                <span class="label">${esc(s.audienceLabel || s.audience)}</span>
+                <button class="btn btn-sm btn-ghost" style="color:var(--red)" onclick="cancelScheduled('${s.id}')">
+                    <i data-ic="x"></i> Cancel
+                </button>
+            </div>
+        </div>
+    `).join('');
+
     updateBroadcastPreview();
 }
 
@@ -1389,6 +1430,49 @@ async function sendBroadcast() {
         toast(`Sent to ${result.delivered} ${result.delivered === 1 ? 'phone' : 'phones'}`, 'ok');
         $('bc-title').value = '';
         $('bc-body').value = '';
+        loadBroadcasts();
+    } catch (err) { toast(err.message, 'err'); }
+}
+
+async function scheduleBroadcast() {
+    const title = $('bc-title').value.trim();
+    const message = $('bc-body').value.trim();
+    const audience = $('bc-audience').value;
+    const scheduledAt = $('bc-schedule-time').value;
+
+    if (!title || !message) { toast('Add a title and a message', 'err'); return; }
+    if (!scheduledAt) { toast('Pick a date and time first', 'err'); return; }
+
+    const localDate = new Date(scheduledAt);
+    if (localDate.getTime() < Date.now()) { toast('Time must be in the future', 'err'); return; }
+
+    const audienceLabel = $('bc-audience').selectedOptions[0].textContent.trim();
+    const timeStr = localDate.toLocaleString('en-IN', {
+        day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+    });
+    if (!confirm(`Schedule "${title}" for ${timeStr}?\nAudience: ${audienceLabel}`)) return;
+
+    try {
+        await api('/admin/broadcast/schedule', {
+            method: 'POST',
+            body: JSON.stringify({
+                title, body: message, audience,
+                scheduledAt: localDate.toISOString()
+            })
+        });
+        toast('Notification scheduled ✓', 'ok');
+        $('bc-title').value = '';
+        $('bc-body').value = '';
+        $('bc-schedule-time').value = '';
+        loadBroadcasts();
+    } catch (err) { toast(err.message, 'err'); }
+}
+
+async function cancelScheduled(id) {
+    if (!confirm('Cancel this scheduled notification?')) return;
+    try {
+        await api('/admin/broadcast/schedule?id=' + id, { method: 'DELETE' });
+        toast('Cancelled', 'ok');
         loadBroadcasts();
     } catch (err) { toast(err.message, 'err'); }
 }

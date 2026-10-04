@@ -445,6 +445,16 @@ a.btn { text-decoration: none; }
 .menu-item.out .pr::before { background: var(--red); }
 .menu-item.out .pr { color: var(--red); }
 
+.save-btn {
+    height: 36px; padding: 0 14px; font-size: 0.75rem; font-weight: 700;
+    border: 1px solid var(--accent); border-radius: var(--r-sm);
+    background: var(--accent); color: #fff; cursor: pointer;
+    transition: all 0.2s; white-space: nowrap; flex-shrink: 0;
+}
+.save-btn:hover { background: #e05a10; }
+.save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.save-btn.saved { background: var(--green); border-color: var(--green); }
+
 /* ══════════ Toggle ══════════ */
 .toggle { position: relative; width: 40px; height: 23px; flex-shrink: 0; }
 .toggle input { position: absolute; opacity: 0; width: 0; height: 0; }

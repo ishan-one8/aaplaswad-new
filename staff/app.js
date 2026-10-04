@@ -1012,7 +1012,8 @@ function renderMenu() {
                 <div class="pr">${item.available === false ? 'Sold out' : 'Available'}${item.category === 'nonveg' ? ' · non-veg' : ''}</div>
             </div>
             <input class="price" type="number" inputmode="numeric" value="${item.price}"
-                   onchange="savePrice('${key}', this.value)">
+                   id="price-${key}">
+            <button class="save-btn" id="savebtn-${key}" onclick="confirmSavePrice('${key}')">Save</button>
             <label class="toggle">
                 <input type="checkbox" ${item.available !== false ? 'checked' : ''}
                        onchange="saveAvailability('${key}', this.checked)">
@@ -1021,16 +1022,35 @@ function renderMenu() {
         </div>`).join('');
 }
 
+async function confirmSavePrice(key) {
+    const input = $('price-' + key);
+    const newPrice = parseInt(input.value, 10);
+    const oldPrice = state.menu[key].price;
+    if (!isFinite(newPrice) || newPrice < 0) { toast('Enter a valid price', 'err'); return; }
+    if (newPrice === oldPrice) { toast('Price is the same', ''); return; }
+    const name = state.menu[key].name;
+    const ok = confirm(`Change "${name}" price from ₹${oldPrice} to ₹${newPrice}?`);
+    if (!ok) { input.value = oldPrice; return; }
+    await savePrice(key, newPrice);
+}
+
 async function savePrice(key, value) {
     const price = parseInt(value, 10);
     if (!isFinite(price) || price < 0) { toast('Enter a valid price', 'err'); return; }
+    const btn = $('savebtn-' + key);
     try {
+        if (btn) { btn.textContent = '…'; btn.disabled = true; }
         await api('/admin/menu/' + encodeURIComponent(key), {
             method: 'PATCH', body: JSON.stringify({ price })
         });
         state.menu[key].price = price;
+        if (btn) { btn.textContent = '✓ Saved'; btn.classList.add('saved'); }
         toast('Price updated', 'ok');
-    } catch (err) { toast(err.message, 'err'); }
+        setTimeout(() => { if (btn) { btn.textContent = 'Save'; btn.classList.remove('saved'); btn.disabled = false; } }, 2000);
+    } catch (err) {
+        if (btn) { btn.textContent = 'Save'; btn.disabled = false; }
+        toast(err.message, 'err');
+    }
 }
 
 async function saveAvailability(key, available) {
