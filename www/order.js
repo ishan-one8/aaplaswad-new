@@ -886,6 +886,13 @@ const FALLBACK_MENU = {
         hotel: 'Hotel Sahyadri',
         includes: 'veg maratha • onion • lemon',
         extras: {}, extrasLabels: {}
+    },
+    'malai-burger': {
+        name: 'Malai Burger (2 Pcs)', shortName: 'Malai Burger', price: 139, oldPrice: 280,
+        discount: '50% OFF', image: 'assets/burger/malai-burger.jpg', category: 'veg',
+        hotel: 'Indiano Food Junction',
+        includes: '2 piece malai burger • creamy sauce',
+        extras: {}, extrasLabels: {}
     }
 };
 
