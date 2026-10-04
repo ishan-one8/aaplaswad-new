@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signing in…</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #111; color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+        }
+        .card {
+            text-align: center; padding: 2rem;
+            background: #1a1a1a; border-radius: 20px;
+            border: 1px solid #333; max-width: 340px; width: 90%;
+        }
+        .spinner {
+            width: 40px; height: 40px; margin: 0 auto 1rem;
+            border: 3px solid #333; border-top-color: #f59e0b;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        p { font-size: 0.8rem; color: #999; }
+        .err { color: #ef4444; margin-top: 1rem; font-size: 0.8rem; display: none; }
+        .success-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .return-btn {
+            display: inline-block; margin-top: 1.2rem; padding: 14px 32px;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: #fff; font-size: 1rem; font-weight: 700;
+            border: none; border-radius: 14px; cursor: pointer;
+            text-decoration: none; font-family: inherit;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+        .hint { font-size: 0.72rem; color: #666; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="spinner" id="spin"></div>
+        <h2 id="msg">Signing you in…</h2>
+        <p id="sub">Please wait a moment</p>
+        <p class="err" id="err"></p>
+    </div>
+
+    <script>
+    (function() {
+        var AUTH_API = 'https://f37z1y2xbg.execute-api.ap-south-1.amazonaws.com';
+
+        function showError(text) {
+            document.getElementById('spin').style.display = 'none';
+            document.getElementById('msg').textContent = 'Sign-in failed';
+            var el = document.getElementById('err');
+            el.textContent = text;
+            el.style.display = 'block';
+            setTimeout(function() { returnToApp(null); }, 3000);
+        }
+
+        function returnToApp(user) {
+            var data = '';
+            if (user) {
+                data = btoa(unescape(encodeURIComponent(JSON.stringify(user))));
+            }
+
+            // Try 1: window.close() (works if opened as popup)
+            try { window.close(); } catch(e) {}
+
+            // Try 2: Custom scheme to open the app directly (Android)
+            var ua = navigator.userAgent || '';
+            if (ua.includes('Android')) {
+                // Custom scheme guaranteed to open the app
+                var appUrl = 'saiprasad://login?data=' + encodeURIComponent(data);
+                window.location.href = appUrl;
+                // Fallback: if custom scheme fails after 2 seconds, redirect to website
+                setTimeout(function() {
+                    window.location.replace(window.location.origin + '/profile.html#sp_oauth=' + data);
+                }, 2000);
+                return;
+            }
+
+            // Try 3: Direct redirect (works in WebView or regular browser)
+            window.location.replace(window.location.origin + '/profile.html#sp_oauth=' + data);
+        }
+
+        function showSuccess(user) {
+            var card = document.querySelector('.card');
+            card.innerHTML =
+                '<div class="success-icon">✅</div>' +
+                '<h2>Welcome, ' + (user.name || 'User') + '!</h2>' +
+                '<p style="margin-bottom:0.5rem">Signed in successfully</p>' +
+                '<a class="return-btn" id="returnBtn" href="#">Open App →</a>' +
+                '<p class="hint">If the app doesn\'t open, press the back button</p>';
+
+            document.getElementById('returnBtn').onclick = function(e) {
+                e.preventDefault();
+                returnToApp(user);
+            };
+
+            // Auto-return after 1.5 seconds
+            setTimeout(function() { returnToApp(user); }, 1500);
+        }
+
+        // Parse the hash fragment for access_token
+        var params = {};
+        var hash = window.location.hash.substring(1);
+        hash.split('&').forEach(function(pair) {
+            var parts = pair.split('=');
+            if (parts.length === 2) params[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+        });
+
+        var search = new URLSearchParams(window.location.search);
+        if (search.get('error')) {
+            showError(search.get('error_description') || search.get('error'));
+            return;
+        }
+
+        var accessToken = params['access_token'];
+        if (!accessToken) {
+            showError('No access token received. Please try again.');
+            return;
+        }
+
+        // Fetch user profile from Google
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        })
+        .then(function(res) {
+            if (!res.ok) throw new Error('Google API error: ' + res.status);
+            return res.json();
+        })
+        .then(function(profile) {
+            var user = {
+                name: profile.name || 'Customer',
+                email: profile.email || '',
+                picture: profile.picture || 'logo.png',
+                googleId: profile.sub || ''
+            };
+
+            // Store user in localStorage (for this browser context)
+            localStorage.setItem('sp_google_user', JSON.stringify(user));
+
+            // Exchange access token for customer token
+            return fetch(AUTH_API + '/auth/customer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ accessToken: accessToken, platform: 'web' })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data && data.success && data.token) {
+                    localStorage.setItem('sp_customer_token', data.token);
+                }
+            })
+            .catch(function() { /* optional */ })
+            .then(function() {
+                showSuccess(user);
+            });
+        })
+        .catch(function(err) {
+            console.error('OAuth callback error:', err);
+            showError(err.message || 'Something went wrong');
+        });
+    })();
+    </script>
+</body>
+</html>
