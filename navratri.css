@@ -43,32 +43,58 @@ html.nv #aapla-splash::after {
     background: linear-gradient(90deg, #ffd56b, #ff8a3d 50%, #ff4d8d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* ---- Home hero: only the cartoon ---- */
+/* ---- Home hero: the whole video in a small tile, plus a moving offer strip ---- */
 @keyframes nvRise { from { opacity: 0; transform: translateY(14px) scale(.98); } }
 @keyframes nvSpin { to { transform: rotate(360deg); } }
 .nv-hero { margin: 4px 0 16px; animation: nvRise 0.7s cubic-bezier(.2, .8, .2, 1) both; }
 .nv-hero-link {
-    position: relative; isolation: isolate; display: block; height: 128px; overflow: hidden; border-radius: 20px;
-    background: #2a0d33; border: 1px solid rgba(245, 196, 81, 0.3);
-    box-shadow: 0 16px 36px -18px rgba(224, 17, 95, 0.6);
+    position: relative; isolation: isolate; display: flex; align-items: center; gap: 12px; padding: 7px;
+    border-radius: 20px; text-decoration: none; color: #fff; overflow: hidden;
+    background:
+        radial-gradient(90% 140% at 100% 50%, rgba(224, 17, 95, 0.28), transparent 60%),
+        linear-gradient(120deg, #3a0c40, #22091f 70%);
+    border: 1px solid rgba(245, 196, 81, 0.3);
+    box-shadow: 0 14px 32px -18px rgba(224, 17, 95, 0.6);
     transition: transform .2s;
 }
 .nv-hero-link:active { transform: scale(.985); }
 .nv-hero-link:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 3px; }
-/* the same picture, blurred, fills the sides so the video can stay whole in the middle */
-.nv-ambient {
-    position: absolute; inset: -20px; z-index: -1;
-    background: url('navratri-dandiya.jpg') center / cover; filter: blur(18px) saturate(1.2) brightness(.7);
-}
+.nv-hero-media { flex: 0 0 auto; display: block; }
 .nv-hero .nv-frame {
-    height: 100%; aspect-ratio: 16 / 9; margin: 0 auto; overflow: hidden;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+    display: block; height: 92px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px;
+    box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.35), 0 8px 18px -8px rgba(0, 0, 0, .7);
 }
 .nv-video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .nv-art { display: block; width: 100%; height: auto; }
 .nv-mini { width: 18px; height: 18px; flex-shrink: 0; }
-@media (min-width: 720px) { .nv-hero-link { height: 200px; } }
+.nv-hero-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
+.nv-hero-title {
+    font-family: var(--nv-font); font-size: 1.3rem; line-height: 1.02;
+    background: linear-gradient(92deg, #ffe39a 0%, #ffb347 45%, #ff5d8f 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+/* the moving offer strip */
+.nv-ticker {
+    display: block; position: relative; overflow: hidden; height: 26px; border-radius: 999px;
+    background: linear-gradient(135deg, #e0115f, #f15a0a);
+    box-shadow: 0 8px 18px -8px rgba(224, 17, 95, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent);
+}
+.nv-ticker-track { display: inline-flex; height: 100%; align-items: center; white-space: nowrap; animation: nvTicker 9s linear infinite; }
+.nv-tick { display: inline-flex; align-items: center; gap: 5px; padding-left: 10px; font-size: .7rem; font-weight: 600; }
+.nv-tick b { font-weight: 900; }
+.nv-tick i { font-style: normal; color: #ffe39a; margin: 0 2px 0 6px; font-size: .62rem; }
+.nv-tick .nv-mini { width: 14px; height: 14px; }
+@keyframes nvTicker { to { transform: translateX(-50%); } }
+@media (min-width: 720px) {
+    .nv-hero-link { padding: 10px; gap: 22px; }
+    .nv-hero .nv-frame { height: 170px; }
+    .nv-hero-side { max-width: 380px; gap: 14px; }
+    .nv-hero-title { font-size: 2.2rem; }
+    .nv-ticker { height: 34px; }
+    .nv-tick { font-size: .86rem; }
+}
 
 /* Artwork motion. Origins are in the 400×260 drawing's units */
 .nv-art .nv-girl { animation: nvBob 1.6s ease-in-out infinite; }
@@ -206,6 +232,7 @@ body.nv-locked { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nv-hero, .nv-intro *, .nv-toran { animation: none !important; }
+    .nv-hero, .nv-ticker-track, .nv-intro *, .nv-toran { animation: none !important; }
+    .nv-ticker { -webkit-mask-image: none; mask-image: none; }
     .nv-art .nv-spark { opacity: 1; }
 }
