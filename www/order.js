@@ -86,7 +86,7 @@ const FALLBACK_MENU = {
         extrasLabels: { 'ck-bhakar': '2 Extra Bhakari', 'ck-rice': 'Extra Rice', 'ck-chicken': 'Extra Chicken (2 pcs)' }
     },
     'devansh-dal-batti': {
-        name: 'Dal Batti Thali (12 pcs)',
+        name: 'Special Dal Batti Thali (12 pcs)',
         shortName: 'Devansh Dal Batti',
         price: 129,
         oldPrice: 280,
