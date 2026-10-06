@@ -87,6 +87,7 @@
             if (k === 'day') el.textContent = dayLabel();
             else if (k === 'art') el.setAttribute('aria-label', s('art'));
             else if (k === 'close') el.setAttribute('aria-label', s('close'));
+            else if (k === 'heroLabel') el.setAttribute('aria-label', s('title') + ' — ' + s('free') + ' ' + s('first'));
             else el.textContent = s(k);
         });
     }
@@ -352,22 +353,6 @@
             }, { threshold: 0.15 }).observe(v);
         }
     }
-    // Pointer tilt for a bit of depth (desktop); phones get a slow idle float in CSS
-    function tilt(card, target) {
-        if (reduce || !window.matchMedia('(hover: hover)').matches) return;
-        card.addEventListener('pointermove', function (e) {
-            var r = card.getBoundingClientRect();
-            var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-            target.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg');
-            target.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg');
-            card.classList.add('nv-tilting');
-        });
-        card.addEventListener('pointerleave', function () {
-            target.style.setProperty('--ry', '0deg'); target.style.setProperty('--rx', '0deg');
-            card.classList.remove('nv-tilting');
-        });
-    }
-
     function miniStick() {
         // two decorated sticks side by side, so it never reads as a close "X"
         return '<svg viewBox="0 0 24 24" aria-hidden="true" class="nv-mini">' +
@@ -389,33 +374,16 @@
     }
 
     function addHero() {
+        // Only the cartoon: the video on a soft blurred copy of itself, tapping it opens the menu
         var greet = document.querySelector('.greet');
         if (!greet || document.querySelector('.nv-hero')) return;
         var sec = document.createElement('section');
         sec.className = 'nv-hero';
-        sec.innerHTML =
-            '<div class="nv-hero-text">' +
-            '<p class="nv-kicker"><span class="nv-dot"></span><span data-nv="day"></span></p>' +
-            '<h2 class="nv-title" data-nv="title"></h2>' +
-            '<p class="nv-sub" data-nv="heroSub"></p>' +
-            '<a class="nv-offer" href="order.html">' + miniStick() +
-            '<span><b data-nv="free"></b> <span data-nv="first"></span></span>' +
-            '<svg class="nv-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>' +
-            '</div>' +
-            '<div class="nv-stage" role="img" data-nv="art" aria-label=""><div class="nv-frame">' + media() + '</div></div>' +
-            '<div class="nv-petals" aria-hidden="true"></div>';
+        sec.innerHTML = '<a class="nv-hero-link" href="order.html" data-nv="heroLabel" aria-label="">' +
+            '<span class="nv-ambient" aria-hidden="true"></span>' +
+            '<div class="nv-frame">' + media() + '</div></a>';
         greet.parentNode.insertBefore(sec, greet.nextSibling);
         wireVideo(sec.querySelector('.nv-frame'));
-        tilt(sec, sec.querySelector('.nv-frame'));
-        if (!reduce) {
-            var box = sec.querySelector('.nv-petals'), html = '';
-            for (var i = 0; i < 14; i++) {
-                html += '<i style="left:' + (Math.random() * 100).toFixed(1) + '%;--dx:' + (Math.random() * 60 - 30).toFixed(0) +
-                    'px;animation-duration:' + (7 + Math.random() * 6).toFixed(1) + 's;animation-delay:-' + (Math.random() * 12).toFixed(1) +
-                    's;--sz:' + (5 + Math.random() * 5).toFixed(1) + 'px;--c:' + ['#f59e0b', '#f97316', '#fbbf24', '#e0115f'][i % 4] + '"></i>';
-            }
-            box.innerHTML = html;
-        }
         paint(sec);
     }
 
