@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Rozha+One&display=swap');
+/* ============================================
+   AAPLA SWAD — Navratri festival layer
+   Every rule sits under html.nv, which navratri.js adds only while the
+   festival is on. Remove this file and navratri.js to go back.
+   ============================================ */
+
+html.nv {
+    --nv-magenta: #e0115f;
+    --nv-gold: #f5c451;
+    --nv-green: #10b981;
+    --nv-plum: #2b0a2f;
+    --nv-font: 'Rozha One', 'Outfit', Georgia, serif;
+    --nv-toran: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='22' viewBox='0 0 48 22'%3E%3Cpath d='M0 2Q24 16 48 2' fill='none' stroke='%237c4a12'/%3E%3Ccircle cx='5' cy='4.6' r='3.6' fill='%23f59e0b'/%3E%3Ccircle cx='14' cy='7.8' r='3.6' fill='%23f97316'/%3E%3Ccircle cx='24' cy='9' r='3.6' fill='%23fbbf24'/%3E%3Ccircle cx='34' cy='7.8' r='3.6' fill='%23f97316'/%3E%3Ccircle cx='43' cy='4.6' r='3.6' fill='%23f59e0b'/%3E%3Cpath d='M24 12q-3 5 0 9q3-4 0-9z' fill='%2316a34a'/%3E%3C/svg%3E");
+}
+
+/* ---- Festive glow behind every page ---- */
+html.nv body {
+    background-image:
+        radial-gradient(900px 420px at 0% -120px, rgba(224, 17, 95, 0.13), transparent 70%),
+        radial-gradient(760px 380px at 100% -140px, rgba(245, 196, 81, 0.09), transparent 70%);
+    background-attachment: fixed;
+}
+
+/* ---- Marigold toran hanging under each header ---- */
+html.nv .nv-toran {
+    position: absolute; left: 0; right: 0; bottom: -17px; height: 22px; pointer-events: none; z-index: 2;
+    background: var(--nv-toran) repeat-x 0 0 / 48px 22px;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
+    animation: nvSway 5s ease-in-out infinite alternate;
+    transform-origin: top center;
+}
+@keyframes nvSway { from { transform: skewX(-1.2deg); } to { transform: skewX(1.2deg); } }
+
+/* ---- Splash: garland on top, greeting at the bottom ---- */
+html.nv #aapla-splash::before {
+    content: ''; position: absolute; top: env(safe-area-inset-top, 0px); left: 0; right: 0; height: 26px;
+    background: var(--nv-toran) repeat-x 0 0 / 56px 26px;
+}
+html.nv #aapla-splash::after {
+    content: 'Shubh Navratri'; position: absolute; bottom: 14%; left: 0; right: 0; text-align: center;
+    font-family: var(--nv-font); font-size: 1.35rem; letter-spacing: 0.02em;
+    background: linear-gradient(90deg, #ffd56b, #ff8a3d 50%, #ff4d8d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* ---- Home hero: the dandiya pair ---- */
+.nv-hero {
+    position: relative; overflow: hidden; isolation: isolate;
+    margin: 4px 0 18px; border-radius: 24px;
+    background:
+        radial-gradient(120% 90% at 85% 100%, rgba(224, 17, 95, 0.35), transparent 60%),
+        radial-gradient(90% 70% at 0% 0%, rgba(245, 196, 81, 0.16), transparent 60%),
+        linear-gradient(165deg, #3a0c40 0%, #240a26 55%, #150912 100%);
+    border: 1px solid rgba(245, 196, 81, 0.28);
+    box-shadow: 0 18px 44px -18px rgba(224, 17, 95, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    animation: nvRise 0.7s cubic-bezier(.2, .8, .2, 1) both;
+}
+.nv-hero::before {
+    /* faint mandala in the corner */
+    content: ''; position: absolute; z-index: -1; width: 300px; height: 300px; right: -170px; top: -170px; border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg, rgba(245, 196, 81, 0.07) 0 5deg, transparent 5deg 15deg);
+    -webkit-mask: radial-gradient(circle, transparent 38%, #000 39%, #000 64%, transparent 65%);
+    mask: radial-gradient(circle, transparent 38%, #000 39%, #000 64%, transparent 65%);
+    animation: nvSpin 60s linear infinite;
+}
+@keyframes nvRise { from { opacity: 0; transform: translateY(14px) scale(.98); } }
+@keyframes nvSpin { to { transform: rotate(360deg); } }
+
+.nv-hero-text { position: relative; padding: 18px 18px 0; }
+.nv-kicker {
+    display: inline-flex; align-items: center; gap: 7px; margin: 0;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--nv-gold);
+}
+.nv-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--nv-magenta); box-shadow: 0 0 0 3px rgba(224, 17, 95, 0.25); animation: nvPulse 1.8s ease-in-out infinite; }
+@keyframes nvPulse { 50% { box-shadow: 0 0 0 6px rgba(224, 17, 95, 0); } }
+.nv-title {
+    margin: 6px 0 2px; font-family: var(--nv-font); font-weight: 400; font-size: 2.05rem; line-height: 1.05;
+    background: linear-gradient(92deg, #ffe39a 0%, #ffb347 40%, #ff5d8f 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nv-sub { margin: 0; font-size: 0.86rem; color: rgba(255, 237, 213, 0.78); }
+.nv-offer {
+    display: inline-flex; align-items: center; gap: 9px; margin-top: 12px; padding: 9px 12px 9px 10px;
+    border-radius: 14px; text-decoration: none; color: #fff; font-size: 0.82rem;
+    background: linear-gradient(135deg, rgba(224, 17, 95, 0.95), rgba(241, 90, 10, 0.95));
+    box-shadow: 0 10px 22px -8px rgba(224, 17, 95, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform .15s;
+}
+.nv-offer:active { transform: scale(.97); }
+.nv-offer b { font-weight: 900; letter-spacing: 0.01em; }
+.nv-mini { width: 18px; height: 18px; flex-shrink: 0; }
+.nv-chev { width: 16px; height: 16px; opacity: .85; }
+.nv-stage { position: relative; margin-top: 4px; }
+.nv-art { display: block; width: 100%; height: auto; }
+
+@media (min-width: 720px) {
+    .nv-hero { display: grid; grid-template-columns: 1fr 1.15fr; align-items: center; }
+    .nv-hero-text { padding: 26px 0 26px 28px; }
+    .nv-title { font-size: 2.6rem; }
+    .nv-stage { margin: 0; }
+}
+
+/* Falling marigold petals inside the hero */
+.nv-petals { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.nv-petals i {
+    position: absolute; top: -12px; width: var(--sz); height: calc(var(--sz) * 1.4);
+    border-radius: 50% 50% 50% 0; background: var(--c); opacity: .75;
+    animation: nvFall linear infinite;
+}
+@keyframes nvFall { to { transform: translate3d(var(--dx), 420px, 0) rotate(560deg); } }
+
+/* Artwork motion. Origins are in the 360×220 drawing's units */
+.nv-art .nv-girl { animation: nvBob 1.6s ease-in-out infinite; }
+.nv-art .nv-boy { animation: nvBob 1.6s ease-in-out infinite; animation-delay: -0.8s; }
+@keyframes nvBob { 50% { transform: translateY(-3px); } }
+.nv-art .nv-arm, .nv-art .nv-skirt, .nv-art .nv-frill, .nv-art .nv-lamp, .nv-art .nv-dupatta { transform-box: view-box; }
+.nv-art .nv-arm-gf { transform-origin: 135px 90px; animation: nvHitL 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
+.nv-art .nv-arm-bf { transform-origin: 226px 90px; animation: nvHitR 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
+@keyframes nvHitL { 0%, 100% { transform: rotate(-30deg); } 48%, 54% { transform: rotate(0); } }
+@keyframes nvHitR { 0%, 100% { transform: rotate(30deg); } 48%, 54% { transform: rotate(0); } }
+.nv-art .nv-arm-gb { transform-origin: 116px 90px; animation: nvWave 1.6s ease-in-out infinite; }
+.nv-art .nv-arm-bb { transform-origin: 244px 90px; animation: nvWave 1.6s ease-in-out infinite reverse; }
+@keyframes nvWave { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+.nv-art .nv-skirt { transform-origin: 125px 112px; animation: nvTwirl 0.8s ease-in-out infinite alternate; }
+.nv-art .nv-frill { transform-origin: 235px 116px; animation: nvTwirl 0.8s ease-in-out infinite alternate-reverse; }
+@keyframes nvTwirl { from { transform: skewX(-5deg) scaleX(.98); } to { transform: skewX(5deg) scaleX(1.05); } }
+.nv-art .nv-dupatta { transform-origin: 136px 88px; animation: nvFlutter 1.2s ease-in-out infinite alternate; }
+@keyframes nvFlutter { to { transform: rotate(6deg); } }
+.nv-art .nv-lamp { animation: nvLamp 3.2s ease-in-out infinite alternate; }
+.nv-art .nv-lamp-2 { animation-delay: -1.6s; }
+@keyframes nvLamp { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.nv-art .nv-spin { animation: nvSpin 24s linear infinite; }
+.nv-art .nv-twinkle { animation: nvTwinkle 2.4s ease-in-out infinite; }
+@keyframes nvTwinkle { 50% { opacity: .2; } }
+.nv-spark { transform-box: view-box; opacity: 0; animation: nvSpark 1.6s ease-out infinite; }
+@keyframes nvSpark { 0%, 44% { opacity: 0; transform: scale(.3); } 52% { opacity: 1; transform: scale(1.15); } 70%, 100% { opacity: 0; transform: scale(1.4); } }
+
+/* ---- Order page strip ---- */
+.nv-banner {
+    display: flex; align-items: center; gap: 10px; margin: 0 0 14px; padding: 11px 14px;
+    border-radius: 16px; color: #fff; font-size: 0.84rem; font-weight: 700;
+    background: linear-gradient(110deg, rgba(224, 17, 95, 0.22), rgba(241, 90, 10, 0.18) 60%, rgba(245, 196, 81, 0.14));
+    border: 1px solid rgba(245, 196, 81, 0.3);
+}
+.nv-banner-day { margin-left: auto; font-size: 0.7rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--nv-gold); white-space: nowrap; }
+
+/* ---- Intro: FREE dandiya on the first order ---- */
+body.nv-locked { overflow: hidden; }
+.nv-intro {
+    position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center; padding: 24px 18px;
+    background: radial-gradient(120% 80% at 50% 0%, #4a0f4a 0%, #200820 55%, #0c0509 100%);
+    animation: nvFade .45s ease both; overflow-y: auto;
+}
+.nv-intro.out { animation: nvFadeOut .45s ease both; }
+@keyframes nvFade { from { opacity: 0; } }
+@keyframes nvFadeOut { to { opacity: 0; transform: scale(1.03); } }
+.nv-intro-bg { position: absolute; inset: 0; overflow: hidden; }
+.nv-mandala {
+    position: absolute; left: 50%; top: 46%; width: 720px; height: 720px; margin: -360px 0 0 -360px; border-radius: 50%;
+    background:
+        repeating-conic-gradient(from 0deg, rgba(245, 196, 81, 0.10) 0 4deg, transparent 4deg 12deg),
+        radial-gradient(circle, rgba(224, 17, 95, 0.22), transparent 60%);
+    -webkit-mask: radial-gradient(circle, #000 0 14%, transparent 15% 24%, #000 25% 46%, transparent 47% 52%, #000 53% 70%, transparent 71%);
+    mask: radial-gradient(circle, #000 0 14%, transparent 15% 24%, #000 25% 46%, transparent 47% 52%, #000 53% 70%, transparent 71%);
+    animation: nvSpin 80s linear infinite;
+}
+.nv-intro-toran {
+    position: absolute; top: env(safe-area-inset-top, 0px); left: 0; right: 0; height: 30px;
+    background: var(--nv-toran) repeat-x 0 0 / 64px 30px; animation: nvSway 5s ease-in-out infinite alternate; transform-origin: top;
+}
+.nv-x {
+    position: absolute; top: calc(38px + env(safe-area-inset-top, 0px)); right: 16px; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; cursor: pointer; color: #fff;
+    background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.nv-x svg { width: 18px; height: 18px; }
+.nv-intro-card { position: relative; width: 100%; max-width: 380px; text-align: center; color: #fff; }
+.nv-intro-card > * { animation: nvRise .7s cubic-bezier(.2, .8, .2, 1) both; }
+.nv-intro-card > :nth-child(2) { animation-delay: .08s; }
+.nv-intro-card > :nth-child(3) { animation-delay: .16s; }
+.nv-intro-card > :nth-child(4) { animation-delay: .26s; }
+.nv-intro-card > :nth-child(5) { animation-delay: .34s; }
+.nv-intro-card > :nth-child(6) { animation-delay: .42s; }
+.nv-intro-card > :nth-child(7) { animation-delay: .5s; }
+.nv-intro-kicker { margin: 0; font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--nv-gold); }
+.nv-intro-title {
+    margin: 6px 0 0; font-family: var(--nv-font); font-weight: 400; font-size: 2.9rem; line-height: 1.05;
+    background: linear-gradient(92deg, #ffe39a 0%, #ffb347 45%, #ff5d8f 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 6px 22px rgba(224, 17, 95, 0.35));
+}
+.nv-intro-art { width: 210px; margin: 4px auto -6px; }
+.nv-pair { display: block; width: 100%; height: auto; }
+.nv-pair .nv-pa, .nv-pair .nv-pb { transform-box: view-box; }
+.nv-pair .nv-pa { animation: nvPairL 1.4s cubic-bezier(.5, 0, .3, 1) infinite; }
+.nv-pair .nv-pb { animation: nvPairR 1.4s cubic-bezier(.5, 0, .3, 1) infinite; }
+@keyframes nvPairL { 0%, 100% { transform: rotate(-14deg); } 48%, 54% { transform: rotate(0); } }
+@keyframes nvPairR { 0%, 100% { transform: rotate(14deg); } 48%, 54% { transform: rotate(0); } }
+.nv-pair .nv-spark { animation-duration: 1.4s; }
+.nv-pair .nv-burst { transform-box: view-box; transform-origin: 100px 72px; animation: nvSpin 14s linear infinite; }
+.nv-intro-offer {
+    display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 14px 26px; border-radius: 20px;
+    background: linear-gradient(135deg, #e0115f, #f15a0a);
+    box-shadow: 0 16px 40px -12px rgba(224, 17, 95, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.nv-intro-offer b { font-family: var(--nv-font); font-weight: 400; font-size: 2rem; line-height: 1.05; letter-spacing: .01em; }
+.nv-intro-offer span { font-size: .9rem; font-weight: 700; opacity: .95; }
+.nv-intro-fine { margin: 14px auto 0; max-width: 300px; font-size: .78rem; line-height: 1.5; color: rgba(255, 237, 213, 0.72); }
+.nv-intro-cta { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.nv-btn {
+    display: flex; align-items: center; justify-content: center; height: 50px; border-radius: 15px; cursor: pointer;
+    font: inherit; font-size: 1rem; font-weight: 800; text-decoration: none; color: #2b0a2f; border: 0;
+    background: linear-gradient(135deg, #ffe39a, #f5c451 55%, #f59e0b);
+    box-shadow: 0 12px 26px -10px rgba(245, 196, 81, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.nv-btn:active { transform: scale(.98); }
+.nv-btn-ghost { color: #fff; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: none; }
+.nv-btn:focus-visible, .nv-x:focus-visible, .nv-offer:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 3px; }
+.nv-intro-day { margin: 16px 0 0; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(245, 196, 81, 0.75); }
+
+@media (prefers-reduced-motion: reduce) {
+    .nv-hero *, .nv-hero::before, .nv-intro *, .nv-toran { animation: none !important; }
+    .nv-art .nv-spark, .nv-pair .nv-spark { opacity: 1; }
+    .nv-petals { display: none; }
+}
