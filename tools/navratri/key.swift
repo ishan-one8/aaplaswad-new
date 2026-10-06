@@ -1,4 +1,4 @@
-// Builds navratri-mala-left.png and navratri-mala-right.png: the marigold strings from one
+// Builds navratri-mala-left.png (mala-left.png here; the site mirrors it for the right side): the marigold strings from one
 // frame of the dandiya video, keyed off the dark purple wall by colour, with the dancers
 // removed using Apple Vision masks.  Needs macOS 14+.  Build and run:
 //   swiftc -O key.swift -o key && ./key frame.jpg 410
@@ -52,5 +52,4 @@ func save(_ img: CGImage, _ name: String) {
     try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: name))
 }
 save(out.cropping(to: CGRect(x: 0, y: 0, width: 300, height: maxY))!, "mala-left.png")
-save(out.cropping(to: CGRect(x: W - 300, y: 0, width: 300, height: maxY))!, "mala-right.png")
 print("ok")

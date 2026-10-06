@@ -537,6 +537,7 @@
             '<div class="nv-sheet-bg" aria-hidden="true"><div class="nv-mandala"></div></div>' +
             '<div class="nv-sheet-toran" aria-hidden="true"></div>' +
             '<span class="nv-grab" aria-hidden="true"></span>' +
+            '<span class="nv-timer" aria-hidden="true"></span>' +
             '<button type="button" class="nv-x" data-nv="close" aria-label=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>' +
             '<div class="nv-sheet-media">' + stageHTML() + '</div>' +
             '<div class="nv-sheet-body">' +
@@ -552,7 +553,14 @@
         cutoutDance(wrap.querySelector('.nv-cut-box'), true);
         document.body.classList.add('nv-locked');
 
+        // Closes itself after a few seconds; any touch, click or key holds it open
+        var AUTO_MS = 6000, autoTimer = null;
+        function hold() {
+            clearTimeout(autoTimer); autoTimer = null;
+            wrap.classList.add('nv-held');
+        }
         function close() {
+            clearTimeout(autoTimer);
             if (wrap.classList.contains('out')) return;
             wrap.classList.add('out');
             document.body.classList.remove('nv-locked');
@@ -580,11 +588,20 @@
             if (dy > 90) close(); else sheet.style.transform = '';
         });
         document.addEventListener('keydown', onKey);
+        ['pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(function (ev) {
+            wrap.addEventListener(ev, function (e) { if (!e.target.closest || !e.target.closest('.nv-x')) hold(); }, { passive: true });
+        });
 
         // Focus the main action once the splash (if any) has gone
         var tries = 0;
         (function focusWhenVisible() {
             if (document.getElementById('aapla-splash') && tries++ < 40) return setTimeout(focusWhenVisible, 150);
+            // start the countdown once the intro is actually on screen
+            if (!wrap.classList.contains('nv-held')) {
+                wrap.style.setProperty('--nv-auto', AUTO_MS + 'ms');
+                wrap.classList.add('nv-counting');
+                autoTimer = setTimeout(close, AUTO_MS);
+            }
             var a = wrap.querySelector('.nv-btn');
             if (a) a.focus({ preventScroll: true });
         })();

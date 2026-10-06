@@ -100,7 +100,7 @@ All text is in **English, Hindi and Marathi**. It follows the app's language pic
 
 ## 4. Files
 
-### New files (9)
+### New files (8)
 | File | Size | What it is |
 |---|---|---|
 | `navratri.js` | ~600 lines | Festival logic and markup: date switch, intro, home headline and dancers, toran, order strip, text in 3 languages |
@@ -110,13 +110,13 @@ All text is in **English, Hindi and Marathi**. It follows the app's language pic
 | `navratri-dandiya-alpha.mp4` | 3.3 MB | The dancers without background, used on the home page and in the intro (960×540 per half). Colour on the top half, transparency mask on the bottom half (see section 5) |
 | `navratri-dandiya.jpg` | 108 KB | Still frame used as the video poster |
 | `navratri-dandiya-cutout.png` | 354 KB | Still image of the cut-out dancers, used when motion is reduced or data saver is on |
-| `navratri-mala-left.png` / `-right.png` | 53 KB each | Marigold strings cut from the same render |
+| `navratri-mala-left.png` | 53 KB | Marigold strings cut from the same render. The right side uses the same image mirrored, so both sides match |
 
 ### Build scripts (not loaded by the site)
 | File | What it does |
 |---|---|
 | `tools/navratri/alpha.swift` | Makes `navratri-dandiya-alpha.mp4` from the dandiya video: colour on top, Vision subject mask below |
-| `tools/navratri/key.swift` | Makes the two `navratri-mala-*.png` files from one video frame |
+| `tools/navratri/key.swift` | Makes `navratri-mala-left.png` from one video frame |
 
 Both need macOS 14 or later. How to run them is written at the top of each file.
 
@@ -124,8 +124,8 @@ Both need macOS 14 or later. How to run them is written at the top of each file.
 `index.html`, `order.html`, `dish.html`, `track.html` and `profile.html` each get **two lines** in `<head>`:
 
 ```html
-<link rel="stylesheet" href="navratri.css?v=26">
-<script src="navratri.js?v=17"></script>
+<link rel="stylesheet" href="navratri.css?v=28">
+<script src="navratri.js?v=18"></script>
 ```
 
 Nothing else in those pages changed.
@@ -176,7 +176,7 @@ On localhost, the browser console shows **CORS errors** for `/menu` and `/shop-s
 ## 7. Removing it completely (optional)
 
 The theme already switches off on its own. To delete the code as well:
-1. Delete `navratri.js`, `navratri.css`, the seven `navratri-*` media files and the `tools/navratri/` folder.
+1. Delete `navratri.js`, `navratri.css`, the six `navratri-*` media files and the `tools/navratri/` folder.
 2. Remove the two `navratri` lines from the `<head>` of the 5 pages.
 
 ---

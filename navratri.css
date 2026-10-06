@@ -102,15 +102,17 @@ html.nv .greet { display: none; }
 .nv-mala {
     position: absolute; z-index: 1; top: 0; width: calc(84px * var(--s)); height: calc(115px * var(--s)); pointer-events: none;
     /* the strings were cut at the top of the render: let them fade in instead of ending in a hard line */
-    -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
-    mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
-    background: center top / contain no-repeat; transform-origin: 50% 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .12) 10%, rgba(0, 0, 0, .55) 24%, #000 42%);
+    mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .12) 10%, rgba(0, 0, 0, .55) 24%, #000 42%);
+    background: url('navratri-mala-left.png') center top / contain no-repeat; transform-origin: 50% 0;
     filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
     animation: nvMala 4.5s ease-in-out infinite alternate;
 }
-.nv-mala-l { left: -4px; background-image: url('navratri-mala-left.png'); }
-.nv-mala-r { right: -4px; background-image: url('navratri-mala-right.png'); animation-delay: -2.2s; }
+.nv-mala-l { left: -4px; }
+/* the right side is the same strings mirrored, so both sides match */
+.nv-mala-r { right: -4px; animation-name: nvMalaR; animation-delay: -2.2s; }
 @keyframes nvMala { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
+@keyframes nvMalaR { from { transform: scaleX(-1) rotate(-1.6deg); } to { transform: scaleX(-1) rotate(1.6deg); } }
 .nv-cut-box { position: relative; display: block; flex: 0 0 auto; height: 100%; aspect-ratio: 16 / 9; opacity: 0; transition: opacity .5s ease; }
 .nv-cut-box.ready, .nv-cut-box:has(img), .nv-cut-box:has(.nv-frame) { opacity: 1; }
 .nv-cutout { display: block; width: 100%; height: 100%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(255, 150, 60, 0.18)); }
@@ -223,6 +225,16 @@ body.nv-locked { overflow: hidden; }
     filter: saturate(.85) drop-shadow(0 4px 6px rgba(0, 0, 0, .6));
 }
 .nv-grab { display: none; }
+/* countdown line before the intro closes itself */
+.nv-timer {
+    position: absolute; z-index: 4; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); width: 120px; height: 2px; margin-left: -60px;
+    border-radius: 2px; background: rgba(217, 181, 106, 0.15); overflow: hidden; opacity: 0; transition: opacity .3s;
+}
+.nv-timer::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--gold-3), var(--gold-1)); transform-origin: left; }
+.nv-counting .nv-timer { opacity: 1; }
+.nv-counting .nv-timer::after { animation: nvCountdown var(--nv-auto, 6000ms) linear forwards; }
+.nv-held .nv-timer { opacity: 0; }
+@keyframes nvCountdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
 .nv-x {
     position: absolute; z-index: 4; top: calc(48px + env(safe-area-inset-top, 0px)); right: 22px; width: 34px; height: 34px; border-radius: 50%;
     display: grid; place-items: center; cursor: pointer; color: rgba(244, 236, 226, 0.8);
@@ -232,7 +244,10 @@ body.nv-locked { overflow: hidden; }
 .nv-x svg { width: 15px; height: 15px; }
 
 /* the same dance stage as the home page, bigger */
-.nv-sheet-media { position: relative; z-index: 1; width: 100%; max-width: 460px; margin-top: 8px; }
+.nv-sheet-media {
+    /* full screen width, and nothing wider: the big stage must never make the sheet scroll sideways */
+    position: relative; z-index: 1; width: calc(100% + 44px); margin: 8px -22px 0; overflow-x: clip;
+}
 .nv-sheet-media .nv-dance { --s: 1.75; margin: 0; }
 .nv-sheet-media .nv-dance::before {
     /* a warm spotlight from above */
@@ -292,7 +307,7 @@ body.nv-locked { overflow: hidden; }
 .nv-btn-ghost:hover { border-color: rgba(217, 181, 106, 0.6); }
 .nv-btn:focus-visible, .nv-x:focus-visible { outline: 1px solid rgba(217, 181, 106, 0.55); outline-offset: 3px; }
 @media (min-width: 720px) {
-    .nv-sheet-media { max-width: 640px; }
+    .nv-sheet-media { width: min(100%, 640px); margin: 8px auto 0; }
     .nv-sheet-media .nv-dance { --s: 2.1; }
     .nv-intro-title { font-size: 3rem; }
 }
