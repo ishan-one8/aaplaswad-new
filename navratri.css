@@ -109,29 +109,45 @@ html.nv #aapla-splash::after {
 }
 @keyframes nvFall { to { transform: translate3d(var(--dx), 420px, 0) rotate(560deg); } }
 
-/* Artwork motion. Origins are in the 360×220 drawing's units */
+/* Artwork motion. Origins are in the 400×260 drawing's units */
 .nv-art .nv-girl { animation: nvBob 1.6s ease-in-out infinite; }
 .nv-art .nv-boy { animation: nvBob 1.6s ease-in-out infinite; animation-delay: -0.8s; }
 @keyframes nvBob { 50% { transform: translateY(-3px); } }
-.nv-art .nv-arm, .nv-art .nv-skirt, .nv-art .nv-frill, .nv-art .nv-lamp, .nv-art .nv-dupatta { transform-box: view-box; }
-.nv-art .nv-arm-gf { transform-origin: 135px 90px; animation: nvHitL 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
-.nv-art .nv-arm-bf { transform-origin: 226px 90px; animation: nvHitR 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
+.nv-art .nv-arm, .nv-art .nv-skirt, .nv-art .nv-frill, .nv-art .nv-lamp, .nv-art .nv-dupatta, .nv-art .nv-braid,
+.nv-art .nv-jhumka, .nv-art .nv-kalgi, .nv-art .nv-pench, .nv-art .nv-genda { transform-box: view-box; }
+.nv-art .nv-arm-gf { transform-origin: 143px 104px; animation: nvHitL 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
+.nv-art .nv-arm-bf { transform-origin: 257px 104px; animation: nvHitR 1.6s cubic-bezier(.5, 0, .3, 1) infinite; }
 @keyframes nvHitL { 0%, 100% { transform: rotate(-30deg); } 48%, 54% { transform: rotate(0); } }
 @keyframes nvHitR { 0%, 100% { transform: rotate(30deg); } 48%, 54% { transform: rotate(0); } }
-.nv-art .nv-arm-gb { transform-origin: 116px 90px; animation: nvWave 1.6s ease-in-out infinite; }
-.nv-art .nv-arm-bb { transform-origin: 244px 90px; animation: nvWave 1.6s ease-in-out infinite reverse; }
+.nv-art .nv-arm-gb { transform-origin: 120px 104px; animation: nvWave 1.6s ease-in-out infinite; }
+.nv-art .nv-arm-bb { transform-origin: 283px 104px; animation: nvWave 1.6s ease-in-out infinite reverse; }
 @keyframes nvWave { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
-.nv-art .nv-skirt { transform-origin: 125px 112px; animation: nvTwirl 0.8s ease-in-out infinite alternate; }
-.nv-art .nv-frill { transform-origin: 235px 116px; animation: nvTwirl 0.8s ease-in-out infinite alternate-reverse; }
-@keyframes nvTwirl { from { transform: skewX(-5deg) scaleX(.98); } to { transform: skewX(5deg) scaleX(1.05); } }
-.nv-art .nv-dupatta { transform-origin: 136px 88px; animation: nvFlutter 1.2s ease-in-out infinite alternate; }
-@keyframes nvFlutter { to { transform: rotate(6deg); } }
+.nv-art .nv-skirt { transform-origin: 131px 126px; animation: nvTwirl 0.8s ease-in-out infinite alternate; }
+.nv-art .nv-frill { transform-origin: 270px 128px; animation: nvTwirl 0.8s ease-in-out infinite alternate-reverse; }
+@keyframes nvTwirl { from { transform: skewX(-5deg) scaleX(.97); } to { transform: skewX(5deg) scaleX(1.05); } }
+.nv-art .nv-dupatta { animation: nvFlutter 1.2s ease-in-out infinite alternate; }
+@keyframes nvFlutter { to { transform: rotate(7deg); } }
+.nv-art .nv-braid { animation: nvBraid 1.6s ease-in-out infinite; }
+@keyframes nvBraid { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-6deg); } }
+.nv-art .nv-jhumka { animation: nvJhumka .8s ease-in-out infinite alternate; }
+@keyframes nvJhumka { from { transform: rotate(-12deg); } to { transform: rotate(12deg); } }
+.nv-art .nv-kalgi { animation: nvKalgi .8s ease-in-out infinite alternate; }
+@keyframes nvKalgi { from { transform: rotate(-6deg); } to { transform: rotate(5deg); } }
+.nv-art .nv-pench { animation: nvFlutter 1.1s ease-in-out infinite alternate; }
 .nv-art .nv-lamp { animation: nvLamp 3.2s ease-in-out infinite alternate; }
 .nv-art .nv-lamp-2 { animation-delay: -1.6s; }
-@keyframes nvLamp { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.nv-art .nv-genda { animation: nvLamp 4s ease-in-out infinite alternate; }
+@keyframes nvLamp { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
 .nv-art .nv-spin { animation: nvSpin 24s linear infinite; }
+.nv-art .nv-spin-slow { animation: nvSpin 70s linear infinite; }
 .nv-art .nv-twinkle { animation: nvTwinkle 2.4s ease-in-out infinite; }
-@keyframes nvTwinkle { 50% { opacity: .2; } }
+.nv-art .nv-bulb { animation: nvTwinkle 1.5s ease-in-out infinite; }
+@keyframes nvTwinkle { 50% { opacity: .25; } }
+.nv-art .nv-flame { transform-box: fill-box; transform-origin: 50% 100%; animation: nvFlame .45s ease-in-out infinite alternate; }
+@keyframes nvFlame { from { transform: scale(.9, .94) skewX(-4deg); } to { transform: scale(1.08, 1.12) skewX(4deg); } }
+.nv-art .nv-garbo-glow { animation: nvGlowPulse 1.6s ease-in-out infinite; }
+.nv-art .nv-holes { animation: nvGlowPulse 1.2s ease-in-out infinite; }
+@keyframes nvGlowPulse { 50% { opacity: .55; } }
 .nv-spark { transform-box: view-box; opacity: 0; animation: nvSpark 1.6s ease-out infinite; }
 @keyframes nvSpark { 0%, 44% { opacity: 0; transform: scale(.3); } 52% { opacity: 1; transform: scale(1.15); } 70%, 100% { opacity: 0; transform: scale(1.4); } }
 
