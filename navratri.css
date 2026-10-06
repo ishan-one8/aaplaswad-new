@@ -73,13 +73,20 @@ html.nv .greet { display: none; }
 @media (min-width: 720px) { .nv-greet-q { font-size: 2.3rem; } }
 
 
-/* The dancers, cut out of their background, on a small lit stage */
-.nv-dance { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 150px; margin: 0 0 14px; isolation: isolate; }
+/* The dancers, cut out of their background, on a small lit stage.
+   Everything is sized from --s (1 = the 150px home stage), so the intro can use a bigger one. */
+.nv-dance {
+    --s: 1;
+    position: relative; display: flex; justify-content: center; align-items: flex-end;
+    height: calc(150px * var(--s)); margin: 0 0 14px; isolation: isolate;
+}
 /* 3D floor: a rangoli tilted onto the ground, slowly turning, with a contact shadow */
 .nv-floor {
     /* centre of the tilted plane sits at the dancers' feet */
-    position: absolute; z-index: -1; left: 50%; bottom: -112px; width: 250px; height: 250px; margin-left: -125px;
-    perspective: 520px; pointer-events: none;
+    position: absolute; z-index: -1; left: 50%; pointer-events: none;
+    width: calc(250px * var(--s)); height: calc(250px * var(--s));
+    margin-left: calc(-125px * var(--s)); bottom: calc(-112px * var(--s));
+    perspective: calc(520px * var(--s));
 }
 .nv-rangoli {
     display: block; width: 100%; height: 100%;
@@ -93,7 +100,7 @@ html.nv .greet { display: none; }
 }
 /* marigold strings (cut from the same render) hanging on both sides */
 .nv-mala {
-    position: absolute; z-index: 1; top: 0; width: 84px; height: 115px; pointer-events: none;
+    position: absolute; z-index: 1; top: 0; width: calc(84px * var(--s)); height: calc(115px * var(--s)); pointer-events: none;
     /* the strings were cut at the top of the render: let them fade in instead of ending in a hard line */
     -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
     mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
@@ -104,13 +111,16 @@ html.nv .greet { display: none; }
 .nv-mala-l { left: -4px; background-image: url('navratri-mala-left.png'); }
 .nv-mala-r { right: -4px; background-image: url('navratri-mala-right.png'); animation-delay: -2.2s; }
 @keyframes nvMala { from { transform: rotate(-1.6deg); } to { transform: rotate(1.6deg); } }
-.nv-cut-box { position: relative; display: block; height: 100%; aspect-ratio: 16 / 9; max-width: 100%; opacity: 0; transition: opacity .5s ease; }
+.nv-cut-box { position: relative; display: block; flex: 0 0 auto; height: 100%; aspect-ratio: 16 / 9; opacity: 0; transition: opacity .5s ease; }
 .nv-cut-box.ready, .nv-cut-box:has(img), .nv-cut-box:has(.nv-frame) { opacity: 1; }
 .nv-cutout { display: block; width: 100%; height: 100%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(255, 150, 60, 0.18)); }
 .nv-alpha-src { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .nv-cut-box .nv-frame { height: 100%; }
 /* the diya between them */
-.nv-diya { position: absolute; left: 50%; bottom: 6px; width: 22px; height: 26px; transform: translateX(-50%); z-index: 2; pointer-events: none; }
+.nv-diya {
+    position: absolute; left: 50%; bottom: calc(6px * var(--s)); width: 22px; height: 26px; z-index: 2; pointer-events: none;
+    transform: translateX(-50%) scale(var(--s)); transform-origin: 50% 100%;
+}
 .nv-diya-lamp { position: absolute; left: 0; right: 0; bottom: 0; height: 9px; border-radius: 0 0 12px 12px / 0 0 9px 9px; background: linear-gradient(180deg, #ea580c, #9a3412); box-shadow: inset 0 2px 0 rgba(255, 210, 120, 0.6); }
 .nv-diya-flame {
     position: absolute; left: 50%; bottom: 8px; width: 8px; height: 14px; margin-left: -4px; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
@@ -120,10 +130,8 @@ html.nv .greet { display: none; }
 .nv-diya-glow { position: absolute; left: 50%; bottom: 0; width: 70px; height: 50px; margin-left: -35px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 190, 90, 0.45), transparent); animation: nvGlowPulse 1.6s ease-in-out infinite; }
 @keyframes nvFlicker { from { transform: scale(.9, .92) rotate(-3deg); } to { transform: scale(1.06, 1.1) rotate(3deg); } }
 @media (min-width: 720px) {
-    .nv-dance { height: 210px; margin-bottom: 56px; }
-    .nv-floor { width: 340px; height: 340px; margin-left: -170px; bottom: -158px; }
-    .nv-mala { width: 130px; height: 178px; }
-    .nv-mala-l { left: 8%; } .nv-mala-r { right: 8%; }
+    .nv-hero .nv-dance { --s: 1.4; margin-bottom: 56px; }
+    .nv-hero .nv-mala-l { left: 8%; } .nv-hero .nv-mala-r { right: 8%; }
 }
 
 /* Artwork motion. Origins are in the 400×260 drawing's units */
@@ -223,18 +231,16 @@ body.nv-locked { overflow: hidden; }
 .nv-x:hover { color: #fff; border-color: rgba(217, 181, 106, 0.6); }
 .nv-x svg { width: 15px; height: 15px; }
 
-/* the video, framed */
-.nv-sheet-media { position: relative; z-index: 1; width: 100%; max-width: 440px; }
-.nv-sheet-media .nv-frame {
-    width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 18px;
-    box-shadow: 0 0 0 1px rgba(217, 181, 106, 0.38), 0 0 0 6px rgba(217, 181, 106, 0.05), 0 30px 60px -18px rgba(0, 0, 0, 0.9), 0 0 80px -20px rgba(217, 181, 106, 0.25);
+/* the same dance stage as the home page, bigger */
+.nv-sheet-media { position: relative; z-index: 1; width: 100%; max-width: 460px; margin-top: 8px; }
+.nv-sheet-media .nv-dance { --s: 1.75; margin: 0; }
+.nv-sheet-media .nv-dance::before {
+    /* a warm spotlight from above */
+    content: ''; position: absolute; z-index: -2; left: 50%; top: -30%; width: 120%; height: 150%; transform: translateX(-50%); pointer-events: none;
+    background: radial-gradient(45% 55% at 50% 55%, rgba(246, 227, 180, 0.13), transparent 70%);
 }
-.nv-sheet-media .nv-frame::after {
-    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-    background: radial-gradient(120% 100% at 50% 50%, transparent 60%, rgba(10, 7, 8, 0.45) 100%), linear-gradient(160deg, rgba(255, 255, 255, 0.08), transparent 35%);
-}
-
-.nv-sheet-body { position: relative; z-index: 2; width: 100%; max-width: 400px; margin-top: 24px; text-align: center; }
+.nv-sheet-media .nv-mala-l { left: -14px; } .nv-sheet-media .nv-mala-r { right: -14px; }
+.nv-sheet-body { position: relative; z-index: 2; width: 100%; max-width: 400px; margin-top: 46px; text-align: center; }
 .nv-sheet-body > * { animation: nvRise .7s cubic-bezier(.2, .8, .2, 1) both; }
 .nv-sheet-body > :nth-child(2) { animation-delay: .08s; }
 .nv-sheet-body > :nth-child(3) { animation-delay: .16s; }
@@ -286,7 +292,8 @@ body.nv-locked { overflow: hidden; }
 .nv-btn-ghost:hover { border-color: rgba(217, 181, 106, 0.6); }
 .nv-btn:focus-visible, .nv-x:focus-visible { outline: 1px solid rgba(217, 181, 106, 0.55); outline-offset: 3px; }
 @media (min-width: 720px) {
-    .nv-sheet-media { max-width: 620px; }
+    .nv-sheet-media { max-width: 640px; }
+    .nv-sheet-media .nv-dance { --s: 2.1; }
     .nv-intro-title { font-size: 3rem; }
 }
 

@@ -70,7 +70,7 @@ The theme makes **no API calls**. It only reads the language the user picked and
 
 ### When the app opens (once per session, home page)
 - A **full-screen Navratri screen** shows:
-  - a 3D video of a boy and girl playing dandiya;
+  - the same dance stage as the home page, bigger: the 3D boy and girl dancing straight on the screen, on a rangoli, with a diya and marigold strings, under a soft spotlight;
   - "Shubh Navratri";
   - **"FREE Dandiya — with your first order"**;
   - a short terms line;
@@ -105,11 +105,11 @@ All text is in **English, Hindi and Marathi**. It follows the app's language pic
 |---|---|---|
 | `navratri.js` | ~600 lines | Festival logic and markup: date switch, intro, home headline and dancers, toran, order strip, text in 3 languages |
 | `navratri.css` | ~270 lines | All Navratri styles. Every rule is scoped under `html.nv`, which `navratri.js` adds only during the festival |
-| `navratri-dandiya-540.mp4` | 1.4 MB | Intro video for phones (960×540, no sound) |
-| `navratri-dandiya-720.mp4` | 2.3 MB | Intro video for large screens (1280×720, no sound) |
-| `navratri-dandiya-alpha.mp4` | 1.9 MB | Home dancers without background. Colour on the top half, transparency mask on the bottom half (see section 5) |
+| `navratri-dandiya-540.mp4` | 1.4 MB | Fallback video for phones (960×540, no sound), used only if WebGL is missing |
+| `navratri-dandiya-720.mp4` | 2.3 MB | Fallback video for large screens (1280×720, no sound), used only if WebGL is missing |
+| `navratri-dandiya-alpha.mp4` | 3.3 MB | The dancers without background, used on the home page and in the intro (960×540 per half). Colour on the top half, transparency mask on the bottom half (see section 5) |
 | `navratri-dandiya.jpg` | 108 KB | Still frame used as the video poster |
-| `navratri-dandiya-cutout.png` | 175 KB | Still image of the cut-out dancers, used when motion is reduced or data saver is on |
+| `navratri-dandiya-cutout.png` | 354 KB | Still image of the cut-out dancers, used when motion is reduced or data saver is on |
 | `navratri-mala-left.png` / `-right.png` | 53 KB each | Marigold strings cut from the same render |
 
 ### Build scripts (not loaded by the site)
@@ -124,8 +124,8 @@ Both need macOS 14 or later. How to run them is written at the top of each file.
 `index.html`, `order.html`, `dish.html`, `track.html` and `profile.html` each get **two lines** in `<head>`:
 
 ```html
-<link rel="stylesheet" href="navratri.css?v=25">
-<script src="navratri.js?v=16"></script>
+<link rel="stylesheet" href="navratri.css?v=26">
+<script src="navratri.js?v=17"></script>
 ```
 
 Nothing else in those pages changed.
@@ -145,7 +145,7 @@ Nothing else in those pages changed.
   - On the page, a small WebGL shader combines the two halves into a transparent picture. This works on Android, Chrome, Safari and desktop browsers.
   - If WebGL is not available, the normal video plays instead. If even that fails, an SVG illustration is shown.
 - **Performance:**
-  - Phones get the 540p intro video, and large screens get the 720p one.
+  - The home page and the intro share one file (`navratri-dandiya-alpha.mp4`), so it is downloaded once. The two normal videos are only fetched if WebGL is missing (phones get 540p, large screens 720p).
   - Videos only play while they are on screen. The home dancers wait while the intro covers them, so a phone decodes one video at a time.
 - **Accessibility:**
   - The intro is a proper dialog: Escape closes it and focus moves to the main button.

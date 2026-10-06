@@ -375,11 +375,11 @@
     // Dancers without their background. navratri-dandiya-alpha.mp4 stacks the colour frame
     // (top half) over its matte (bottom half); WebGL joins them into a transparent picture.
     // Falls back to the normal video if WebGL is missing.
-    function cutoutDance(box) {
+    function cutoutDance(box, inIntro) {
         var saveData = navigator.connection && navigator.connection.saveData;
         if (reduce || saveData) { box.innerHTML = '<img class="nv-cutout" src="navratri-dandiya-cutout.png" alt="">'; return; }
         var canvas = document.createElement('canvas');
-        canvas.className = 'nv-cutout'; canvas.width = 640; canvas.height = 360;
+        canvas.className = 'nv-cutout'; canvas.width = 960; canvas.height = 540;
         var gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false });
         if (!gl) { box.innerHTML = '<div class="nv-frame">' + media() + '</div>'; wireVideo(box.firstChild); return; }
         var v = document.createElement('video');
@@ -406,6 +406,7 @@
         var running = false;
         function draw() {
             if (v.readyState >= 2) {
+                if (canvas.width !== v.videoWidth) { canvas.width = v.videoWidth; canvas.height = v.videoHeight / 2; gl.viewport(0, 0, canvas.width, canvas.height); }
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v);
                 gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
                 box.classList.add('ready');
@@ -414,12 +415,12 @@
             if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(draw); else requestAnimationFrame(draw);
         }
         var go = function () {
-            if (document.body.classList.contains('nv-locked')) return;
+            if (!inIntro && document.body.classList.contains('nv-locked')) return;
             var p = v.play(); if (p && p.catch) p.catch(function () { });
             if (!running) { running = true; draw(); }
         };
         var stop = function () { running = false; v.pause(); };
-        v._nvGo = go; canvas._nvGo = go;
+        v._nvGo = go; canvas._nvGo = go; canvas._nvStop = stop;
         v.addEventListener('error', function () { stop(); box.innerHTML = '<div class="nv-frame">' + media() + '</div>'; wireVideo(box.firstChild); });
         go();
         if ('IntersectionObserver' in window) {
@@ -488,6 +489,16 @@
         });
     }
 
+    // The dance stage: marigold strings, a 3D rangoli, the cut-out dancers and a diya
+    function stageHTML() {
+        return '<div class="nv-dance" role="img" data-nv="art" aria-label="">' +
+            '<span class="nv-mala nv-mala-l" aria-hidden="true"></span><span class="nv-mala nv-mala-r" aria-hidden="true"></span>' +
+            '<span class="nv-floor" aria-hidden="true"><span class="nv-rangoli">' + rangoliSVG() + '</span></span>' +
+            '<span class="nv-cut-box"></span>' +
+            '<span class="nv-diya" aria-hidden="true"><span class="nv-diya-glow"></span><span class="nv-diya-flame"></span><span class="nv-diya-lamp"></span></span>' +
+            '</div>';
+    }
+
     function addHero() {
         // No card: the Navratri headline, and below it the dancers straight on the page
         var greet = document.querySelector('.greet');
@@ -498,13 +509,7 @@
         sec.innerHTML = '<div class="nv-greet">' +
             '<p class="nv-greet-hi"><span class="nv-dot"></span><span data-nv="title"></span><i></i><span data-nv="day"></span></p>' +
             '<h2 class="nv-greet-q" aria-live="off"><span class="nv-greet-line"></span></h2>' +
-            '</div>' +
-            '<div class="nv-dance" role="img" data-nv="art" aria-label="">' +
-            '<span class="nv-mala nv-mala-l" aria-hidden="true"></span><span class="nv-mala nv-mala-r" aria-hidden="true"></span>' +
-            '<span class="nv-floor" aria-hidden="true"><span class="nv-rangoli">' + rangoliSVG() + '</span></span>' +
-            '<span class="nv-cut-box"></span>' +
-            '<span class="nv-diya" aria-hidden="true"><span class="nv-diya-glow"></span><span class="nv-diya-flame"></span><span class="nv-diya-lamp"></span></span>' +
-            '</div>';
+            '</div>' + stageHTML();
         greet.parentNode.insertBefore(sec, greet.nextSibling);
         cutoutDance(sec.querySelector('.nv-cut-box'));
         paint(sec);
@@ -533,7 +538,7 @@
             '<div class="nv-sheet-toran" aria-hidden="true"></div>' +
             '<span class="nv-grab" aria-hidden="true"></span>' +
             '<button type="button" class="nv-x" data-nv="close" aria-label=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>' +
-            '<div class="nv-sheet-media"><div class="nv-frame">' + media() + '</div></div>' +
+            '<div class="nv-sheet-media">' + stageHTML() + '</div>' +
             '<div class="nv-sheet-body">' +
             '<p class="nv-intro-kicker"><span data-nv="kicker"></span><i></i><span data-nv="day"></span></p>' +
             '<h2 class="nv-intro-title" id="nvIntroTitle" data-nv="title"></h2>' +
@@ -544,13 +549,15 @@
             '</div></div>';
         document.body.appendChild(wrap);
         paint(wrap);
-        wireVideo(wrap.querySelector('.nv-frame'));
+        cutoutDance(wrap.querySelector('.nv-cut-box'), true);
         document.body.classList.add('nv-locked');
 
         function close() {
             if (wrap.classList.contains('out')) return;
             wrap.classList.add('out');
             document.body.classList.remove('nv-locked');
+            var own = wrap.querySelector('.nv-cut-box canvas');
+            if (own && own._nvStop) own._nvStop();
             setTimeout(function () { wrap.remove(); }, 450);
             var hero = document.querySelector('.nv-hero video, .nv-hero canvas');
             if (hero && hero._nvGo) hero._nvGo();

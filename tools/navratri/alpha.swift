@@ -2,13 +2,13 @@
 // and its subject mask (Apple Vision "subject lifting") as a grey matte on the bottom half.
 // navratri.js joins the two halves with WebGL so only the dancers show on the page.
 // Needs macOS 14+.  Build and run:
-//   swiftc -O alpha.swift -o alpha && ./alpha video.mp4 navratri-dandiya-alpha.mp4 1500000
+//   swiftc -O alpha.swift -o alpha && ./alpha video.mp4 navratri-dandiya-alpha.mp4 2600000 960
 import AVFoundation
 import Vision
 import CoreImage
 let args = CommandLine.arguments
-guard args.count >= 3 else { print("usage: alpha <input.mp4> <output.mp4> [bitrate]"); exit(1) }
-let W = 640, H = 360, BR = args.count > 3 ? Int(args[3])! : 1_500_000
+guard args.count >= 3 else { print("usage: alpha <input.mp4> <output.mp4> [bitrate] [width]"); exit(1) }
+let W = args.count > 4 ? Int(args[4])! : 960, H = W * 9 / 16, BR = args.count > 3 ? Int(args[3])! : 2_600_000
 let src = AVURLAsset(url: URL(fileURLWithPath: args[1]))
 let track = src.tracks(withMediaType: .video)[0]
 print("fps", track.nominalFrameRate, "size", track.naturalSize)
