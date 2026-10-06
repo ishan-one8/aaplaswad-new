@@ -43,7 +43,7 @@
     // ---- Copy, in the three app languages ----
     var STR = {
         en: {
-            kicker: 'Navratri special', title: 'Shubh Navratri', heroSub: 'Nine nights of garba and good food',
+            kicker: 'Navratri special', title: 'Shubh Navratri',
             free: 'FREE Dandiya', first: 'with your first order',
             fine: 'A pair of dandiya sticks comes with your first Aapla Swad order, till Dussehra.',
             order: 'Order now', explore: 'Explore menu', close: 'Close',
@@ -51,7 +51,7 @@
             banner: 'Navratri offer: FREE dandiya with your first order', art: 'A boy and a girl playing dandiya'
         },
         hi: {
-            kicker: 'नवरात्रि स्पेशल', title: 'शुभ नवरात्रि', heroSub: 'नौ रातें, गरबा और स्वाद',
+            kicker: 'नवरात्रि स्पेशल', title: 'शुभ नवरात्रि',
             free: 'डांडिया फ्री', first: 'पहले ऑर्डर पर',
             fine: 'दशहरे तक, Aapla Swad पर आपके पहले ऑर्डर के साथ डांडिया की एक जोड़ी।',
             order: 'अभी ऑर्डर करें', explore: 'मेन्यू देखें', close: 'बंद करें',
@@ -59,7 +59,7 @@
             banner: 'नवरात्रि ऑफ़र: पहले ऑर्डर पर डांडिया फ्री', art: 'डांडिया खेलते लड़का और लड़की'
         },
         mr: {
-            kicker: 'नवरात्री स्पेशल', title: 'शुभ नवरात्री', heroSub: 'नऊ रात्री, गरबा आणि स्वाद',
+            kicker: 'नवरात्री स्पेशल', title: 'शुभ नवरात्री',
             free: 'दांडिया मोफत', first: 'पहिल्या ऑर्डरवर',
             fine: 'दसऱ्यापर्यंत, Aapla Swad वरील तुमच्या पहिल्या ऑर्डरसोबत दांडियाची एक जोडी.',
             order: 'आता ऑर्डर करा', explore: 'मेन्यू पहा', close: 'बंद करा',
