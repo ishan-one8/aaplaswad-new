@@ -43,7 +43,7 @@ html.nv #aapla-splash::after {
     background: linear-gradient(90deg, #ffd56b, #ff8a3d 50%, #ff4d8d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* ---- Home hero: a moving offer line, then the dancers straight on the page (no box) ---- */
+/* ---- Home hero: Navratri headline, then the dancers straight on the page (no box) ---- */
 @keyframes nvRise { from { opacity: 0; transform: translateY(14px) scale(.98); } }
 @keyframes nvSpin { to { transform: rotate(360deg); } }
 .nv-hero { position: relative; margin: 2px 0 12px; animation: nvRise 0.7s cubic-bezier(.2, .8, .2, 1) both; }
