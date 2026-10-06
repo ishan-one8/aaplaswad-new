@@ -368,24 +368,6 @@
         });
     }
 
-    function pairSVG() {
-        // Two decorated dandiya sticks that clack together
-        function big(x1, y1, x2, y2) {
-            return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#f5c451" stroke-width="8" stroke-linecap="round"/>' +
-                '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#e0115f" stroke-width="8" stroke-dasharray="5 9"/>' +
-                '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="#10b981" stroke-width="8" stroke-dasharray="2 12" stroke-dashoffset="-7"/>' +
-                '<circle cx="' + x1 + '" cy="' + y1 + '" r="5" fill="#fbbf24"/>' +
-                '<path d="M' + x1 + ' ' + (y1 + 4) + ' l-4 14 M' + x1 + ' ' + (y1 + 4) + ' l0 15 M' + x1 + ' ' + (y1 + 4) + ' l4 14" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>';
-        }
-        return '<svg class="nv-pair" viewBox="0 0 200 170" aria-hidden="true">' +
-            '<g class="nv-burst"><circle cx="100" cy="72" r="46" fill="none" stroke="#f5c451" stroke-width="1.2" stroke-dasharray="2 6" opacity=".7"/><circle cx="100" cy="72" r="30" fill="#f5c451" opacity=".08"/></g>' +
-            '<g class="nv-pa" style="transform-origin:58px 146px">' + big(58, 146, 130, 30) + '</g>' +
-            '<g class="nv-pb" style="transform-origin:142px 146px">' + big(142, 146, 70, 30) + '</g>' +
-            '<g class="nv-spark" style="transform-origin:100px 66px"><circle cx="100" cy="66" r="6" fill="#fff6d1"/>' +
-            '<path d="M100 44v9M100 79v9M78 66h9M113 66h9M84 50l6 6M110 76l6 6M116 50l-6 6M90 76l-6 6" stroke="#ffd56b" stroke-width="2.6" stroke-linecap="round"/></g>' +
-            '</svg>';
-    }
-
     function miniStick() {
         // two decorated sticks side by side, so it never reads as a close "X"
         return '<svg viewBox="0 0 24 24" aria-hidden="true" class="nv-mini">' +
@@ -454,19 +436,20 @@
         wrap.setAttribute('aria-modal', 'true');
         wrap.setAttribute('aria-labelledby', 'nvIntroTitle');
         wrap.innerHTML =
-            '<div class="nv-intro-bg" aria-hidden="true"><div class="nv-mandala"></div></div>' +
-            '<div class="nv-intro-toran" aria-hidden="true"></div>' +
+            '<div class="nv-sheet">' +
+            '<div class="nv-sheet-bg" aria-hidden="true"><div class="nv-mandala"></div></div>' +
+            '<div class="nv-sheet-toran" aria-hidden="true"></div>' +
+            '<span class="nv-grab" aria-hidden="true"></span>' +
             '<button type="button" class="nv-x" data-nv="close" aria-label=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>' +
-            '<div class="nv-intro-card">' +
-            '<p class="nv-intro-kicker" data-nv="kicker"></p>' +
+            '<div class="nv-sheet-media"><div class="nv-frame">' + media() + '</div></div>' +
+            '<div class="nv-sheet-body">' +
+            '<p class="nv-intro-kicker"><span data-nv="kicker"></span><i></i><span data-nv="day"></span></p>' +
             '<h2 class="nv-intro-title" id="nvIntroTitle" data-nv="title"></h2>' +
-            '<div class="nv-intro-art"><div class="nv-frame">' + media() + '</div></div>' +
-            '<div class="nv-intro-offer"><b data-nv="free"></b><span data-nv="first"></span></div>' +
+            '<div class="nv-intro-offer">' + miniStick() + '<span><b data-nv="free"></b><small data-nv="first"></small></span></div>' +
             '<p class="nv-intro-fine" data-nv="fine"></p>' +
             '<div class="nv-intro-cta"><a class="nv-btn" href="order.html" data-nv="order"></a>' +
             '<button type="button" class="nv-btn nv-btn-ghost" data-nv="explore"></button></div>' +
-            '<p class="nv-intro-day" data-nv="day"></p>' +
-            '</div>';
+            '</div></div>';
         document.body.appendChild(wrap);
         paint(wrap);
         wireVideo(wrap.querySelector('.nv-frame'));
@@ -484,7 +467,19 @@
         function onKey(e) { if (e.key === 'Escape') close(); }
         wrap.querySelector('.nv-x').addEventListener('click', close);
         wrap.querySelector('.nv-btn-ghost').addEventListener('click', close);
-        wrap.addEventListener('click', function (e) { if (e.target === wrap || e.target.classList.contains('nv-intro-bg')) close(); });
+        wrap.addEventListener('click', function (e) { if (e.target === wrap) close(); });
+        // Drag the sheet down to dismiss it (phones)
+        var sheet = wrap.querySelector('.nv-sheet'), y0 = null, dy = 0;
+        sheet.addEventListener('touchstart', function (e) { y0 = e.touches[0].clientY; dy = 0; sheet.style.transition = 'none'; }, { passive: true });
+        sheet.addEventListener('touchmove', function (e) {
+            if (y0 === null) return;
+            dy = Math.max(0, e.touches[0].clientY - y0);
+            sheet.style.transform = 'translateY(' + dy + 'px)';
+        }, { passive: true });
+        sheet.addEventListener('touchend', function () {
+            sheet.style.transition = ''; y0 = null;
+            if (dy > 90) close(); else sheet.style.transform = '';
+        });
         document.addEventListener('keydown', onKey);
 
         // Focus the main action once the splash (if any) has gone
