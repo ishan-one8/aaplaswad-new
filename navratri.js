@@ -48,7 +48,7 @@
             fine: 'A pair of dandiya sticks comes with your first Aapla Swad order, till Dussehra.',
             order: 'Order now', explore: 'Explore menu', close: 'Close',
             day: 'Day {n} of 9', starts: 'Starts in {n} days', starts1: 'Starts tomorrow', dussehra: 'Happy Dussehra',
-            till: 'Till Dussehra', gSub: 'Nine nights of garba — we’ll keep the food coming.', banner: 'Navratri offer: FREE dandiya with your first order', art: 'A boy and a girl playing dandiya'
+            banner: 'Navratri offer: FREE dandiya with your first order', art: 'A boy and a girl playing dandiya'
         },
         hi: {
             kicker: 'नवरात्रि स्पेशल', title: 'शुभ नवरात्रि', heroSub: 'नौ रातें, गरबा और स्वाद',
@@ -56,7 +56,7 @@
             fine: 'दशहरे तक, Aapla Swad पर आपके पहले ऑर्डर के साथ डांडिया की एक जोड़ी।',
             order: 'अभी ऑर्डर करें', explore: 'मेन्यू देखें', close: 'बंद करें',
             day: 'दिन {n} / 9', starts: '{n} दिन में शुरू', starts1: 'कल से शुरू', dussehra: 'दशहरे की शुभकामनाएँ',
-            till: 'दशहरे तक', gSub: 'नौ रातें गरबा की — खाना हम पहुँचाएँगे।', banner: 'नवरात्रि ऑफ़र: पहले ऑर्डर पर डांडिया फ्री', art: 'डांडिया खेलते लड़का और लड़की'
+            banner: 'नवरात्रि ऑफ़र: पहले ऑर्डर पर डांडिया फ्री', art: 'डांडिया खेलते लड़का और लड़की'
         },
         mr: {
             kicker: 'नवरात्री स्पेशल', title: 'शुभ नवरात्री', heroSub: 'नऊ रात्री, गरबा आणि स्वाद',
@@ -64,7 +64,7 @@
             fine: 'दसऱ्यापर्यंत, Aapla Swad वरील तुमच्या पहिल्या ऑर्डरसोबत दांडियाची एक जोडी.',
             order: 'आता ऑर्डर करा', explore: 'मेन्यू पहा', close: 'बंद करा',
             day: 'दिवस {n} / 9', starts: '{n} दिवसांत सुरू', starts1: 'उद्यापासून सुरू', dussehra: 'दसऱ्याच्या शुभेच्छा',
-            till: 'दसऱ्यापर्यंत', gSub: 'नऊ रात्री गरब्याच्या — जेवण आम्ही पोहोचवू.', banner: 'नवरात्री ऑफर: पहिल्या ऑर्डरवर दांडिया मोफत', art: 'दांडिया खेळणारे मुलगा आणि मुलगी'
+            banner: 'नवरात्री ऑफर: पहिल्या ऑर्डरवर दांडिया मोफत', art: 'दांडिया खेळणारे मुलगा आणि मुलगी'
         }
     };
     // Home headline lines that take turns: [before, highlighted, after]
@@ -492,17 +492,13 @@
         // No card: a moving offer line, and below it the dancers straight on the page
         var greet = document.querySelector('.greet');
         if (!greet || document.querySelector('.nv-hero')) return;
-        var item = '<span class="nv-tick">' + miniStick() + '<b data-nv="free"></b>&nbsp;<span data-nv="first"></span><i>✦</i><span data-nv="till"></span><i>✦</i></span>';
         var sec = document.createElement('section');
         sec.className = 'nv-hero';
         // Navratri headline in place of the usual "Craving …?" greeting (hidden by navratri.css)
         sec.innerHTML = '<div class="nv-greet">' +
             '<p class="nv-greet-hi"><span class="nv-dot"></span><span data-nv="title"></span><i></i><span data-nv="day"></span></p>' +
             '<h2 class="nv-greet-q" aria-live="off"><span class="nv-greet-line"></span></h2>' +
-            '<p class="nv-greet-sub" data-nv="gSub"></p>' +
             '</div>' +
-            '<a class="nv-ticker" href="order.html" data-nv="heroLabel" aria-label="">' +
-            '<span class="nv-ticker-track" aria-hidden="true">' + item + item + item + item + '</span></a>' +
             '<div class="nv-dance" role="img" data-nv="art" aria-label="">' +
             '<span class="nv-mala nv-mala-l" aria-hidden="true"></span><span class="nv-mala nv-mala-r" aria-hidden="true"></span>' +
             '<span class="nv-floor" aria-hidden="true"><span class="nv-rangoli">' + rangoliSVG() + '</span></span>' +

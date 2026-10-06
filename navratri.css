@@ -53,7 +53,7 @@ html.nv #aapla-splash::after {
 
 /* Navratri headline (replaces the usual greeting while the festival is on) */
 html.nv .greet { display: none; }
-.nv-greet { margin: 2px 0 10px; }
+.nv-greet { margin: 2px 0 8px; }
 .nv-greet-hi {
     display: inline-flex; align-items: center; gap: 7px; margin: 0;
     font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--nv-gold);
@@ -70,27 +70,11 @@ html.nv .greet { display: none; }
 .nv-greet-line { display: inline-block; white-space: nowrap; transition: opacity .28s ease, transform .28s cubic-bezier(.2, .8, .2, 1); }
 .nv-greet-line.out { opacity: 0; transform: translateY(-60%); }
 .nv-greet-line.in { opacity: 0; transform: translateY(60%); transition: none; }
-.nv-greet-sub { margin: 6px 0 0; font-size: .86rem; color: rgba(255, 237, 213, 0.72); }
 @media (min-width: 720px) { .nv-greet-q { font-size: 2.3rem; } }
 
-.nv-ticker {
-    display: block; position: relative; overflow: hidden; height: 26px; text-decoration: none; color: rgba(255, 237, 213, 0.9);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent);
-}
-.nv-ticker:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 2px; border-radius: 8px; }
-.nv-ticker-track { display: inline-flex; height: 100%; align-items: center; white-space: nowrap; animation: nvTicker 14s linear infinite; }
-.nv-tick { display: inline-flex; align-items: center; gap: 6px; padding-left: 12px; font-size: .78rem; font-weight: 600; }
-.nv-tick b {
-    font-weight: 900; letter-spacing: .02em;
-    background: linear-gradient(92deg, #ffe39a, #ffb347 50%, #ff5d8f); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-}
-.nv-tick i { font-style: normal; color: var(--nv-magenta); margin: 0 2px 0 8px; font-size: .7rem; }
-.nv-tick .nv-mini { width: 15px; height: 15px; }
-@keyframes nvTicker { to { transform: translateX(-50%); } }
 
 /* The dancers, cut out of their background, on a small lit stage */
-.nv-dance { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 150px; margin: 4px 0 18px; isolation: isolate; }
+.nv-dance { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 150px; margin: 0 0 14px; isolation: isolate; }
 /* 3D floor: a rangoli tilted onto the ground, slowly turning, with a contact shadow */
 .nv-floor {
     /* centre of the tilted plane sits at the dancers' feet */
@@ -109,7 +93,10 @@ html.nv .greet { display: none; }
 }
 /* marigold strings (cut from the same render) hanging on both sides */
 .nv-mala {
-    position: absolute; z-index: 1; top: -6px; width: 84px; height: 115px; pointer-events: none;
+    position: absolute; z-index: 1; top: 0; width: 84px; height: 115px; pointer-events: none;
+    /* the strings were cut at the top of the render: let them fade in instead of ending in a hard line */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
+    mask-image: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .35) 14%, #000 38%);
     background: center top / contain no-repeat; transform-origin: 50% 0;
     filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
     animation: nvMala 4.5s ease-in-out infinite alternate;
@@ -133,8 +120,6 @@ html.nv .greet { display: none; }
 .nv-diya-glow { position: absolute; left: 50%; bottom: 0; width: 70px; height: 50px; margin-left: -35px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 190, 90, 0.45), transparent); animation: nvGlowPulse 1.6s ease-in-out infinite; }
 @keyframes nvFlicker { from { transform: scale(.9, .92) rotate(-3deg); } to { transform: scale(1.06, 1.1) rotate(3deg); } }
 @media (min-width: 720px) {
-    .nv-ticker { height: 32px; }
-    .nv-tick { font-size: .92rem; }
     .nv-dance { height: 210px; margin-bottom: 56px; }
     .nv-floor { width: 340px; height: 340px; margin-left: -170px; bottom: -158px; }
     .nv-mala { width: 130px; height: 178px; }
@@ -277,6 +262,6 @@ body.nv-locked { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nv-hero, .nv-ticker-track, .nv-intro *, .nv-toran, .nv-diya *, .nv-mala, .nv-rangoli-art { animation: none !important; }
+    .nv-hero, .nv-intro *, .nv-toran, .nv-diya *, .nv-mala, .nv-rangoli-art { animation: none !important; }
     .nv-art .nv-spark { opacity: 1; }
 }
