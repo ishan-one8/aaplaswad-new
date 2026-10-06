@@ -112,12 +112,20 @@ All text is in **English, Hindi and Marathi**. It follows the app's language pic
 | `navratri-dandiya-cutout.png` | 175 KB | Still image of the cut-out dancers, used when motion is reduced or data saver is on |
 | `navratri-mala-left.png` / `-right.png` | 53 KB each | Marigold strings cut from the same render |
 
+### Build scripts (not loaded by the site)
+| File | What it does |
+|---|---|
+| `tools/navratri/alpha.swift` | Makes `navratri-dandiya-alpha.mp4` from the dandiya video: colour on top, Vision subject mask below |
+| `tools/navratri/key.swift` | Makes the two `navratri-mala-*.png` files from one video frame |
+
+Both need macOS 14 or later. How to run them is written at the top of each file.
+
 ### Changed files (5)
 `index.html`, `order.html`, `dish.html`, `track.html` and `profile.html` each get **two lines** in `<head>`:
 
 ```html
 <link rel="stylesheet" href="navratri.css?v=23">
-<script src="navratri.js?v=15"></script>
+<script src="navratri.js?v=16"></script>
 ```
 
 Nothing else in those pages changed.
@@ -168,7 +176,7 @@ On localhost, the browser console shows **CORS errors** for `/menu` and `/shop-s
 ## 7. Removing it completely (optional)
 
 The theme already switches off on its own. To delete the code as well:
-1. Delete `navratri.js`, `navratri.css` and the seven `navratri-*` media files.
+1. Delete `navratri.js`, `navratri.css`, the seven `navratri-*` media files and the `tools/navratri/` folder.
 2. Remove the two `navratri` lines from the `<head>` of the 5 pages.
 
 ---
@@ -182,7 +190,7 @@ The theme already switches off on its own. To delete the code as well:
 3. **Video details.**
    - The intro video has a small ✦ watermark in the bottom-right corner, from the AI tool that made it.
    - The 10-second loop restarts with a small jump, because the first and last frames differ.
-   - A new, seamless video can be dropped in later. The steps to rebuild the cut-out version are in the commit history.
+   - A new, seamless video can be dropped in later: rebuild the cut-out version with `tools/navratri/alpha.swift`.
 4. **iPhone.** Please open the home page once on a real iPhone (Safari) to confirm the cut-out dancers play.
 5. **Existing issues, not caused by this change:**
    - **Console error on home.** `index.html` throws `TypeError: Cannot read properties of null (reading 'classList')` in `checkOpenStatus`. The same code is in `main` at `0b2611f`.

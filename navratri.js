@@ -489,7 +489,7 @@
     }
 
     function addHero() {
-        // No card: a moving offer line, and below it the dancers straight on the page
+        // No card: the Navratri headline, and below it the dancers straight on the page
         var greet = document.querySelector('.greet');
         if (!greet || document.querySelector('.nv-hero')) return;
         var sec = document.createElement('section');
