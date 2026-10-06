@@ -278,6 +278,39 @@ body.nv-locked { overflow: hidden; }
     .nv-sheet-media .nv-frame { height: auto; width: 100%; }
 }
 
+/* ---- Bigger dancers: the video bleeds to the card edges instead of sitting in a small frame ---- */
+@media (max-width: 719px) {
+    .nv-hero { grid-template-columns: minmax(0, 1fr) 52%; align-items: stretch; }
+    .nv-hero-text { align-self: center; }
+    .nv-hero .nv-stage { padding: 0; perspective: none; }
+    .nv-hero .nv-frame {
+        height: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; background-size: cover; animation: none; transform: none;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%); mask-image: linear-gradient(90deg, transparent 0, #000 16%);
+    }
+    .nv-hero .nv-frame::after { background: linear-gradient(0deg, rgba(21, 9, 18, 0.35), transparent 30%); }
+    .nv-hero .nv-video { object-position: 52% 60%; }
+    .nv-hero-text { padding: 14px 0 14px 14px; }
+    .nv-offer { gap: 6px; padding: 7px 9px 7px 8px; }
+    .nv-offer .nv-mini { width: 15px; height: 15px; }
+    .nv-offer .nv-chev { display: none; }
+    .nv-offer b { white-space: nowrap; font-size: .82rem; }
+    .nv-offer [data-nv="first"] { font-size: .66rem; }
+}
+.nv-sheet-media { margin: -30px -16px 0; position: relative; z-index: 1; perspective: none; }
+.nv-sheet-media .nv-frame {
+    width: 100%; height: min(31vh, 270px); max-width: none; border-radius: 0; box-shadow: none; transform: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent); mask-image: linear-gradient(180deg, #000 72%, transparent);
+}
+.nv-sheet-media .nv-frame::after { background: linear-gradient(180deg, rgba(42, 10, 45, 0.55) 0, transparent 22%); }
+.nv-sheet-media .nv-video { object-position: 50% 45%; }
+.nv-sheet-toran, .nv-grab, .nv-x { z-index: 3; }
+.nv-sheet-body { position: relative; z-index: 2; margin-top: -30px; padding-top: 0; }
+.nv-sheet { border-radius: 28px 28px 0 0; }
+@media (min-width: 720px) {
+    .nv-sheet-media { margin-top: -30px; }
+    .nv-sheet-media .nv-frame { height: 270px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .nv-hero *, .nv-hero::before, .nv-intro *, .nv-toran { animation: none !important; }
     .nv-art .nv-spark { opacity: 1; }
