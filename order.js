@@ -85,18 +85,6 @@ const FALLBACK_MENU = {
         extras: { 'ck-bhakar': 25, 'ck-rice': 20, 'ck-chicken': 50 },
         extrasLabels: { 'ck-bhakar': '2 Extra Bhakari', 'ck-rice': 'Extra Rice', 'ck-chicken': 'Extra Chicken (2 pcs)' }
     },
-    'special-dal-batti': {
-        name: 'Special Dal Batti Thali',
-        shortName: 'Spl Dal Batti',
-        price: 120,
-        oldPrice: 220,
-        discount: '45% OFF',
-        image: 'special-dal-batti.jpg',
-        category: 'veg',
-        includes: '8 pcs batti • dal • sweet • onion • lemon',
-        extras: { 'sd-ghee': 10, 'sd-batti': 30, 'sd-sweet': 20 },
-        extrasLabels: { 'sd-ghee': 'Extra Ghee', 'sd-batti': '4 Extra Batti', 'sd-sweet': 'Extra Sweet' }
-    },
     'devansh-dal-batti': {
         name: 'Dal Batti Thali (12 pcs)',
         shortName: 'Devansh Dal Batti',
