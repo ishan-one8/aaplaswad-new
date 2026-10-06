@@ -111,6 +111,61 @@ const FALLBACK_MENU = {
         extras: { 'pb-pav': 30, 'pb-butter': 10 },
         extrasLabels: { 'pb-pav': '4 Extra Pav', 'pb-butter': 'Extra Butter' }
     },
+    'regular-pav-vada': {
+        name: 'Regular Paav Vada (2 pcs)',
+        shortName: 'Regular Paav Vada',
+        price: 79,
+        oldPrice: 150,
+        discount: '47% OFF',
+        image: 'regular-pav-vada.jpg',
+        category: 'veg',
+        hotel: 'The Cute Couple Crispy Station',
+        includes: '2 pcs paav vada • green chutney • dry garlic chutney'
+    },
+    'peri-peri-pav-vada': {
+        name: 'Peri Peri Paav Vada (2 pcs)',
+        shortName: 'Peri Peri Paav Vada',
+        price: 79,
+        oldPrice: 150,
+        discount: '47% OFF',
+        image: 'peri-peri-pav-vada.jpg',
+        category: 'veg',
+        hotel: 'The Cute Couple Crispy Station',
+        includes: '2 pcs peri peri paav vada • peri peri mayo'
+    },
+    'hot-spicy-pav-vada': {
+        name: 'Hot & Spicy Paav Vada (2 pcs)',
+        shortName: 'Hot & Spicy Paav Vada',
+        price: 89,
+        oldPrice: 170,
+        discount: '48% OFF',
+        image: 'hot-spicy-pav-vada.jpg',
+        category: 'veg',
+        hotel: 'The Cute Couple Crispy Station',
+        includes: '2 pcs hot & spicy paav vada • chili garlic sauce'
+    },
+    'tandoori-pav-vada': {
+        name: 'Tandoori Paav Vada (2 pcs)',
+        shortName: 'Tandoori Paav Vada',
+        price: 99,
+        oldPrice: 190,
+        discount: '48% OFF',
+        image: 'tandoori-pav-vada.jpg',
+        category: 'veg',
+        hotel: 'The Cute Couple Crispy Station',
+        includes: '2 pcs tandoori paav vada • tandoori mayo'
+    },
+    'cheese-pav-vada': {
+        name: 'Cheese Paav Vada (2 pcs)',
+        shortName: 'Cheese Paav Vada',
+        price: 109,
+        oldPrice: 200,
+        discount: '46% OFF',
+        image: 'cheese-pav-vada.jpg',
+        category: 'veg',
+        hotel: 'The Cute Couple Crispy Station',
+        includes: '2 pcs cheese paav vada • melted cheese topping'
+    },
     'rice-plate': {
         name: 'Rice Plate',
         shortName: 'Rice Plate',

@@ -219,6 +219,7 @@
     text-transform: uppercase; margin: 2px 0 4px;
 }
 .grid-card--devansh .grid-hotel-tag { color: #4fc3f7; }
+.grid-hotel-tag--crispy { color: #ff6b9d; }
 
 /* ========== MENU ========== */
 .menu-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: -10px; }
