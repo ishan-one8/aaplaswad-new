@@ -447,6 +447,27 @@
             }, { threshold: 0.15 }).observe(v);
         }
     }
+    // A rangoli drawn flat; CSS tilts it onto the floor in 3D
+    function rangoliSVG() {
+        var o = '<svg class="nv-rangoli-art" viewBox="-160 -160 320 320" aria-hidden="true"><defs>' +
+            '<radialGradient id="nvRgGlow"><stop offset="0" stop-color="#ffb347" stop-opacity=".55"/><stop offset="1" stop-color="#ffb347" stop-opacity="0"/></radialGradient>' +
+            '<radialGradient id="nvRgPink" cx="50%" cy="30%"><stop offset="0" stop-color="#ff7ab0"/><stop offset="1" stop-color="#c2125a"/></radialGradient>' +
+            '<radialGradient id="nvRgGold" cx="50%" cy="30%"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#f08c00"/></radialGradient>' +
+            '<radialGradient id="nvRgGreen" cx="50%" cy="30%"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#0f766e"/></radialGradient>' +
+            '</defs><circle r="158" fill="url(#nvRgGlow)"/>';
+        var i;
+        for (i = 0; i < 48; i++) o += '<circle cx="0" cy="-146" r="3.2" fill="#fff7ed" transform="rotate(' + (i * 7.5) + ')"/>';
+        o += '<circle r="136" fill="none" stroke="#7c3aed" stroke-width="5"/>';
+        for (i = 0; i < 16; i++) o += '<path d="M0 -132 C16 -112 16 -94 0 -82 C-16 -94 -16 -112 0 -132Z" fill="url(#nvRgPink)" transform="rotate(' + (i * 22.5) + ')"/>' +
+            '<path d="M0 -122 C7 -110 7 -100 0 -92 C-7 -100 -7 -110 0 -122Z" fill="#ffd56b" transform="rotate(' + (i * 22.5) + ')"/>';
+        o += '<circle r="80" fill="none" stroke="#fff7ed" stroke-width="2.4" stroke-dasharray="2 6"/>';
+        for (i = 0; i < 8; i++) o += '<path d="M0 -76 C26 -60 24 -36 0 -24 C-24 -36 -26 -60 0 -76Z" fill="url(#nvRgGold)" transform="rotate(' + (i * 45 + 22.5) + ')"/>' +
+            '<path d="M0 -66 C11 -56 10 -42 0 -34 C-10 -42 -11 -56 0 -66Z" fill="#e0115f" transform="rotate(' + (i * 45 + 22.5) + ')"/>';
+        for (i = 0; i < 8; i++) o += '<path d="M0 -40 C12 -30 10 -16 0 -10 C-10 -16 -12 -30 0 -40Z" fill="url(#nvRgGreen)" transform="rotate(' + (i * 45) + ')"/>';
+        o += '<circle r="12" fill="#ff8a1f"/><circle r="6" fill="#fff7d6"/></svg>';
+        return o;
+    }
+
     function miniStick() {
         // two decorated sticks side by side, so it never reads as a close "X"
         return '<svg viewBox="0 0 24 24" aria-hidden="true" class="nv-mini">' +
@@ -483,7 +504,8 @@
             '<a class="nv-ticker" href="order.html" data-nv="heroLabel" aria-label="">' +
             '<span class="nv-ticker-track" aria-hidden="true">' + item + item + item + item + '</span></a>' +
             '<div class="nv-dance" role="img" data-nv="art" aria-label="">' +
-            '<span class="nv-floor" aria-hidden="true"></span>' +
+            '<span class="nv-mala nv-mala-l" aria-hidden="true"></span><span class="nv-mala nv-mala-r" aria-hidden="true"></span>' +
+            '<span class="nv-floor" aria-hidden="true"><span class="nv-rangoli">' + rangoliSVG() + '</span></span>' +
             '<span class="nv-cut-box"></span>' +
             '<span class="nv-diya" aria-hidden="true"><span class="nv-diya-glow"></span><span class="nv-diya-flame"></span><span class="nv-diya-lamp"></span></span>' +
             '</div>';
