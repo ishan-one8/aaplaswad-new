@@ -89,25 +89,37 @@ html.nv .greet { display: none; }
 .nv-tick .nv-mini { width: 15px; height: 15px; }
 @keyframes nvTicker { to { transform: translateX(-50%); } }
 
-.nv-dance { position: relative; display: flex; justify-content: center; height: 132px; margin-top: 2px; }
-.nv-dance::before {
-    /* a soft festive glow the dancers stand in, wider than the page padding so there is no edge */
-    content: ''; position: absolute; z-index: -1; top: 4%; bottom: 0; left: -24px; right: -24px; pointer-events: none;
-    background: radial-gradient(55% 75% at 50% 58%, rgba(224, 17, 95, 0.22), rgba(245, 158, 11, 0.06) 55%, transparent 75%);
+/* The dancers, cut out of their background, on a small lit stage */
+.nv-dance { position: relative; display: flex; justify-content: center; align-items: flex-end; height: 150px; margin-top: 4px; isolation: isolate; }
+.nv-floor {
+    position: absolute; z-index: -1; left: 50%; bottom: 2px; width: min(320px, 92%); height: 34px; transform: translateX(-50%); border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(255, 170, 70, 0.32), rgba(224, 17, 95, 0.16) 55%, transparent 100%);
 }
-.nv-dance .nv-frame {
-    height: 100%; aspect-ratio: 16 / 9; max-width: 100%;
-    /* every edge melts into the page, so there is no box around the dance */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(180deg, transparent 0, #000 4%, #000 95%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(180deg, transparent 0, #000 4%, #000 95%, transparent 100%);
-    mask-composite: intersect;
+.nv-floor::after {
+    /* soft contact shadow where their feet touch the floor */
+    content: ''; position: absolute; left: 14%; right: 14%; top: 42%; height: 40%; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent);
 }
-.nv-dance .nv-video { object-fit: contain; }
+.nv-cut-box { position: relative; display: block; height: 100%; aspect-ratio: 16 / 9; max-width: 100%; opacity: 0; transition: opacity .5s ease; }
+.nv-cut-box.ready, .nv-cut-box:has(img), .nv-cut-box:has(.nv-frame) { opacity: 1; }
+.nv-cutout { display: block; width: 100%; height: 100%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 18px rgba(255, 150, 60, 0.18)); }
+.nv-alpha-src { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.nv-cut-box .nv-frame { height: 100%; }
+/* the diya between them */
+.nv-diya { position: absolute; left: 50%; bottom: 6px; width: 22px; height: 26px; transform: translateX(-50%); z-index: 2; pointer-events: none; }
+.nv-diya-lamp { position: absolute; left: 0; right: 0; bottom: 0; height: 9px; border-radius: 0 0 12px 12px / 0 0 9px 9px; background: linear-gradient(180deg, #ea580c, #9a3412); box-shadow: inset 0 2px 0 rgba(255, 210, 120, 0.6); }
+.nv-diya-flame {
+    position: absolute; left: 50%; bottom: 8px; width: 8px; height: 14px; margin-left: -4px; border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+    background: radial-gradient(circle at 50% 70%, #fff7d6 0 25%, #ffd56b 45%, #ff8a1f 80%);
+    transform-origin: 50% 100%; animation: nvFlicker .35s ease-in-out infinite alternate;
+}
+.nv-diya-glow { position: absolute; left: 50%; bottom: 0; width: 70px; height: 50px; margin-left: -35px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 190, 90, 0.45), transparent); animation: nvGlowPulse 1.6s ease-in-out infinite; }
+@keyframes nvFlicker { from { transform: scale(.9, .92) rotate(-3deg); } to { transform: scale(1.06, 1.1) rotate(3deg); } }
 @media (min-width: 720px) {
     .nv-ticker { height: 32px; }
     .nv-tick { font-size: .92rem; }
-    .nv-dance { height: 190px; }
+    .nv-dance { height: 210px; }
+    .nv-floor { width: 440px; height: 44px; }
 }
 
 /* Artwork motion. Origins are in the 400×260 drawing's units */
@@ -246,6 +258,6 @@ body.nv-locked { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nv-hero, .nv-ticker-track, .nv-intro *, .nv-toran { animation: none !important; }
+    .nv-hero, .nv-ticker-track, .nv-intro *, .nv-toran, .nv-diya * { animation: none !important; }
     .nv-art .nv-spark { opacity: 1; }
 }

@@ -372,6 +372,61 @@
         return '<video class="nv-video" muted loop playsinline disablepictureinpicture preload="auto" poster="navratri-dandiya.jpg" width="960" height="540">' +
             '<source src="navratri-dandiya-' + (big ? '720' : '540') + '.mp4" type="video/mp4"></video>';
     }
+    // Dancers without their background. navratri-dandiya-alpha.mp4 stacks the colour frame
+    // (top half) over its matte (bottom half); WebGL joins them into a transparent picture.
+    // Falls back to the normal video if WebGL is missing.
+    function cutoutDance(box) {
+        var saveData = navigator.connection && navigator.connection.saveData;
+        if (reduce || saveData) { box.innerHTML = '<img class="nv-cutout" src="navratri-dandiya-cutout.png" alt="">'; return; }
+        var canvas = document.createElement('canvas');
+        canvas.className = 'nv-cutout'; canvas.width = 640; canvas.height = 360;
+        var gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false });
+        if (!gl) { box.innerHTML = '<div class="nv-frame">' + media() + '</div>'; wireVideo(box.firstChild); return; }
+        var v = document.createElement('video');
+        v.className = 'nv-alpha-src'; v.muted = true; v.loop = true; v.playsInline = true;
+        v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto';
+        v.src = 'navratri-dandiya-alpha.mp4';
+        box.appendChild(canvas); box.appendChild(v);
+
+        function sh(type, src) { var o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; }
+        var prog = gl.createProgram();
+        gl.attachShader(prog, sh(gl.VERTEX_SHADER, 'attribute vec2 p;varying vec2 uv;void main(){uv=vec2((p.x+1.)*.5,(1.-p.y)*.5);gl_Position=vec4(p,0.,1.);}'));
+        gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 uv;uniform sampler2D t;void main(){' +
+            'vec3 c=texture2D(t,vec2(uv.x,uv.y*.5)).rgb;float a=texture2D(t,vec2(uv.x,.5+uv.y*.5)).r;' +
+            'a=smoothstep(.06,.94,a);gl_FragColor=vec4(c*a,a);}'));
+        gl.linkProgram(prog); gl.useProgram(prog);
+        var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        var loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        var tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.clearColor(0, 0, 0, 0);
+
+        var running = false;
+        function draw() {
+            if (v.readyState >= 2) {
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, v);
+                gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                box.classList.add('ready');
+            }
+            if (!running) return;
+            if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(draw); else requestAnimationFrame(draw);
+        }
+        var go = function () {
+            if (document.body.classList.contains('nv-locked')) return;
+            var p = v.play(); if (p && p.catch) p.catch(function () { });
+            if (!running) { running = true; draw(); }
+        };
+        var stop = function () { running = false; v.pause(); };
+        v._nvGo = go; canvas._nvGo = go;
+        v.addEventListener('error', function () { stop(); box.innerHTML = '<div class="nv-frame">' + media() + '</div>'; wireVideo(box.firstChild); });
+        go();
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) go(); else stop(); }); }, { threshold: 0.1 }).observe(canvas);
+        }
+    }
+
     function wireVideo(box) {
         var v = box.querySelector('video');
         if (!v) return;
@@ -427,9 +482,13 @@
             '</div>' +
             '<a class="nv-ticker" href="order.html" data-nv="heroLabel" aria-label="">' +
             '<span class="nv-ticker-track" aria-hidden="true">' + item + item + item + item + '</span></a>' +
-            '<div class="nv-dance" role="img" data-nv="art" aria-label=""><div class="nv-frame">' + media() + '</div></div>';
+            '<div class="nv-dance" role="img" data-nv="art" aria-label="">' +
+            '<span class="nv-floor" aria-hidden="true"></span>' +
+            '<span class="nv-cut-box"></span>' +
+            '<span class="nv-diya" aria-hidden="true"><span class="nv-diya-glow"></span><span class="nv-diya-flame"></span><span class="nv-diya-lamp"></span></span>' +
+            '</div>';
         greet.parentNode.insertBefore(sec, greet.nextSibling);
-        wireVideo(sec.querySelector('.nv-frame'));
+        cutoutDance(sec.querySelector('.nv-cut-box'));
         paint(sec);
         rotateLines(sec);
     }
@@ -475,7 +534,7 @@
             wrap.classList.add('out');
             document.body.classList.remove('nv-locked');
             setTimeout(function () { wrap.remove(); }, 450);
-            var hero = document.querySelector('.nv-hero video');
+            var hero = document.querySelector('.nv-hero video, .nv-hero canvas');
             if (hero && hero._nvGo) hero._nvGo();
             document.removeEventListener('keydown', onKey);
         }
