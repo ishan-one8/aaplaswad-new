@@ -90,14 +90,31 @@ html.nv #aapla-splash::after {
 .nv-offer b { font-weight: 900; letter-spacing: 0.01em; }
 .nv-mini { width: 18px; height: 18px; flex-shrink: 0; }
 .nv-chev { width: 16px; height: 16px; opacity: .85; }
-.nv-stage { position: relative; margin-top: 4px; }
+/* 3D dandiya video in a lit frame */
+.nv-stage { position: relative; padding: 14px 12px 12px; perspective: 900px; z-index: 2; }
+.nv-frame {
+    position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 9; background: #2a0d33 center / cover;
+    box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(245, 196, 81, 0.35), 0 0 40px -6px rgba(224, 17, 95, 0.45);
+    transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); transform-style: preserve-3d;
+    transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+    animation: nvFloat 6s ease-in-out infinite;
+}
+.nv-tilting .nv-frame { animation: none; transition-duration: .12s; }
+@keyframes nvFloat { 50% { transform: translateY(-4px) rotateX(1.5deg) rotateY(-1.5deg); } }
+.nv-frame::after {
+    /* glass sheen and a soft vignette so the video sits inside the card */
+    content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    background: linear-gradient(115deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 32%),
+        radial-gradient(130% 120% at 50% 45%, transparent 62%, rgba(20, 6, 22, 0.55) 100%);
+}
+.nv-video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .nv-art { display: block; width: 100%; height: auto; }
 
 @media (min-width: 720px) {
     .nv-hero { display: grid; grid-template-columns: 1fr 1.15fr; align-items: center; }
     .nv-hero-text { padding: 26px 0 26px 28px; }
     .nv-title { font-size: 2.6rem; }
-    .nv-stage { margin: 0; }
+    .nv-stage { margin: 0; padding: 18px 18px 18px 6px; }
 }
 
 /* Falling marigold petals inside the hero */
@@ -190,7 +207,7 @@ body.nv-locked { overflow: hidden; }
     background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16);
 }
 .nv-x svg { width: 18px; height: 18px; }
-.nv-intro-card { position: relative; width: 100%; max-width: 380px; text-align: center; color: #fff; }
+.nv-intro-card { position: relative; width: 100%; max-width: 420px; text-align: center; color: #fff; }
 .nv-intro-card > * { animation: nvRise .7s cubic-bezier(.2, .8, .2, 1) both; }
 .nv-intro-card > :nth-child(2) { animation-delay: .08s; }
 .nv-intro-card > :nth-child(3) { animation-delay: .16s; }
@@ -200,12 +217,13 @@ body.nv-locked { overflow: hidden; }
 .nv-intro-card > :nth-child(7) { animation-delay: .5s; }
 .nv-intro-kicker { margin: 0; font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--nv-gold); }
 .nv-intro-title {
-    margin: 6px 0 0; font-family: var(--nv-font); font-weight: 400; font-size: 2.9rem; line-height: 1.05;
+    margin: 6px 0 0; font-family: var(--nv-font); font-weight: 400; font-size: 2.6rem; line-height: 1.05;
     background: linear-gradient(92deg, #ffe39a 0%, #ffb347 45%, #ff5d8f 100%);
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 6px 22px rgba(224, 17, 95, 0.35));
 }
-.nv-intro-art { width: 210px; margin: 4px auto -6px; }
+.nv-intro-art { width: 100%; margin: 16px auto 18px; perspective: 900px; }
+.nv-intro-art .nv-frame { border-radius: 20px; }
 .nv-pair { display: block; width: 100%; height: auto; }
 .nv-pair .nv-pa, .nv-pair .nv-pb { transform-box: view-box; }
 .nv-pair .nv-pa { animation: nvPairL 1.4s cubic-bezier(.5, 0, .3, 1) infinite; }
@@ -237,5 +255,6 @@ body.nv-locked { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
     .nv-hero *, .nv-hero::before, .nv-intro *, .nv-toran { animation: none !important; }
     .nv-art .nv-spark, .nv-pair .nv-spark { opacity: 1; }
+    .nv-frame { transform: none; }
     .nv-petals { display: none; }
 }

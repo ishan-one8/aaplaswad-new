@@ -323,6 +323,51 @@
         return out.join('');
     }
 
+    // The 3D dandiya video. Phones get 540p (1.4 MB), big screens 720p; reduced motion
+    // and data-saver get the still frame. coupleSVG() stays as the fallback.
+    function media() {
+        var saveData = navigator.connection && navigator.connection.saveData;
+        if (reduce || saveData) return '<img class="nv-video" src="navratri-dandiya.jpg" alt="" width="960" height="540">';
+        var big = window.innerWidth * (window.devicePixelRatio || 1) > 1100;
+        return '<video class="nv-video" muted loop playsinline disablepictureinpicture preload="auto" poster="navratri-dandiya.jpg" width="960" height="540">' +
+            '<source src="navratri-dandiya-' + (big ? '720' : '540') + '.mp4" type="video/mp4"></video>';
+    }
+    function wireVideo(box) {
+        var v = box.querySelector('video');
+        if (!v) return;
+        v.muted = true;
+        var src = v.querySelector('source');
+        if (src) src.addEventListener('error', function () { box.innerHTML = coupleSVG(); paint(box); });
+        var go = function () {
+            // the hero waits while the intro covers it, so phones decode one video at a time
+            if (!box.closest('.nv-intro') && document.body.classList.contains('nv-locked')) return;
+            var p = v.play(); if (p && p.catch) p.catch(function () { });
+        };
+        v._nvGo = go;
+        go();
+        // Only play while it can be seen
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (es) {
+                es.forEach(function (e) { if (e.isIntersecting) go(); else v.pause(); });
+            }, { threshold: 0.15 }).observe(v);
+        }
+    }
+    // Pointer tilt for a bit of depth (desktop); phones get a slow idle float in CSS
+    function tilt(card, target) {
+        if (reduce || !window.matchMedia('(hover: hover)').matches) return;
+        card.addEventListener('pointermove', function (e) {
+            var r = card.getBoundingClientRect();
+            var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+            target.style.setProperty('--ry', (x * 10).toFixed(2) + 'deg');
+            target.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg');
+            card.classList.add('nv-tilting');
+        });
+        card.addEventListener('pointerleave', function () {
+            target.style.setProperty('--ry', '0deg'); target.style.setProperty('--rx', '0deg');
+            card.classList.remove('nv-tilting');
+        });
+    }
+
     function pairSVG() {
         // Two decorated dandiya sticks that clack together
         function big(x1, y1, x2, y2) {
@@ -375,9 +420,11 @@
             '<span><b data-nv="free"></b> <span data-nv="first"></span></span>' +
             '<svg class="nv-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>' +
             '</div>' +
-            '<div class="nv-stage">' + coupleSVG() + '</div>' +
+            '<div class="nv-stage" role="img" data-nv="art" aria-label=""><div class="nv-frame">' + media() + '</div></div>' +
             '<div class="nv-petals" aria-hidden="true"></div>';
         greet.parentNode.insertBefore(sec, greet.nextSibling);
+        wireVideo(sec.querySelector('.nv-frame'));
+        tilt(sec, sec.querySelector('.nv-frame'));
         if (!reduce) {
             var box = sec.querySelector('.nv-petals'), html = '';
             for (var i = 0; i < 14; i++) {
@@ -413,7 +460,7 @@
             '<div class="nv-intro-card">' +
             '<p class="nv-intro-kicker" data-nv="kicker"></p>' +
             '<h2 class="nv-intro-title" id="nvIntroTitle" data-nv="title"></h2>' +
-            '<div class="nv-intro-art">' + pairSVG() + '</div>' +
+            '<div class="nv-intro-art"><div class="nv-frame">' + media() + '</div></div>' +
             '<div class="nv-intro-offer"><b data-nv="free"></b><span data-nv="first"></span></div>' +
             '<p class="nv-intro-fine" data-nv="fine"></p>' +
             '<div class="nv-intro-cta"><a class="nv-btn" href="order.html" data-nv="order"></a>' +
@@ -422,6 +469,7 @@
             '</div>';
         document.body.appendChild(wrap);
         paint(wrap);
+        wireVideo(wrap.querySelector('.nv-frame'));
         document.body.classList.add('nv-locked');
 
         function close() {
@@ -429,6 +477,8 @@
             wrap.classList.add('out');
             document.body.classList.remove('nv-locked');
             setTimeout(function () { wrap.remove(); }, 450);
+            var hero = document.querySelector('.nv-hero video');
+            if (hero && hero._nvGo) hero._nvGo();
             document.removeEventListener('keydown', onKey);
         }
         function onKey(e) { if (e.key === 'Escape') close(); }
@@ -448,6 +498,7 @@
 
     function boot() {
         addToran();
+        if (showIntro) document.body.classList.add('nv-locked');
         if (isHome) addHero();
         addOrderBanner();
         if (showIntro) addIntro();
