@@ -124,7 +124,7 @@ Both need macOS 14 or later. How to run them is written at the top of each file.
 `index.html`, `order.html`, `dish.html`, `track.html` and `profile.html` each get **two lines** in `<head>`:
 
 ```html
-<link rel="stylesheet" href="navratri.css?v=28">
+<link rel="stylesheet" href="navratri.css?v=29">
 <script src="navratri.js?v=18"></script>
 ```
 
