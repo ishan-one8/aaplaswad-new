@@ -51,6 +51,24 @@ html.nv #aapla-splash::after {
 .nv-art { display: block; width: 100%; height: auto; }
 .nv-mini { width: 18px; height: 18px; flex-shrink: 0; }
 
+/* Navratri headline (replaces the usual greeting while the festival is on) */
+html.nv .greet { display: none; }
+.nv-greet { margin: 2px 0 10px; }
+.nv-greet-hi {
+    display: inline-flex; align-items: center; gap: 7px; margin: 0;
+    font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--nv-gold);
+}
+.nv-greet-hi i { width: 4px; height: 4px; border-radius: 50%; background: rgba(255, 237, 213, 0.4); }
+.nv-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--nv-magenta); box-shadow: 0 0 0 3px rgba(224, 17, 95, 0.25); animation: nvPulse 1.8s ease-in-out infinite; }
+@keyframes nvPulse { 50% { box-shadow: 0 0 0 6px rgba(224, 17, 95, 0); } }
+.nv-greet-q { margin: 6px 0 0; font-family: var(--font-display, 'Outfit', sans-serif); font-size: 1.65rem; font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; color: #fff; }
+.nv-greet-em {
+    font-family: var(--nv-font); font-weight: 400; letter-spacing: 0; font-size: 1.12em;
+    background: linear-gradient(92deg, #ffe39a, #ffb347 45%, #ff5d8f); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nv-greet-sub { margin: 6px 0 0; font-size: .86rem; color: rgba(255, 237, 213, 0.72); }
+@media (min-width: 720px) { .nv-greet-q { font-size: 2.3rem; } }
+
 .nv-ticker {
     display: block; position: relative; overflow: hidden; height: 26px; text-decoration: none; color: rgba(255, 237, 213, 0.9);
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent);
@@ -76,9 +94,9 @@ html.nv #aapla-splash::after {
 .nv-dance .nv-frame {
     height: 100%; aspect-ratio: 16 / 9; max-width: 100%;
     /* every edge melts into the page, so there is no box around the dance */
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, transparent 0, #000 14%, #000 84%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(180deg, transparent 0, #000 4%, #000 95%, transparent 100%);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, transparent 0, #000 14%, #000 84%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%), linear-gradient(180deg, transparent 0, #000 4%, #000 95%, transparent 100%);
     mask-composite: intersect;
 }
 .nv-dance .nv-video { object-fit: contain; }
