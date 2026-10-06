@@ -97,6 +97,19 @@ const FALLBACK_MENU = {
         extras: { 'sd-ghee': 10, 'sd-batti': 30, 'sd-sweet': 20 },
         extrasLabels: { 'sd-ghee': 'Extra Ghee', 'sd-batti': '4 Extra Batti', 'sd-sweet': 'Extra Sweet' }
     },
+    'devansh-dal-batti': {
+        name: 'Dal Batti Thali (12 pcs)',
+        shortName: 'Devansh Dal Batti',
+        price: 129,
+        oldPrice: 280,
+        discount: '54% OFF',
+        image: 'devansh-dal-batti.jpg',
+        category: 'veg',
+        hotel: 'Hotel Devansh',
+        includes: '12 batti • dal • rice • kanda • limbu • thecha',
+        extras: { 'dv-ghee': 10, 'dv-batti': 30, 'dv-rice': 20 },
+        extrasLabels: { 'dv-ghee': 'Extra Ghee', 'dv-batti': '4 Extra Batti', 'dv-rice': 'Extra Rice' }
+    },
     'rice-plate': {
         name: 'Rice Plate',
         shortName: 'Rice Plate',

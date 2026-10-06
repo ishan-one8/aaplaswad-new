@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sai-prasad-v15';
+const CACHE_NAME = 'sai-prasad-v16';
 const ASSETS = [
   '/',
   '/index.html',

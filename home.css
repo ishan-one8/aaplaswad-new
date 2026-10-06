@@ -202,6 +202,24 @@
     text-shadow: 0 2px 6px rgba(0,0,0,0.7);
 }
 
+/* Hotel Devansh — promo kicker highlight */
+.promo-kicker--devansh {
+    background: none;
+    color: #4fc3f7; font-weight: 900; letter-spacing: 0.14em;
+    padding: 0; border: none; border-radius: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem; text-transform: uppercase;
+    display: inline-block;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+}
+
+/* Hotel name tag on grid cards */
+.grid-hotel-tag {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; margin: 2px 0 4px;
+}
+.grid-card--devansh .grid-hotel-tag { color: #4fc3f7; }
+
 /* ========== MENU ========== */
 .menu-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: -10px; }
 .menu-count { font-size: 0.76rem; font-weight: 700; color: var(--text-3); white-space: nowrap; }
