@@ -67,7 +67,7 @@ html.nv #aapla-splash::after {
 .nv-tick .nv-mini { width: 15px; height: 15px; }
 @keyframes nvTicker { to { transform: translateX(-50%); } }
 
-.nv-dance { position: relative; display: flex; justify-content: center; height: 176px; margin-top: 2px; }
+.nv-dance { position: relative; display: flex; justify-content: center; height: 132px; margin-top: 2px; }
 .nv-dance::before {
     /* a soft festive glow the dancers stand in, wider than the page padding so there is no edge */
     content: ''; position: absolute; z-index: -1; top: 4%; bottom: 0; left: -24px; right: -24px; pointer-events: none;
@@ -85,7 +85,7 @@ html.nv #aapla-splash::after {
 @media (min-width: 720px) {
     .nv-ticker { height: 32px; }
     .nv-tick { font-size: .92rem; }
-    .nv-dance { height: 250px; }
+    .nv-dance { height: 190px; }
 }
 
 /* Artwork motion. Origins are in the 400×260 drawing's units */
