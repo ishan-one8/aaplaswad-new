@@ -374,18 +374,15 @@
     }
 
     function addHero() {
-        // A small banner: the whole video in a 16:9 tile, the title and a moving offer strip
+        // No card: a moving offer line, and below it the dancers straight on the page
         var greet = document.querySelector('.greet');
         if (!greet || document.querySelector('.nv-hero')) return;
         var item = '<span class="nv-tick">' + miniStick() + '<b data-nv="free"></b>&nbsp;<span data-nv="first"></span><i>✦</i><span data-nv="till"></span><i>✦</i></span>';
         var sec = document.createElement('section');
         sec.className = 'nv-hero';
-        sec.innerHTML = '<a class="nv-hero-link" href="order.html" data-nv="heroLabel" aria-label="">' +
-            '<span class="nv-hero-media"><span class="nv-frame">' + media() + '</span></span>' +
-            '<span class="nv-hero-side" aria-hidden="true">' +
-            '<span class="nv-hero-title" data-nv="title"></span>' +
-            '<span class="nv-ticker"><span class="nv-ticker-track">' + item + item + '</span></span>' +
-            '</span></a>';
+        sec.innerHTML = '<a class="nv-ticker" href="order.html" data-nv="heroLabel" aria-label="">' +
+            '<span class="nv-ticker-track" aria-hidden="true">' + item + item + item + item + '</span></a>' +
+            '<div class="nv-dance" role="img" data-nv="art" aria-label=""><div class="nv-frame">' + media() + '</div></div>';
         greet.parentNode.insertBefore(sec, greet.nextSibling);
         wireVideo(sec.querySelector('.nv-frame'));
         paint(sec);

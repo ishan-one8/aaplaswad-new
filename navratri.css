@@ -43,57 +43,49 @@ html.nv #aapla-splash::after {
     background: linear-gradient(90deg, #ffd56b, #ff8a3d 50%, #ff4d8d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-/* ---- Home hero: the whole video in a small tile, plus a moving offer strip ---- */
+/* ---- Home hero: a moving offer line, then the dancers straight on the page (no box) ---- */
 @keyframes nvRise { from { opacity: 0; transform: translateY(14px) scale(.98); } }
 @keyframes nvSpin { to { transform: rotate(360deg); } }
-.nv-hero { margin: 4px 0 16px; animation: nvRise 0.7s cubic-bezier(.2, .8, .2, 1) both; }
-.nv-hero-link {
-    position: relative; isolation: isolate; display: flex; align-items: center; gap: 12px; padding: 7px;
-    border-radius: 20px; text-decoration: none; color: #fff; overflow: hidden;
-    background:
-        radial-gradient(90% 140% at 100% 50%, rgba(224, 17, 95, 0.28), transparent 60%),
-        linear-gradient(120deg, #3a0c40, #22091f 70%);
-    border: 1px solid rgba(245, 196, 81, 0.3);
-    box-shadow: 0 14px 32px -18px rgba(224, 17, 95, 0.6);
-    transition: transform .2s;
-}
-.nv-hero-link:active { transform: scale(.985); }
-.nv-hero-link:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 3px; }
-.nv-hero-media { flex: 0 0 auto; display: block; }
-.nv-hero .nv-frame {
-    display: block; height: 92px; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px;
-    box-shadow: 0 0 0 1px rgba(245, 196, 81, 0.35), 0 8px 18px -8px rgba(0, 0, 0, .7);
-}
+.nv-hero { position: relative; margin: 2px 0 12px; animation: nvRise 0.7s cubic-bezier(.2, .8, .2, 1) both; }
 .nv-video { display: block; width: 100%; height: 100%; object-fit: cover; }
 .nv-art { display: block; width: 100%; height: auto; }
 .nv-mini { width: 18px; height: 18px; flex-shrink: 0; }
-.nv-hero-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; }
-.nv-hero-title {
-    font-family: var(--nv-font); font-size: 1.3rem; line-height: 1.02;
-    background: linear-gradient(92deg, #ffe39a 0%, #ffb347 45%, #ff5d8f 100%);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-}
-/* the moving offer strip */
+
 .nv-ticker {
-    display: block; position: relative; overflow: hidden; height: 26px; border-radius: 999px;
-    background: linear-gradient(135deg, #e0115f, #f15a0a);
-    box-shadow: 0 8px 18px -8px rgba(224, 17, 95, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent);
-    mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent);
+    display: block; position: relative; overflow: hidden; height: 26px; text-decoration: none; color: rgba(255, 237, 213, 0.9);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent 0, #000 12%, #000 88%, transparent);
 }
-.nv-ticker-track { display: inline-flex; height: 100%; align-items: center; white-space: nowrap; animation: nvTicker 9s linear infinite; }
-.nv-tick { display: inline-flex; align-items: center; gap: 5px; padding-left: 10px; font-size: .7rem; font-weight: 600; }
-.nv-tick b { font-weight: 900; }
-.nv-tick i { font-style: normal; color: #ffe39a; margin: 0 2px 0 6px; font-size: .62rem; }
-.nv-tick .nv-mini { width: 14px; height: 14px; }
+.nv-ticker:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 2px; border-radius: 8px; }
+.nv-ticker-track { display: inline-flex; height: 100%; align-items: center; white-space: nowrap; animation: nvTicker 14s linear infinite; }
+.nv-tick { display: inline-flex; align-items: center; gap: 6px; padding-left: 12px; font-size: .78rem; font-weight: 600; }
+.nv-tick b {
+    font-weight: 900; letter-spacing: .02em;
+    background: linear-gradient(92deg, #ffe39a, #ffb347 50%, #ff5d8f); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nv-tick i { font-style: normal; color: var(--nv-magenta); margin: 0 2px 0 8px; font-size: .7rem; }
+.nv-tick .nv-mini { width: 15px; height: 15px; }
 @keyframes nvTicker { to { transform: translateX(-50%); } }
+
+.nv-dance { position: relative; display: flex; justify-content: center; height: 176px; margin-top: 2px; }
+.nv-dance::before {
+    /* a soft festive glow the dancers stand in, wider than the page padding so there is no edge */
+    content: ''; position: absolute; z-index: -1; top: 4%; bottom: 0; left: -24px; right: -24px; pointer-events: none;
+    background: radial-gradient(55% 75% at 50% 58%, rgba(224, 17, 95, 0.22), rgba(245, 158, 11, 0.06) 55%, transparent 75%);
+}
+.nv-dance .nv-frame {
+    height: 100%; aspect-ratio: 16 / 9; max-width: 100%;
+    /* every edge melts into the page, so there is no box around the dance */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, transparent 0, #000 14%, #000 84%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%), linear-gradient(180deg, transparent 0, #000 14%, #000 84%, transparent 100%);
+    mask-composite: intersect;
+}
+.nv-dance .nv-video { object-fit: contain; }
 @media (min-width: 720px) {
-    .nv-hero-link { padding: 10px; gap: 22px; }
-    .nv-hero .nv-frame { height: 170px; }
-    .nv-hero-side { max-width: 380px; gap: 14px; }
-    .nv-hero-title { font-size: 2.2rem; }
-    .nv-ticker { height: 34px; }
-    .nv-tick { font-size: .86rem; }
+    .nv-ticker { height: 32px; }
+    .nv-tick { font-size: .92rem; }
+    .nv-dance { height: 250px; }
 }
 
 /* Artwork motion. Origins are in the 400×260 drawing's units */
@@ -233,6 +225,5 @@ body.nv-locked { overflow: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
     .nv-hero, .nv-ticker-track, .nv-intro *, .nv-toran { animation: none !important; }
-    .nv-ticker { -webkit-mask-image: none; mask-image: none; }
     .nv-art .nv-spark { opacity: 1; }
 }
