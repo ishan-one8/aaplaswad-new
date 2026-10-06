@@ -98,6 +98,19 @@ const FALLBACK_MENU = {
         extras: { 'dv-ghee': 10, 'dv-batti': 30, 'dv-rice': 20 },
         extrasLabels: { 'dv-ghee': 'Extra Ghee', 'dv-batti': '4 Extra Batti', 'dv-rice': 'Extra Rice' }
     },
+    'devansh-pav-bhaji': {
+        name: 'Special Pav Bhaji (12 pav)',
+        shortName: 'Devansh Pav Bhaji',
+        price: 149,
+        oldPrice: 300,
+        discount: '50% OFF',
+        image: 'devansh-pav-bhaji.jpg',
+        category: 'veg',
+        hotel: 'Hotel Devansh',
+        includes: '12 pav • bhaji • kanda • limbu',
+        extras: { 'pb-pav': 30, 'pb-butter': 10 },
+        extrasLabels: { 'pb-pav': '4 Extra Pav', 'pb-butter': 'Extra Butter' }
+    },
     'rice-plate': {
         name: 'Rice Plate',
         shortName: 'Rice Plate',
