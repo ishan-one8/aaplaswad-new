@@ -66,6 +66,10 @@ html.nv .greet { display: none; }
     font-family: var(--nv-font); font-weight: 400; letter-spacing: 0; font-size: 1.12em;
     background: linear-gradient(92deg, #ffe39a, #ffb347 45%, #ff5d8f); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
+.nv-greet-q { height: 1.25em; display: flex; align-items: center; overflow: hidden; }
+.nv-greet-line { display: inline-block; white-space: nowrap; transition: opacity .28s ease, transform .28s cubic-bezier(.2, .8, .2, 1); }
+.nv-greet-line.out { opacity: 0; transform: translateY(-60%); }
+.nv-greet-line.in { opacity: 0; transform: translateY(60%); transition: none; }
 .nv-greet-sub { margin: 6px 0 0; font-size: .86rem; color: rgba(255, 237, 213, 0.72); }
 @media (min-width: 720px) { .nv-greet-q { font-size: 2.3rem; } }
 

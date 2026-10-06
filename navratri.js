@@ -48,7 +48,7 @@
             fine: 'A pair of dandiya sticks comes with your first Aapla Swad order, till Dussehra.',
             order: 'Order now', explore: 'Explore menu', close: 'Close',
             day: 'Day {n} of 9', starts: 'Starts in {n} days', starts1: 'Starts tomorrow', dussehra: 'Happy Dussehra',
-            till: 'Till Dussehra', gHead1: 'Dandiya', gHead2: ' nights, thali bites', gSub: 'Nine nights of garba — we’ll keep the food coming.', banner: 'Navratri offer: FREE dandiya with your first order', art: 'A boy and a girl playing dandiya'
+            till: 'Till Dussehra', gSub: 'Nine nights of garba — we’ll keep the food coming.', banner: 'Navratri offer: FREE dandiya with your first order', art: 'A boy and a girl playing dandiya'
         },
         hi: {
             kicker: 'नवरात्रि स्पेशल', title: 'शुभ नवरात्रि', heroSub: 'नौ रातें, गरबा और स्वाद',
@@ -56,7 +56,7 @@
             fine: 'दशहरे तक, Aapla Swad पर आपके पहले ऑर्डर के साथ डांडिया की एक जोड़ी।',
             order: 'अभी ऑर्डर करें', explore: 'मेन्यू देखें', close: 'बंद करें',
             day: 'दिन {n} / 9', starts: '{n} दिन में शुरू', starts1: 'कल से शुरू', dussehra: 'दशहरे की शुभकामनाएँ',
-            till: 'दशहरे तक', gHead1: 'डांडिया', gHead2: ' की रातें, थाली का स्वाद', gSub: 'नौ रातें गरबा की — खाना हम पहुँचाएँगे।', banner: 'नवरात्रि ऑफ़र: पहले ऑर्डर पर डांडिया फ्री', art: 'डांडिया खेलते लड़का और लड़की'
+            till: 'दशहरे तक', gSub: 'नौ रातें गरबा की — खाना हम पहुँचाएँगे।', banner: 'नवरात्रि ऑफ़र: पहले ऑर्डर पर डांडिया फ्री', art: 'डांडिया खेलते लड़का और लड़की'
         },
         mr: {
             kicker: 'नवरात्री स्पेशल', title: 'शुभ नवरात्री', heroSub: 'नऊ रात्री, गरबा आणि स्वाद',
@@ -64,9 +64,48 @@
             fine: 'दसऱ्यापर्यंत, Aapla Swad वरील तुमच्या पहिल्या ऑर्डरसोबत दांडियाची एक जोडी.',
             order: 'आता ऑर्डर करा', explore: 'मेन्यू पहा', close: 'बंद करा',
             day: 'दिवस {n} / 9', starts: '{n} दिवसांत सुरू', starts1: 'उद्यापासून सुरू', dussehra: 'दसऱ्याच्या शुभेच्छा',
-            till: 'दसऱ्यापर्यंत', gHead1: 'दांडिया', gHead2: 'च्या रात्री, थाळीचा स्वाद', gSub: 'नऊ रात्री गरब्याच्या — जेवण आम्ही पोहोचवू.', banner: 'नवरात्री ऑफर: पहिल्या ऑर्डरवर दांडिया मोफत', art: 'दांडिया खेळणारे मुलगा आणि मुलगी'
+            till: 'दसऱ्यापर्यंत', gSub: 'नऊ रात्री गरब्याच्या — जेवण आम्ही पोहोचवू.', banner: 'नवरात्री ऑफर: पहिल्या ऑर्डरवर दांडिया मोफत', art: 'दांडिया खेळणारे मुलगा आणि मुलगी'
         }
     };
+    // Home headline lines that take turns: [before, highlighted, after]
+    var LINES = {
+        en: [['', 'Dandiya', ' nights, thali bites'], ['Play ', 'garba', ', we’ll bring the thali'], ['Nine nights, ', 'nine colours', ', one taste'],
+            ['', 'FREE dandiya', ' on your first order'], ['Dance all night, ', 'Dal Batti', '’s ready']],
+        hi: [['', 'डांडिया', ' की रातें, थाली का स्वाद'], ['', 'गरबा', ' खेलिए, थाली हम लाएँगे'], ['नौ रातें, ', 'नौ रंग', ', एक स्वाद'],
+            ['पहले ऑर्डर पर ', 'डांडिया फ्री', ''], ['रात भर नाचिए, ', 'दाल बाटी', ' साथ है']],
+        mr: [['', 'दांडिया', 'च्या रात्री, थाळीचा स्वाद'], ['', 'गरबा', ' खेळा, थाळी आम्ही आणतो'], ['नऊ रात्री, ', 'नऊ रंग', ', एक स्वाद'],
+            ['पहिल्या ऑर्डरवर ', 'दांडिया मोफत', ''], ['रात्रभर नाचा, ', 'दाल बाटी', ' सोबत आहे']]
+    };
+    var lineIdx = 0;
+    function renderLine(el) {
+        var l = LINES[lang()][lineIdx % LINES[lang()].length];
+        el.innerHTML = '';
+        el.appendChild(document.createTextNode(l[0]));
+        var em = document.createElement('span'); em.className = 'nv-greet-em'; em.textContent = l[1];
+        el.appendChild(em);
+        el.appendChild(document.createTextNode(l[2]));
+        // keep every line on one line so the page below never jumps
+        el.style.fontSize = '';
+        var room = el.parentElement.clientWidth;
+        if (room && el.scrollWidth > room) el.style.fontSize = Math.max(0.68, room / el.scrollWidth).toFixed(3) + 'em';
+    }
+    function rotateLines(h) {
+        var el = h.querySelector('.nv-greet-line');
+        renderLine(el);
+        document.addEventListener('as:lang', function () { renderLine(el); });
+        setInterval(function () {
+            if (document.hidden) return;
+            if (reduce) { lineIdx++; renderLine(el); return; }
+            el.classList.add('out');
+            setTimeout(function () {
+                lineIdx++; renderLine(el);
+                el.classList.remove('out'); el.classList.add('in');
+                void el.offsetWidth;
+                el.classList.remove('in');
+            }, 280);
+        }, 3200);
+    }
+
     function lang() {
         var l = (typeof window.getLang === 'function' && window.getLang()) || 'en';
         return STR[l] ? l : 'en';
@@ -383,7 +422,7 @@
         // Navratri headline in place of the usual "Craving …?" greeting (hidden by navratri.css)
         sec.innerHTML = '<div class="nv-greet">' +
             '<p class="nv-greet-hi"><span class="nv-dot"></span><span data-nv="title"></span><i></i><span data-nv="day"></span></p>' +
-            '<h2 class="nv-greet-q"><span class="nv-greet-em" data-nv="gHead1"></span><span data-nv="gHead2"></span></h2>' +
+            '<h2 class="nv-greet-q" aria-live="off"><span class="nv-greet-line"></span></h2>' +
             '<p class="nv-greet-sub" data-nv="gSub"></p>' +
             '</div>' +
             '<a class="nv-ticker" href="order.html" data-nv="heroLabel" aria-label="">' +
@@ -392,6 +431,7 @@
         greet.parentNode.insertBefore(sec, greet.nextSibling);
         wireVideo(sec.querySelector('.nv-frame'));
         paint(sec);
+        rotateLines(sec);
     }
 
     function addOrderBanner() {
